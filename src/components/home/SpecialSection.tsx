@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { staggerContainer, staggerItem } from "@/lib/animations";
 

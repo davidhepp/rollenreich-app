@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { FaTwitter, FaInstagram, FaFacebook } from "react-icons/fa";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 
 const Footer = () => {
   return (

@@ -1,10 +1,10 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import BestSellers from "@/components/BestSellers";
-import Collection from "@/components/Collection";
-import SpecialSection from "@/components/SpecialSection";
-import CooperationSection from "@/components/CooperationSection";
-import Footer from "@/components/Footer";
+import Header from "@/components/home/Header";
+import Hero from "@/components/home/Hero";
+import BestSellers from "@/components/home/BestSellers";
+import Collection from "@/components/home/Collection";
+import SpecialSection from "@/components/home/SpecialSection";
+import CooperationSection from "@/components/home/CooperationSection";
+import Footer from "@/components/home/Footer";
 
 export default function Home() {
   return (
