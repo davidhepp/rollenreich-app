@@ -4,12 +4,9 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { fadeInUp } from "@/lib/animations";
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const buttonAnimation = useScrollAnimation({ amount: 0.3 });
   const { scrollY } = useScroll();
 
   // Transform the hero text to scale and fade on scroll
@@ -55,16 +52,9 @@ const Hero = () => {
       </div>
 
       <div className="relative z-10 text-center pb-20">
-        <motion.div
-          ref={buttonAnimation.ref}
-          variants={fadeInUp}
-          initial="hidden"
-          animate={buttonAnimation.animate}
-        >
-          <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
-            Call To Action
-          </Button>
-        </motion.div>
+        <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
+          Call To Action
+        </Button>
       </div>
     </section>
   );
