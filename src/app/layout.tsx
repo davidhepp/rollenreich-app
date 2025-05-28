@@ -14,7 +14,7 @@ const playfairDisplay = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Rollenreich",
-  description: "Premium tabletop gaming accessories",
+  description: "Luxury Paper Goods",
 };
 
 export default function RootLayout({
