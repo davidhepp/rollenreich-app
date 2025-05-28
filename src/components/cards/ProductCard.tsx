@@ -22,7 +22,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, price, imageSrc }) => {
           />
         )}
         <div className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
-          <Heart className="w-6 h-6 hover:text-red-500 transition-colors duration-200" />
+          <Heart
+            strokeWidth={1.5}
+            className="w-6 h-6 hover:text-red-500 transition-colors duration-200"
+          />
         </div>
       </div>
 

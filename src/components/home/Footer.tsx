@@ -20,7 +20,10 @@ const Footer = () => {
                   placeholder="Enter Your Email Address"
                   className="flex-1 px-4 py-2 rounded-none border-black focus:outline-none focus:ring-2 focus:ring-btn-primary"
                 />
-                <ArrowRight className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 hover:text-btn-primary transition-colors" />
+                <ArrowRight
+                  strokeWidth={1.5}
+                  className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 hover:text-btn-primary transition-colors"
+                />
               </div>
             </div>
             <p className="text-sm mt-4">
