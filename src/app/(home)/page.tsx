@@ -26,9 +26,21 @@ export default function Home() {
   const specialSectionAnimation = useScrollAnimation({ amount: 0.2 });
 
   const products = [
-    { name: "Lorem Ipsum", price: "$00" },
-    { name: "Lorem Ipsum", price: "$00" },
-    { name: "Lorem Ipsum", price: "$00" },
+    {
+      name: "Standard",
+      price: "20",
+      imageSrc: "/products/standard.png",
+    },
+    {
+      name: "Standard Black",
+      price: "30",
+      imageSrc: "/products/standard_black.png",
+    },
+    {
+      name: "Standard Green",
+      price: "30",
+      imageSrc: "/products/standard_green.png",
+    },
   ];
 
   return (
@@ -63,7 +75,11 @@ export default function Home() {
           >
             {products.map((product, index) => (
               <motion.div key={index} variants={staggerItem}>
-                <ProductCard name={product.name} price={product.price} />
+                <ProductCard
+                  name={product.name}
+                  price={product.price}
+                  imageSrc={product.imageSrc}
+                />
               </motion.div>
             ))}
           </motion.div>
