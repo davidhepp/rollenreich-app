@@ -1,27 +1,60 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import { Button } from "../ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { fadeInUp, scaleIn } from "@/lib/animations";
+import { fadeInUp } from "@/lib/animations";
 
 const Hero = () => {
-  const titleAnimation = useScrollAnimation({ amount: 0.2 });
+  const heroRef = useRef<HTMLDivElement>(null);
   const buttonAnimation = useScrollAnimation({ amount: 0.3 });
+  const { scrollY } = useScroll();
+
+  // Transform the hero text to scale and fade on scroll
+  const heroTextScale = useTransform(scrollY, [0, 300], [1, 0.5]);
+  const heroTextOpacity = useTransform(scrollY, [0, 200, 300], [1, 0.5, 0]);
+
+  // Parallax effect for hero image
+  const heroImageScale = useTransform(scrollY, [0, 800], [1.1, 1.3]);
+  const heroImageY = useTransform(scrollY, [0, 800], [0, 100]);
 
   return (
-    <section className="w-full py-16 px-4 md:px-8 bg-bg-primary">
-      <div className="max-w-7xl mx-auto text-center">
+    <section
+      ref={heroRef}
+      className="h-screen relative flex flex-col justify-between overflow-hidden"
+    >
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          scale: heroImageScale,
+          y: heroImageY,
+        }}
+      >
+        <Image
+          src="/hero.png"
+          alt="Luxury fashion item"
+          fill
+          className="object-cover brightness-75"
+          priority
+        />
+      </motion.div>
+      <div className="absolute inset-0 bg-black/30" />
+
+      <div className="max-w-7xl mx-auto text-center flex-1 flex items-center justify-center">
         <motion.h1
-          ref={titleAnimation.ref}
-          variants={scaleIn}
-          initial="hidden"
-          animate={titleAnimation.animate}
-          className="font-playfair text-6xl md:text-8xl lg:text-9xl font-normal  mb-12"
+          className="font-playfair text-6xl md:text-8xl lg:text-9xl font-normal mb-12 relative z-10 text-white"
+          style={{
+            scale: heroTextScale,
+            opacity: heroTextOpacity,
+          }}
         >
           Rollenreich
         </motion.h1>
+      </div>
+
+      <div className="relative z-10 text-center pb-20">
         <motion.div
           ref={buttonAnimation.ref}
           variants={fadeInUp}

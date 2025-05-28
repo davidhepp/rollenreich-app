@@ -1,35 +1,56 @@
-import React from "react";
-import { User, ShoppingCart, Search, Heart } from "lucide-react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
+import Navbundle from "./Navbundle";
+
 const Header = () => {
+  const [showNavbar, setShowNavbar] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowNavbar(true);
+      } else {
+        setShowNavbar(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="w-full py-6 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto flex justify-end items-center">
-        {/* Navigation Icons */}
-        <div className="flex items-center space-x-4">
-          <div className="w-6 h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
-            <Link href="/">
-              <User />
+    <>
+      <motion.header
+        className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm"
+        initial={{ opacity: 0, y: -100 }}
+        animate={{
+          opacity: showNavbar ? 1 : 0,
+          y: showNavbar ? 0 : -100,
+          pointerEvents: showNavbar ? "auto" : "none",
+        }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="max-w-7xl mx-auto flex justify-between py-4 px-4 md:px-8 relative">
+          {/* Left side - empty for balance */}
+          <div className="flex-1"></div>
+
+          {/* Center - Rollenreich logo */}
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <Link href="/" className="text-2xl font-playfair tracking-tight">
+              Rollenreich
             </Link>
           </div>
-          <div className="w-6 h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
-            <Link href="/">
-              <ShoppingCart />
-            </Link>
-          </div>
-          <div className="w-6 h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
-            <Link href="/">
-              <Search />
-            </Link>
-          </div>
-          <div className="w-6 h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
-            <Link href="/">
-              <Heart />
-            </Link>
+
+          {/* Right side - Navigation bundle */}
+          <div className="flex-1 flex justify-end">
+            <Navbundle />
           </div>
         </div>
-      </div>
-    </header>
+      </motion.header>
+    </>
   );
 };
 

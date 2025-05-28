@@ -14,6 +14,7 @@ import Link from "next/link";
 import CollectionCard from "@/components/cards/CollectionCard";
 import { Button } from "@/components/ui/button";
 import CooperationCard from "@/components/cards/CooperationCard";
+import Header from "@/components/home/Header";
 
 export default function Home() {
   // Separate animation hooks for each section
@@ -45,6 +46,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-white">
+      <Header />
       <Hero />
 
       <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
