@@ -18,7 +18,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, price, imageSrc }) => {
             alt={name}
             width={1024}
             height={1024}
-            className="w-3/4 h-3/4 object-contain"
+            className="w-3/4 h-3/4 object-contain transition-transform duration-700 group-hover:scale-105"
           />
         )}
         <div className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
