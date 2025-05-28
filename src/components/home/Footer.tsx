@@ -5,11 +5,10 @@ import { Input } from "../ui/input";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-secondary py-16 px-4 md:px-8">
+    <footer className="w-full py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Newsletter Section */}
         <div className="mb-12">
-          <h3 className="text-lg font-medium text-text-primary mb-4">
+          <h3 className="text-lg font-medium  mb-4">
             Join Our Club, Get 15% Off
           </h3>
           <div className="flex flex-col sm:flex-row gap-4 max-w-md">
@@ -22,19 +21,16 @@ const Footer = () => {
               Subscribe
             </Button>
           </div>
-          <p className="text-sm text-text-primary mt-4">
+          <p className="text-sm  mt-4">
             By subscribing you agree to our Terms & Conditions and Privacy &
             Cookies Policy.
           </p>
         </div>
 
-        {/* Footer Links */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <h4 className="font-medium text-text-primary mb-4">
-              About Rollenreich
-            </h4>
-            <ul className="space-y-2 text-text-primary text-sm">
+            <h4 className="font-medium  mb-4">About Rollenreich</h4>
+            <ul className="space-y-2  text-sm">
               <li>
                 <a
                   href="#"
@@ -71,10 +67,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-medium text-text-primary mb-4">
-              Help & Support
-            </h4>
-            <ul className="space-y-2 text-text-primary text-sm">
+            <h4 className="font-medium  mb-4">Help & Support</h4>
+            <ul className="space-y-2  text-sm">
               <li>
                 <a
                   href="#"
@@ -109,38 +103,21 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
-          <div>
-            <h4 className="font-medium text-text-primary mb-4">
-              Copyright Notice
-            </h4>
-          </div>
         </div>
 
-        {/* Social Media Icons */}
         <div className="flex space-x-4 mb-8">
-          <a
-            href="#"
-            className="text-text-primary hover:text-btn-primary transition-colors"
-          >
+          <a href="#" className=" hover:text-btn-primary transition-colors">
             <FaTwitter size={24} />
           </a>
-          <a
-            href="#"
-            className="text-text-primary hover:text-btn-primary transition-colors"
-          >
+          <a href="#" className=" hover:text-btn-primary transition-colors">
             <FaInstagram size={24} />
           </a>
-          <a
-            href="#"
-            className="text-text-primary hover:text-btn-primary transition-colors"
-          >
+          <a href="#" className=" hover:text-btn-primary transition-colors">
             <FaFacebook size={24} />
           </a>
         </div>
 
-        {/* Copyright */}
-        <div className="text-sm text-text-primary">
+        <div className="text-sm ">
           © {new Date().getFullYear()} Rollenreich. All Rights Reserved.
         </div>
       </div>

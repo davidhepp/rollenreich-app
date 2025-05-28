@@ -9,14 +9,10 @@ interface CooperationCardProps {
 const CooperationCard: React.FC<CooperationCardProps> = ({ title }) => {
   return (
     <div
-      className={`bg-bg-primary rounded-lg overflow-hidden h-128 w-128 flex items-center justify-center p-6`}
+      className={`bg-bg-primary overflow-hidden h-128 w-128 flex items-center justify-center p-6`}
     >
       <div className="space-y-4">
-        {title && (
-          <h3 className="text-text-primary text-2xl font-bold text-center">
-            {title}
-          </h3>
-        )}
+        {title && <h3 className=" text-2xl font-bold text-center">{title}</h3>}
       </div>
     </div>
   );

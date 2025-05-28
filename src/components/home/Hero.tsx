@@ -11,14 +11,14 @@ const Hero = () => {
   const buttonAnimation = useScrollAnimation({ amount: 0.3 });
 
   return (
-    <section className="w-full py-16 px-4 md:px-8">
+    <section className="w-full py-16 px-4 md:px-8 bg-bg-primary">
       <div className="max-w-7xl mx-auto text-center">
         <motion.h1
           ref={titleAnimation.ref}
           variants={scaleIn}
           initial="hidden"
           animate={titleAnimation.animate}
-          className="font-playfair text-6xl md:text-8xl lg:text-9xl font-normal text-text-primary mb-12"
+          className="font-playfair text-6xl md:text-8xl lg:text-9xl font-normal  mb-12"
         >
           Rollenreich
         </motion.h1>
