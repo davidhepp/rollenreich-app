@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Navbundle from "./Navbundle";
+import Image from "next/image";
 
 interface HeaderProps {
   onMenuToggle: () => void;
@@ -13,7 +14,6 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
   const [showNavbar, setShowNavbar] = useState(false);
 
   useEffect(() => {
-
     const handleScroll = () => {
       if (window.scrollY > 200) {
         setShowNavbar(true);
@@ -23,14 +23,15 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
     };
 
     const handleMouseMove = (event: MouseEvent) => {
-
-      if(event.clientY <= 100){
+      if (event.clientY <= 100) {
         setShowNavbar(true);
       }
-      if(window.scrollY < 300 && event.clientY > 100){ {
-        setShowNavbar(false);
+      if (window.scrollY < 300 && event.clientY > 100) {
+        {
+          setShowNavbar(false);
+        }
       }
-    }}
+    };
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("mousemove", handleMouseMove);
@@ -56,7 +57,12 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
 
           <div className="absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 -translate-y-1/2">
             <Link href="/" className="text-2xl font-playfair tracking-tight">
-              Rollenreich
+              <Image
+                src="/herotext.svg"
+                alt="Rollenreich"
+                width={150}
+                height={150}
+              />
             </Link>
           </div>
 
