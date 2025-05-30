@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/home/Footer";
+import { SessionProvider } from "next-auth/react";
 import ClientLayout from "@/components/layout/ClientLayout";
 
 const inter = Inter({
@@ -29,8 +30,10 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfairDisplay.variable} antialiased font-sans`}
       >
-        <ClientLayout>{children}</ClientLayout>
-        <Footer />
+        <SessionProvider>
+          <ClientLayout>{children}</ClientLayout>
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );

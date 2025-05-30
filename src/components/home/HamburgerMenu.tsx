@@ -1,10 +1,7 @@
-"use client";
-
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import Link from "next/link";
-
 interface HamburgerMenuProps {
   isOpen: boolean;
   onClose: () => void;
@@ -35,7 +32,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
     "Lorem Ipsum Dolor",
   ];
 
-  const footerLinks = ["Sign In", "My Orders", "Contact"];
+  const footerLinks = ["My Orders", "Contact"];
 
   return (
     <AnimatePresence>

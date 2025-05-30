@@ -1,14 +1,15 @@
-"use client";
 import Hero from "@/components/home/Hero";
-import { motion } from "framer-motion";
+import AnimatedSection from "@/components/home/AnimatedSection";
+import AnimatedStagger, {
+  AnimatedStaggerItem,
+} from "@/components/home/AnimatedStagger";
 import {
-  fadeInLeft,
-  fadeInRight,
-  fadeInUp,
-  staggerContainer,
-  staggerItem,
+  scrollFadeInLeft,
+  scrollFadeInRight,
+  scrollFadeInUp,
+  scrollStaggerContainer,
+  scrollStaggerItem,
 } from "@/lib/animations";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import ProductCard from "@/components/cards/ProductCard";
 import Link from "next/link";
 import CollectionCard from "@/components/cards/CollectionCard";
@@ -17,15 +18,6 @@ import CooperationCard from "@/components/cards/CooperationCard";
 import Image from "next/image";
 
 export default function Home() {
-  // Separate animation hooks for each section
-  const bestSellersHeaderAnimation = useScrollAnimation({ amount: 0.2 });
-  const bestSellersGridAnimation = useScrollAnimation({ amount: 0.1 });
-  const collectionHeaderAnimation = useScrollAnimation({ amount: 0.2 });
-  const collectionGridAnimation = useScrollAnimation({ amount: 0.1 });
-  const cooperationLeftColumnAnimation = useScrollAnimation({ amount: 0.2 });
-  const cooperationRightColumnAnimation = useScrollAnimation({ amount: 0.2 });
-  const specialSectionAnimation = useScrollAnimation({ amount: 0.2 });
-
   const products = [
     {
       name: "Standard",
@@ -50,11 +42,9 @@ export default function Home() {
 
       <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            ref={bestSellersHeaderAnimation.ref}
-            variants={fadeInUp}
-            initial="hidden"
-            animate={bestSellersHeaderAnimation.animate}
+          <AnimatedSection
+            variants={scrollFadeInUp}
+            viewport={{ once: true, amount: 0.3 }}
             className="flex justify-between items-center mb-8"
           >
             <h2 className="text-2xl md:text-3xl font-playfair font-semibold">
@@ -66,78 +56,72 @@ export default function Home() {
             >
               View All
             </Link>
-          </motion.div>
-          <motion.div
-            ref={bestSellersGridAnimation.ref}
-            variants={staggerContainer}
-            initial="hidden"
-            animate={bestSellersGridAnimation.animate}
+          </AnimatedSection>
+          <AnimatedStagger
+            containerVariants={scrollStaggerContainer}
+            viewport={{ once: true, amount: 0.2 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {products.map((product, index) => (
-              <motion.div key={index} variants={staggerItem}>
+              <AnimatedStaggerItem key={index} variants={scrollStaggerItem}>
                 <ProductCard
                   name={product.name}
                   price={product.price}
                   imageSrc={product.imageSrc}
                 />
-              </motion.div>
+              </AnimatedStaggerItem>
             ))}
-          </motion.div>
+          </AnimatedStagger>
         </div>
       </section>
 
       <section id="collection" className="w-full py-16 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            ref={collectionHeaderAnimation.ref}
-            variants={fadeInUp}
-            initial="hidden"
-            animate={collectionHeaderAnimation.animate}
+          <AnimatedSection
+            variants={scrollFadeInUp}
+            viewport={{ once: true, amount: 0.3 }}
             className="flex justify-between items-center mb-8"
           >
             <h2 className="text-2xl md:text-3xl font-playfair font-semibold">
               Collection
             </h2>
-          </motion.div>
-          <motion.div
-            ref={collectionGridAnimation.ref}
-            variants={staggerContainer}
-            initial="hidden"
-            animate={collectionGridAnimation.animate}
+          </AnimatedSection>
+          <AnimatedStagger
+            containerVariants={scrollStaggerContainer}
+            viewport={{ once: true, amount: 0.2 }}
             className="grid md:grid-cols-2 gap-6 auto-rows-auto"
           >
             <div className="flex flex-col gap-6">
-              <motion.div variants={staggerItem}>
+              <AnimatedStaggerItem variants={scrollStaggerItem}>
                 <CollectionCard
                   size="large"
                   imageSrc="/collections/demo1.png"
                   buttonText="Greek Seas"
                 />
-              </motion.div>
-              <motion.div variants={staggerItem}>
+              </AnimatedStaggerItem>
+              <AnimatedStaggerItem variants={scrollStaggerItem}>
                 <CollectionCard
                   buttonText="Economic Wipes"
                   imageSrc="/collections/demo3.png"
                 />
-              </motion.div>
+              </AnimatedStaggerItem>
             </div>
             <div className="flex flex-col gap-6">
-              <motion.div variants={staggerItem}>
+              <AnimatedStaggerItem variants={scrollStaggerItem}>
                 <CollectionCard
                   buttonText="Basics"
                   imageSrc="/collections/demo4.png"
                 />
-              </motion.div>
-              <motion.div variants={staggerItem}>
+              </AnimatedStaggerItem>
+              <AnimatedStaggerItem variants={scrollStaggerItem}>
                 <CollectionCard
                   size="large"
                   buttonText="Luxurious Nights"
                   imageSrc="/collections/demo2.png"
                 />
-              </motion.div>
+              </AnimatedStaggerItem>
             </div>
-          </motion.div>
+          </AnimatedStagger>
         </div>
       </section>
 
@@ -156,49 +140,45 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/30" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <motion.div
-            ref={specialSectionAnimation.ref}
-            variants={staggerContainer}
-            initial="hidden"
-            animate={specialSectionAnimation.animate}
+          <AnimatedStagger
+            containerVariants={scrollStaggerContainer}
+            viewport={{ once: true, amount: 0.3 }}
             className="text-center space-y-8"
           >
-            <motion.h2
-              variants={staggerItem}
+            <AnimatedStaggerItem
+              variants={scrollStaggerItem}
               className="text-2xl md:text-3xl font-semibold text-white"
             >
               Mother&apos;s Day Special
-            </motion.h2>
-            <motion.div variants={staggerItem} className="flex justify-center">
+            </AnimatedStaggerItem>
+            <AnimatedStaggerItem
+              variants={scrollStaggerItem}
+              className="flex justify-center"
+            >
               <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
                 Discover Now
               </Button>
-            </motion.div>
-          </motion.div>
+            </AnimatedStaggerItem>
+          </AnimatedStagger>
         </div>
       </section>
 
       <section id="cooperation" className="w-full py-16 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            ref={cooperationLeftColumnAnimation.ref}
-            variants={fadeInLeft}
-            initial="hidden"
-            animate={cooperationLeftColumnAnimation.animate}
+          <AnimatedStagger
+            containerVariants={scrollStaggerContainer}
+            viewport={{ once: true, amount: 0.3 }}
             className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[400px]"
           >
-            <motion.div
-              variants={fadeInLeft}
+            <AnimatedStaggerItem
+              variants={scrollFadeInLeft}
               className="flex items-center justify-center lg:justify-start"
             >
               <CooperationCard title="Kooperationen Mit Anderen Firmen" />
-            </motion.div>
+            </AnimatedStaggerItem>
 
-            <motion.div
-              ref={cooperationRightColumnAnimation.ref}
-              variants={fadeInRight}
-              initial="hidden"
-              animate={cooperationRightColumnAnimation.animate}
+            <AnimatedStaggerItem
+              variants={scrollFadeInRight}
               className="text-center space-y-6"
             >
               <h3 className="text-2xl md:text-3xl font-medium ">
@@ -209,8 +189,8 @@ export default function Home() {
                 Diam Nonumy Eirmod Tempor Invidunt Ut Labore Et Dolore Magna
                 Aliquyam Erat, Sed Diam Voluptua.
               </p>
-              <motion.div
-                variants={staggerItem}
+              <AnimatedStaggerItem
+                variants={scrollStaggerItem}
                 className="flex justify-center"
               >
                 <div className="flex justify-center pt-4">
@@ -218,9 +198,9 @@ export default function Home() {
                     Call To Action
                   </Button>
                 </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              </AnimatedStaggerItem>
+            </AnimatedStaggerItem>
+          </AnimatedStagger>
         </div>
       </section>
     </main>

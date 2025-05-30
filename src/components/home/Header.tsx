@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -12,6 +10,7 @@ interface HeaderProps {
 
 const Header = ({ onMenuToggle }: HeaderProps) => {
   const [showNavbar, setShowNavbar] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,7 +25,7 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
       if (event.clientY <= 100) {
         setShowNavbar(true);
       }
-      if (window.scrollY < 300 && event.clientY > 100) {
+      if (window.scrollY < 300 && event.clientY > 100 && !isDropdownOpen) {
         {
           setShowNavbar(false);
         }
@@ -35,9 +34,15 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [isDropdownOpen]);
+
+  const handleDropdownOpenChange = (isOpen: boolean) => {
+    setIsDropdownOpen(isOpen);
+  };
 
   return (
     <>
@@ -67,7 +72,10 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
           </div>
 
           <div className="flex-1 flex justify-end">
-            <Navbundle onMenuToggle={onMenuToggle} />
+            <Navbundle
+              onMenuToggle={onMenuToggle}
+              onDropdownOpenChange={handleDropdownOpenChange}
+            />
           </div>
         </div>
       </motion.header>
