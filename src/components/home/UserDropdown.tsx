@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, LogOut } from "lucide-react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { User } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -43,11 +43,6 @@ export default function UserDropdown({
     setIsOpen(!isOpen);
   };
 
-  const handleSignIn = () => {
-    signIn("github");
-    setIsOpen(false);
-  };
-
   const handleSignOut = () => {
     signOut();
     setIsOpen(false);
@@ -73,7 +68,7 @@ export default function UserDropdown({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute right-0 top-full mt-2 w-64 bg-white shadow-lg border border-gray-100 z-50"
+            className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-64 bg-white shadow-md border border-gray-100 z-50"
           >
             <div className="py-6 px-8">
               {status === "loading" ? (
@@ -85,16 +80,14 @@ export default function UserDropdown({
                   {session?.user ? (
                     <button
                       onClick={handleSignOut}
-                      className="flex items-center gap-2 font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
+                      className="cursor-pointer flex items-center gap-2 font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
                     >
-                      <LogOut size={16} />
                       SIGN OUT
                     </button>
                   ) : (
                     <Link
-                      href="/login"
+                      href="/signin"
                       className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
-                      onClick={handleSignIn}
                     >
                       SIGN IN
                     </Link>

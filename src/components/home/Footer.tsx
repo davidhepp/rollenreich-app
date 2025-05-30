@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="w-full py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-12">
-          <div className="lg:col-span-2">
+          <div className="col-span-2">
             <h3 className="text-lg font-bold mb-4">
               Join Our Club, Get 15% Off
             </h3>
@@ -32,7 +32,7 @@ const Footer = () => {
             </p>
           </div>
 
-          <div className="lg:col-span-1"></div>
+          <div className="hidden lg:block lg:col-span-1"></div>
 
           <div className="lg:col-span-1">
             <h4 className="font-medium mb-4">About Rollenreich</h4>
@@ -72,7 +72,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Help & Support Section */}
           <div className="lg:col-span-1">
             <h4 className="font-medium mb-4">Help & Support</h4>
             <ul className="space-y-2 text-sm">
@@ -114,13 +113,13 @@ const Footer = () => {
 
         <div className="flex space-x-4 mb-8">
           <Link href="#" className=" hover:text-btn-primary transition-colors">
-            <FaTwitter size={24} />
-          </Link>
-          <Link href="#" className=" hover:text-btn-primary transition-colors">
             <FaInstagram size={24} />
           </Link>
           <Link href="#" className=" hover:text-btn-primary transition-colors">
             <FaFacebook size={24} />
+          </Link>
+          <Link href="#" className=" hover:text-btn-primary transition-colors">
+            <FaTwitter size={24} />
           </Link>
         </div>
 
