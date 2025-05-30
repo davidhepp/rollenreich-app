@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import { Button } from "../ui/button";
 
@@ -9,13 +9,40 @@ const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
 
-  // Transform the hero text to scale and fade on scroll
-  const heroTextScale = useTransform(scrollY, [0, 300], [1, 0.5]);
-  const heroTextOpacity = useTransform(scrollY, [0, 200, 300], [1, 0.5, 0]);
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+  const scrollThreshold = 200;
 
-  // Parallax effect for hero image
-  const heroImageScale = useTransform(scrollY, [0, 800], [1.1, 1.3]);
-  const heroImageY = useTransform(scrollY, [0, 800], [0, 100]);
+  // Before threshold: normal size and position
+  // After threshold: scale down and move to navbar position
+  const heroTextScale = useTransform(
+    scrollY,
+    [0, scrollThreshold, scrollThreshold + 100],
+    [1, 1, 0.3]
+  );
+
+  const heroTextY = useTransform(
+    scrollY,
+    [0, scrollThreshold, scrollThreshold + 100],
+    [0, 0, -300]
+  );
+
+  const heroTextOpacity = useTransform(
+    scrollY,
+    [0, scrollThreshold, scrollThreshold + 50],
+    [1, 1, 0]
+  );
+
+  // Apply spring animation to the transforms
+  const heroTextScaleSpring = useSpring(heroTextScale, springConfig);
+  const heroTextYSpring = useSpring(heroTextY, springConfig);
+  const heroTextOpacitySpring = useSpring(heroTextOpacity, springConfig);
+
+  // Simplified parallax effect for hero image with spring animation
+  const heroImageScaleRaw = useTransform(scrollY, [0, 800], [1.1, 1.3]);
+  const heroImageYRaw = useTransform(scrollY, [0, 800], [0, 100]);
+
+  const heroImageScale = useSpring(heroImageScaleRaw, springConfig);
+  const heroImageY = useSpring(heroImageYRaw, springConfig);
 
   return (
     <section
@@ -27,6 +54,7 @@ const Hero = () => {
         style={{
           scale: heroImageScale,
           y: heroImageY,
+          willChange: "transform",
         }}
       >
         <Image
@@ -40,15 +68,24 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/30" />
 
       <div className="max-w-7xl mx-auto text-center flex-1 flex items-center justify-center">
-        <motion.h1
-          className="font-playfair text-6xl md:text-8xl lg:text-9xl font-normal mb-12 relative z-10 text-white"
+        <motion.div
+          className="relative z-10 w-full max-w-4xl"
           style={{
-            scale: heroTextScale,
-            opacity: heroTextOpacity,
+            scale: heroTextScaleSpring,
+            y: heroTextYSpring,
+            opacity: heroTextOpacitySpring,
+            willChange: "transform, opacity",
           }}
         >
-          Rollenreich
-        </motion.h1>
+          <Image
+            src="/herotext.svg"
+            alt="Rollenreich"
+            width={800}
+            height={200}
+            className="w-full h-auto brightness-0 invert px-4"
+            priority
+          />
+        </motion.div>
       </div>
 
       <div className="relative z-10 text-center pb-20">
