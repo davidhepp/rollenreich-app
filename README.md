@@ -29,7 +29,7 @@ Rollenreich is a React-based e-commerce web application specializing in luxury a
 | **Database** | PostgreSQL with Prisma ORM   |
 | **Styling**  | Tailwind CSS                 |
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 
