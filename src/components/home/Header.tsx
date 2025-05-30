@@ -9,6 +9,7 @@ const Header = () => {
   const [showNavbar, setShowNavbar] = useState(false);
 
   useEffect(() => {
+
     const handleScroll = () => {
       if (window.scrollY > 300) {
         setShowNavbar(true);
@@ -17,8 +18,20 @@ const Header = () => {
       }
     };
 
+    const handleMouseMove = (event: MouseEvent) => {
+
+      if(event.clientY <= 100){
+        setShowNavbar(true);
+      }
+      if(window.scrollY < 300 && event.clientY > 100){ {
+        setShowNavbar(false);
+      }
+    }}
+
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (

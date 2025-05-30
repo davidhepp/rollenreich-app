@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-white">
-      <Header />
+      
       <Hero />
 
       <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
