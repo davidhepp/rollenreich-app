@@ -14,6 +14,7 @@ import Link from "next/link";
 import CollectionCard from "@/components/cards/CollectionCard";
 import { Button } from "@/components/ui/button";
 import CooperationCard from "@/components/cards/CooperationCard";
+import Image from "next/image";
 
 export default function Home() {
   // Separate animation hooks for each section
@@ -110,28 +111,28 @@ export default function Home() {
               <motion.div variants={staggerItem}>
                 <CollectionCard
                   size="large"
-                  imageSrc="/collections/demo1.webp"
-                  buttonText="Call To Action"
+                  imageSrc="/collections/demo1.png"
+                  buttonText="Greek Seas"
                 />
               </motion.div>
               <motion.div variants={staggerItem}>
                 <CollectionCard
-                  buttonText="Call To Action"
-                  imageSrc="/collections/demo3.webp"
+                  buttonText="Economic Wipes"
+                  imageSrc="/collections/demo3.png"
                 />
               </motion.div>
             </div>
             <div className="flex flex-col gap-6">
               <motion.div variants={staggerItem}>
                 <CollectionCard
-                  buttonText="Call To Action"
+                  buttonText="Basics"
                   imageSrc="/collections/demo4.png"
                 />
               </motion.div>
               <motion.div variants={staggerItem}>
                 <CollectionCard
                   size="large"
-                  buttonText="Call To Action"
+                  buttonText="Luxurious Nights"
                   imageSrc="/collections/demo2.png"
                 />
               </motion.div>
@@ -140,8 +141,21 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="special" className="w-full py-48 px-4 md:px-8 bg-bg-primary">
-        <div className="max-w-7xl mx-auto">
+      <section
+        id="special"
+        className="w-full py-48 px-4 md:px-8 relative overflow-hidden"
+      >
+        <div className="absolute inset-0">
+          <Image
+            src="/specials/mothersday3.jpg"
+            alt="Special section background"
+            className="object-cover brightness-75"
+            fill
+          />
+        </div>
+        <div className="absolute inset-0 bg-black/30" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             ref={specialSectionAnimation.ref}
             variants={staggerContainer}
@@ -151,13 +165,13 @@ export default function Home() {
           >
             <motion.h2
               variants={staggerItem}
-              className="text-2xl md:text-3xl font-medium "
+              className="text-2xl md:text-3xl font-semibold text-white"
             >
-              Lorem Ipsum Dolor Sit Amet
+              Mother&apos;s Day Special
             </motion.h2>
             <motion.div variants={staggerItem} className="flex justify-center">
               <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
-                Call To Action
+                Discover Now
               </Button>
             </motion.div>
           </motion.div>
