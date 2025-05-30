@@ -14,22 +14,8 @@ import Link from "next/link";
 import CollectionCard from "@/components/cards/CollectionCard";
 import { Button } from "@/components/ui/button";
 import CooperationCard from "@/components/cards/CooperationCard";
-import HamburgerMenu from "@/components/home/HamburgerMenu";
-import { useState } from "react";
-
 
 export default function Home() {
-  // Hamburger menu state
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
   // Separate animation hooks for each section
   const bestSellersHeaderAnimation = useScrollAnimation({ amount: 0.2 });
   const bestSellersGridAnimation = useScrollAnimation({ amount: 0.1 });
@@ -59,7 +45,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-white">
-      <Header onMenuToggle={toggleMenu} />
       <Hero />
 
       <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
@@ -210,9 +195,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
-      {/* Hamburger Menu - rendered at root level */}
-      <HamburgerMenu isOpen={isMenuOpen} onClose={closeMenu} />
     </main>
   );
 }
