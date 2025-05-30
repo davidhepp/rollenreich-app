@@ -14,9 +14,9 @@ import Link from "next/link";
 import CollectionCard from "@/components/cards/CollectionCard";
 import { Button } from "@/components/ui/button";
 import CooperationCard from "@/components/cards/CooperationCard";
-import Header from "@/components/home/Header";
 import HamburgerMenu from "@/components/home/HamburgerMenu";
 import { useState } from "react";
+
 
 export default function Home() {
   // Hamburger menu state
