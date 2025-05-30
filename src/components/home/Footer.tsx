@@ -26,7 +26,7 @@ const Footer = () => {
                 />
               </div>
             </div>
-            <p className="text-sm mt-4">
+            <p className="text-sm mt-4 font-medium">
               By subscribing you agree to our Terms & Conditions and Privacy &
               Cookies Policy.
             </p>

@@ -5,7 +5,11 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Navbundle from "./Navbundle";
 
-const Header = () => {
+interface HeaderProps {
+  onMenuToggle: () => void;
+}
+
+const Header = ({ onMenuToggle }: HeaderProps) => {
   const [showNavbar, setShowNavbar] = useState(false);
 
   useEffect(() => {
@@ -34,19 +38,17 @@ const Header = () => {
         transition={{ duration: 0.4 }}
       >
         <div className="max-w-7xl mx-auto flex justify-between py-8 sm:py-4 px-4 relative">
-          {/* Left side - empty for balance */}
+          {/* empty for balance */}
           <div className="flex-1"></div>
 
-          {/* Center - Rollenreich logo */}
           <div className="absolute sm:left-1/2 sm:top-1/2 sm:transform sm:-translate-x-1/2 -translate-y-1/2">
             <Link href="/" className="text-2xl font-playfair tracking-tight">
               Rollenreich
             </Link>
           </div>
 
-          {/* Right side - Navigation bundle */}
           <div className="flex-1 flex justify-end">
-            <Navbundle />
+            <Navbundle onMenuToggle={onMenuToggle} />
           </div>
         </div>
       </motion.header>
