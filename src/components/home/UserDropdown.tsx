@@ -103,7 +103,7 @@ export default function UserDropdown({
                   </p>
                   <Button
                     onClick={handleSignIn}
-                    className="w-full justify-start gap-2 bg-btn-primary hover:bg-btn-primary-hover"
+                    className="w-full justify-start gap-2 bg-btn-primary hover:bg-btn-primary-hover text-white"
                   >
                     <LogIn size={16} />
                     Sign In with GitHub
