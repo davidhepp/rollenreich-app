@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfairDisplay.variable} antialiased font-sans`}
       >
-        <Header />
+        <Header onMenuToggle={toggleMenu} />
         {children}
         <Footer />
       </body>
