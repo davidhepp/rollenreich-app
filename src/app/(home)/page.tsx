@@ -108,18 +108,32 @@ export default function Home() {
           >
             <div className="flex flex-col gap-6">
               <motion.div variants={staggerItem}>
-                <CollectionCard size="large" buttonText="Call To Action" />
+                <CollectionCard
+                  size="large"
+                  imageSrc="/collections/demo1.webp"
+                  buttonText="Call To Action"
+                />
               </motion.div>
               <motion.div variants={staggerItem}>
-                <CollectionCard buttonText="Call To Action" />
+                <CollectionCard
+                  buttonText="Call To Action"
+                  imageSrc="/collections/demo3.webp"
+                />
               </motion.div>
             </div>
             <div className="flex flex-col gap-6">
               <motion.div variants={staggerItem}>
-                <CollectionCard buttonText="Call To Action" />
+                <CollectionCard
+                  buttonText="Call To Action"
+                  imageSrc="/collections/demo4.png"
+                />
               </motion.div>
               <motion.div variants={staggerItem}>
-                <CollectionCard size="large" buttonText="Call To Action" />
+                <CollectionCard
+                  size="large"
+                  buttonText="Call To Action"
+                  imageSrc="/collections/demo2.png"
+                />
               </motion.div>
             </div>
           </motion.div>
