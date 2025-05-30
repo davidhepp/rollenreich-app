@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, LogOut, LogIn } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+
 interface UserDropdownProps {
   className?: string;
   onOpenChange?: (isOpen: boolean) => void;
@@ -17,7 +18,6 @@ export default function UserDropdown({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { data: session, status } = useSession();
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -53,6 +53,10 @@ export default function UserDropdown({
     setIsOpen(false);
   };
 
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className={cn("relative", className)} ref={dropdownRef}>
       <button
@@ -69,45 +73,67 @@ export default function UserDropdown({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+            className="absolute right-0 top-full mt-2 w-64 bg-white shadow-lg border border-gray-100 z-50"
           >
-            <div className="p-4">
+            <div className="py-6 px-8">
               {status === "loading" ? (
                 <div className="text-center text-sm text-gray-500">
                   Loading...
                 </div>
-              ) : session?.user ? (
-                <div className="space-y-3">
-                  <div className="border-b border-gray-100 pb-3">
-                    <p className="text-sm font-medium text-gray-900">
-                      Welcome back!
-                    </p>
-                    <p className="text-sm text-gray-600 truncate">
-                      {session.user.name || session.user.email}
-                    </p>
-                  </div>
-                  <Button
-                    onClick={handleSignOut}
-                    variant="outline"
-                    size="sm"
-                    className="w-full justify-start gap-2"
-                  >
-                    <LogOut size={16} />
-                    Sign Out
-                  </Button>
-                </div>
               ) : (
-                <div className="space-y-3">
-                  <p className="text-sm text-gray-600">
-                    Sign in to access your account
-                  </p>
-                  <Button
-                    onClick={handleSignIn}
-                    className="w-full justify-start gap-2 bg-btn-primary hover:bg-btn-primary-hover text-white"
+                <div className="space-y-6">
+                  {session?.user ? (
+                    <button
+                      onClick={handleSignOut}
+                      className="flex items-center gap-2 font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
+                    >
+                      <LogOut size={16} />
+                      SIGN OUT
+                    </button>
+                  ) : (
+                    <Link
+                      href="/login"
+                      className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
+                      onClick={handleSignIn}
+                    >
+                      SIGN IN
+                    </Link>
+                  )}
+                  <Link
+                    href="/orders"
+                    className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
+                    onClick={handleLinkClick}
                   >
-                    <LogIn size={16} />
-                    Sign In with GitHub
-                  </Button>
+                    MY ORDERS
+                  </Link>
+                  <Link
+                    href="/account"
+                    className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    ACCOUNT SETTINGS
+                  </Link>
+                  <Link
+                    href="/address-book"
+                    className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    MY ADDRESS BOOK
+                  </Link>
+                  <Link
+                    href="/payment-methods"
+                    className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    CREDIT CARDS
+                  </Link>
+                  <Link
+                    href="/favorites"
+                    className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    FAVORITES
+                  </Link>
                 </div>
               )}
             </div>

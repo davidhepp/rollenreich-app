@@ -131,7 +131,7 @@ export default function Home() {
       >
         <div className="absolute inset-0">
           <Image
-            src="/specials/mothersday3.jpg"
+            src="/specials/test.png"
             alt="Special section background"
             className="object-cover brightness-75"
             fill
