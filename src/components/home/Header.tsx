@@ -14,7 +14,7 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
+      if (window.scrollY > 200) {
         setShowNavbar(true);
       } else {
         setShowNavbar(false);
