@@ -2,6 +2,9 @@ import { Product } from "@prisma/client";
 import { ProductImage } from "@prisma/client";
 import ProductCard from "@/components/cards/ProductCard";
 
+// Force dynamic rendering to allow fetch at runtime
+export const dynamic = "force-dynamic";
+
 export default async function ViewAllProducts() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const products = await fetch(`${baseUrl}/api/products/viewall`);
