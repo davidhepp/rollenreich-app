@@ -23,16 +23,19 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   const menuItems = [
-    "Lorem Ipsum Dolor",
-    "Lorem Ipsum Dolor",
-    "Lorem Ipsum Dolor",
-    "Lorem Ipsum Dolor",
-    "Lorem Ipsum Dolor",
-    "Lorem Ipsum Dolor",
-    "Lorem Ipsum Dolor",
+    { url: "/shop/viewall", label: "Shop All" },
+    { url: "/", label: "Lorem Ipsum Dolor" },
+    { url: "/", label: "Lorem Ipsum Dolor" },
+    { url: "/", label: "Lorem Ipsum Dolor" },
+    { url: "/", label: "Lorem Ipsum Dolor" },
+    { url: "/", label: "Lorem Ipsum Dolor" },
+    { url: "/", label: "Lorem Ipsum Dolor" },
   ];
 
-  const footerLinks = ["My Orders", "Contact"];
+  const footerLinks = [
+    { url: "/", label: "My Orders" },
+    { url: "/", label: "Contact" },
+  ];
 
   return (
     <AnimatePresence>
@@ -83,11 +86,11 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
                       }}
                     >
                       <Link
-                        href="/"
+                        href={item.url}
                         className="block text-lg font-medium text-text-primary hover:text-btn-primary transition-colors duration-200"
                         onClick={onClose}
                       >
-                        {item}
+                        {item.label}
                       </Link>
                     </motion.div>
                   ))}
@@ -107,11 +110,11 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
                       }}
                     >
                       <Link
-                        href="/"
+                        href={link.url}
                         className="block text-sm text-text-primary hover:text-btn-primary transition-colors duration-200"
                         onClick={onClose}
                       >
-                        {link}
+                        {link.label}
                       </Link>
                     </motion.div>
                   ))}
