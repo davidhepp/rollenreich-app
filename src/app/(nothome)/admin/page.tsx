@@ -1,10 +1,10 @@
-import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { checkAdmin } from "@/lib/checkAdmin";
 
 export default async function AdminPage() {
-  const session = await auth();
+  const isAdmin = await checkAdmin();
 
-  if (session?.user?.email !== "david@heppify.de") {
+  if (!isAdmin) {
     redirect("/unauthorized");
   }
 
