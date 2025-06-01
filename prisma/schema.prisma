@@ -16,6 +16,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  isAdmin       Boolean         @default(false)
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -58,4 +59,43 @@ model VerificationToken {
   expires    DateTime
  
   @@id([identifier, token])
+}
+
+model Product {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  price       Decimal @db.Decimal(10, 2)
+  sku         String? @unique
+
+  layers Int?
+  color String?
+  material String?
+
+  sustainable Boolean @default(false)
+
+  inStock Int @default(0)
+  isFeatured Boolean @default(false)
+  isActive Boolean @default(true)
+  images ProductImage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, isFeatured])
+  @@index([price])
+}
+
+model ProductImage {
+  id String @id @default(cuid())
+  url String
+  altText String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+
+  @@index([url, productId])
 }
