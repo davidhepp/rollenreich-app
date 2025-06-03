@@ -1,12 +1,7 @@
-import { redirect } from "next/navigation";
-import { checkAdmin } from "@/lib/checkAdmin";
+import { auth } from "@/auth";
 
 export default async function AdminPage() {
-  const isAdmin = await checkAdmin();
-
-  if (!isAdmin) {
-    redirect("/unauthorized");
-  }
+  const session = await auth();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
@@ -14,6 +9,9 @@ export default async function AdminPage() {
         <h1 className="text-3xl font-semibold text-text-primary font-playfair">
           ADMIN
         </h1>
+        <h2 className="text-lg text-text-secondary font-playfair">
+          Welcome {session?.user?.name || session?.user?.email}!
+        </h2>
       </div>
     </div>
   );

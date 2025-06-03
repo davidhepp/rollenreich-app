@@ -32,10 +32,11 @@ export default function ViewAllProducts() {
   const fetchProducts = async (page: number = 1, append: boolean = false) => {
     setLoading(true);
     try {
-      const baseUrl =
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+      // baseUrl is not needed because we do not require headers (auth)
+      /*const baseUrl =
+        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";*/
       const response = await fetch(
-        `${baseUrl}/api/products/viewall?page=${page}&limit=9`
+        `/api/products/viewall?page=${page}&limit=9`
       );
       const data: ApiResponse = await response.json();
 
