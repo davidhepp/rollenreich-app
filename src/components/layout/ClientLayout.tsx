@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/home/Header";
 import HamburgerMenu from "@/components/home/HamburgerMenu";
+import Header from "@/components/home/Header";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
