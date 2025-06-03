@@ -51,7 +51,7 @@ export default function Home() {
               Best Sellers
             </h2>
             <Link
-              href="#"
+              href="/shop/viewall"
               className=" hover:text-btn-primary transition-colors"
             >
               View All
