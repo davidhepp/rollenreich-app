@@ -9,7 +9,7 @@ import { signIn } from "next-auth/react";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
-  // test
+
   const handleGoogleSignIn = () => {
     signIn("google", { callbackUrl: "/" });
   };
