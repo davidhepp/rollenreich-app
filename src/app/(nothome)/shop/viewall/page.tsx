@@ -6,8 +6,10 @@ import ProductCard from "@/components/cards/ProductCard";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
 import { fetchProducts, PaginationData } from "./_actions";
+import { ProductCardSkeleton } from "@/components/ui/ProductCardSkeleton";
 
 export default function ViewAllProducts() {
   const [products, setProducts] = useState<
@@ -51,8 +53,27 @@ export default function ViewAllProducts() {
     return (
       <div className="min-h-screen pt-24 px-4 md:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="flex justify-center items-center h-64">
-            <div className="text-lg">Loading...</div>
+          <nav className="flex items-center space-x-2 text-sm mb-8">
+            <Skeleton className="h-4 w-12" />
+            <span>/</span>
+            <Skeleton className="h-4 w-16" />
+          </nav>
+
+          <div className="flex flex-wrap items-center justify-end gap-4 mb-8">
+            <div className="flex items-center space-x-8">
+              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-4 w-12" />
+              <div className="flex items-center space-x-2">
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-4 w-20" />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {Array.from({ length: 9 }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
           </div>
         </div>
       </div>
