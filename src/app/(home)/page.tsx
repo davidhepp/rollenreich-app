@@ -16,25 +16,11 @@ import CollectionCard from "@/components/cards/CollectionCard";
 import { Button } from "@/components/ui/button";
 import CooperationCard from "@/components/cards/CooperationCard";
 import Image from "next/image";
+import { Product, ProductImage } from "@prisma/client";
+import { fetchFeaturedProducts } from "./_actions";
 
-export default function Home() {
-  const products = [
-    {
-      name: "Standard",
-      price: "20",
-      imageSrc: "/products/standard.png",
-    },
-    {
-      name: "Standard Black",
-      price: "30",
-      imageSrc: "/products/standard_black.png",
-    },
-    {
-      name: "Standard Green",
-      price: "30",
-      imageSrc: "/products/standard_green.png",
-    },
-  ];
+export default async function Home() {
+  const featuredProducts = await fetchFeaturedProducts();
 
   return (
     <main className="min-h-screen bg-white">
@@ -60,17 +46,28 @@ export default function Home() {
           <AnimatedStagger
             containerVariants={scrollStaggerContainer}
             viewport={{ once: true, amount: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="overflow-x-auto scrollbar-hide scroll-smooth"
           >
-            {products.map((product, index) => (
-              <AnimatedStaggerItem key={index} variants={scrollStaggerItem}>
-                <ProductCard
-                  name={product.name}
-                  price={product.price}
-                  imageSrc={product.imageSrc}
-                />
-              </AnimatedStaggerItem>
-            ))}
+            <div className="flex gap-6 pb-4" style={{ width: "max-content" }}>
+              {featuredProducts.map(
+                (
+                  product: Product & { images: ProductImage[] },
+                  index: number
+                ) => (
+                  <AnimatedStaggerItem
+                    key={product.id || index}
+                    variants={scrollStaggerItem}
+                    className="flex-shrink-0 w-72 sm:w-80"
+                  >
+                    <ProductCard
+                      name={product.name}
+                      price={product.price.toString()}
+                      imageSrc={product.images[0]?.url}
+                    />
+                  </AnimatedStaggerItem>
+                )
+              )}
+            </div>
           </AnimatedStagger>
         </div>
       </section>

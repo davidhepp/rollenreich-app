@@ -17,6 +17,9 @@ export async function GET(request: Request) {
     },
     skip,
     take: limit,
+    where: {
+      isActive: true,
+    },
   });
 
   const totalPages = Math.ceil(totalProducts / limit);

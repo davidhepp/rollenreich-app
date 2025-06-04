@@ -6,39 +6,32 @@ import ProductCard from "@/components/cards/ProductCard";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
-
-interface PaginationData {
-  currentPage: number;
-  totalPages: number;
-  totalProducts: number;
-  hasMore: boolean;
-  limit: number;
-}
-
-interface ApiResponse {
-  products: (Product & { images: ProductImage[] })[];
-  pagination: PaginationData;
-}
+import { fetchProducts, PaginationData } from "./_actions";
+import { ProductCardSkeleton } from "@/components/ui/ProductCardSkeleton";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export default function ViewAllProducts() {
   const [products, setProducts] = useState<
     (Product & { images: ProductImage[] })[]
   >([]);
   const [pagination, setPagination] = useState<PaginationData | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  const fetchProducts = async (page: number = 1, append: boolean = false) => {
+  const loadProducts = async (page: number = 1, append: boolean = false) => {
     setLoading(true);
     try {
-      // baseUrl is not needed because we do not require headers (auth)
-      /*const baseUrl =
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";*/
-      const response = await fetch(
-        `/api/products/viewall?page=${page}&limit=9`
-      );
-      const data: ApiResponse = await response.json();
+      const data = await fetchProducts(page, 9);
 
       if (append) {
         setProducts((prev) => [...prev, ...data.products]);
@@ -55,12 +48,12 @@ export default function ViewAllProducts() {
   };
 
   useEffect(() => {
-    fetchProducts(1, false);
+    loadProducts(1, false);
   }, []);
 
   const handleLoadMore = () => {
     if (pagination && pagination.hasMore) {
-      fetchProducts(pagination.currentPage + 1, true);
+      loadProducts(pagination.currentPage + 1, true);
     }
   };
 
@@ -68,8 +61,27 @@ export default function ViewAllProducts() {
     return (
       <div className="min-h-screen pt-24 px-4 md:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="flex justify-center items-center h-64">
-            <div className="text-lg">Loading...</div>
+          <nav className="flex items-center space-x-2 text-sm mb-8">
+            <Skeleton className="h-4 w-12" />
+            <span>/</span>
+            <Skeleton className="h-4 w-16" />
+          </nav>
+
+          <div className="flex flex-wrap items-center justify-end gap-4 mb-8">
+            <div className="flex items-center space-x-8">
+              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-4 w-12" />
+              <div className="flex items-center space-x-2">
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-4 w-20" />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {Array.from({ length: 9 }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
           </div>
         </div>
       </div>
@@ -79,13 +91,19 @@ export default function ViewAllProducts() {
   return (
     <div className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
       <div className="max-w-7xl mx-auto">
-        <nav className="flex items-center space-x-2 text-sm mb-8">
-          <Link href="/" className="hover:underline">
-            Home
-          </Link>
-          <span>/</span>
-          <span>Shop All</span>
-        </nav>
+        <Breadcrumb className="mb-8">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>/</BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Shop All</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
 
         <div className="flex flex-wrap items-center justify-end gap-4 mb-8">
           <div className="flex items-center space-x-8">
