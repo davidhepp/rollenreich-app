@@ -10,6 +10,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
 import { fetchProducts, PaginationData } from "./_actions";
 import { ProductCardSkeleton } from "@/components/ui/ProductCardSkeleton";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export default function ViewAllProducts() {
   const [products, setProducts] = useState<
@@ -83,13 +91,19 @@ export default function ViewAllProducts() {
   return (
     <div className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
       <div className="max-w-7xl mx-auto">
-        <nav className="flex items-center space-x-2 text-sm mb-8">
-          <Link href="/" className="hover:underline">
-            Home
-          </Link>
-          <span>/</span>
-          <span>Shop All</span>
-        </nav>
+        <Breadcrumb className="mb-8">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>/</BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Shop All</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
 
         <div className="flex flex-wrap items-center justify-end gap-4 mb-8">
           <div className="flex items-center space-x-8">
