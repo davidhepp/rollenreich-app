@@ -1,10 +1,8 @@
-import { baseUrl } from "@/lib/utils";
+import { get_featured_products } from "@/lib/ssr-fixes/actions";
 
 export const fetchFeaturedProducts = async () => {
   try {
-    const featuredProducts = await fetch(
-      `${baseUrl}/api/products/getfeatured`
-    ).then((res) => res.json());
+    const featuredProducts = await get_featured_products();
     return featuredProducts;
   } catch (error) {
     // Fallback for build time or when API is unavailable
