@@ -38,7 +38,9 @@ export default function ProductPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbPage>Collection</BreadcrumbPage>
+              <BreadcrumbLink asChild>
+                <Link href="/shop/viewall">Collection</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
             <BreadcrumbItem>
