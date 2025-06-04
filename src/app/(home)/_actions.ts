@@ -8,7 +8,7 @@ export const fetchFeaturedProducts = async () => {
     return featuredProducts;
   } catch (error) {
     // Fallback for build time or when API is unavailable
-    console.warn(
+    console.error(
       "Failed to fetch featured products, returning empty array:",
       error
     );
