@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { fetchProduct } from "./_actions";
 import { Product } from "@prisma/client";
+import { Button } from "@/components/ui/button";
 
 export default function ProductPage() {
   const params = useParams();
@@ -38,7 +39,9 @@ export default function ProductPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbPage>Collection</BreadcrumbPage>
+              <BreadcrumbLink asChild>
+                <Link href="/shop/viewall">Collection</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
             <BreadcrumbItem>
