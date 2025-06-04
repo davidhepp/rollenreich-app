@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -10,10 +11,20 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { fetchProduct } from "./_actions";
+import { Product } from "@prisma/client";
 
 export default function ProductPage() {
   const params = useParams();
-  const product = fetchProduct(params.sku as string);
+  const [product, setProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    const fetchProductData = async () => {
+      const productData = await fetchProduct(params.sku as string);
+      setProduct(productData);
+    };
+    fetchProductData();
+  }, [params.sku]);
+
   console.log("Product data:", product);
   return (
     <div className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
