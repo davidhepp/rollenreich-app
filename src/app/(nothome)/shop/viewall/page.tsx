@@ -7,38 +7,21 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-
-interface PaginationData {
-  currentPage: number;
-  totalPages: number;
-  totalProducts: number;
-  hasMore: boolean;
-  limit: number;
-}
-
-interface ApiResponse {
-  products: (Product & { images: ProductImage[] })[];
-  pagination: PaginationData;
-}
+import { fetchProducts, PaginationData } from "./_actions";
 
 export default function ViewAllProducts() {
   const [products, setProducts] = useState<
     (Product & { images: ProductImage[] })[]
   >([]);
   const [pagination, setPagination] = useState<PaginationData | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  const fetchProducts = async (page: number = 1, append: boolean = false) => {
+  const loadProducts = async (page: number = 1, append: boolean = false) => {
     setLoading(true);
     try {
-      // baseUrl is not needed because we do not require headers (auth)
-      /*const baseUrl =
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";*/
-      const response = await fetch(
-        `/api/products/viewall?page=${page}&limit=9`
-      );
-      const data: ApiResponse = await response.json();
+      const data = await fetchProducts(page, 9);
 
       if (append) {
         setProducts((prev) => [...prev, ...data.products]);
@@ -55,12 +38,12 @@ export default function ViewAllProducts() {
   };
 
   useEffect(() => {
-    fetchProducts(1, false);
+    loadProducts(1, false);
   }, []);
 
   const handleLoadMore = () => {
     if (pagination && pagination.hasMore) {
-      fetchProducts(pagination.currentPage + 1, true);
+      loadProducts(pagination.currentPage + 1, true);
     }
   };
 

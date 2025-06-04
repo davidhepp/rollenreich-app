@@ -78,6 +78,7 @@ model Product {
   isFeatured Boolean @default(false)
   isActive Boolean @default(true)
   images ProductImage[]
+  collections ProductCollection[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -99,3 +100,51 @@ model ProductImage {
 
   @@index([url, productId])
 }
+
+model Collection {
+  id          String @id @default(cuid())
+  name        String
+  description String?
+  slug        String @unique
+  
+  isActive    Boolean @default(true)
+  isFeatured  Boolean @default(false)
+  
+  image       CollectionImage?
+  products    ProductCollection[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([isActive, isFeatured])
+  @@index([slug])
+}
+
+model CollectionImage {
+  id String @id @default(cuid())
+  url String
+  altText String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  collectionId String @unique
+}
+
+model ProductCollection {
+  id String @id @default(cuid())
+  
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId    String
+  
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  collectionId String
+  
+  createdAt    DateTime @default(now())
+  
+  @@unique([productId, collectionId])
+  @@index([productId])
+  @@index([collectionId])
+}
+
