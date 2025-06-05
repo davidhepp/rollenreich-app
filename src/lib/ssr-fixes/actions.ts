@@ -17,18 +17,3 @@ export async function get_featured_products() {
     return [];
   }
 }
-
-export async function get_product_by_sku(sku: string) {
-  try {
-    const product = await db.product.findUnique({
-      where: { sku },
-      include: {
-        images: true,
-      },
-    });
-    return product;
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    return null;
-  }
-}

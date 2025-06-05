@@ -18,6 +18,7 @@ import CooperationCard from "@/components/cards/CooperationCard";
 import Image from "next/image";
 import { Product, ProductImage } from "@prisma/client";
 import { fetchFeaturedProducts } from "./_actions";
+export const revalidate = 60;
 
 export default async function Home() {
   const featuredProducts = await fetchFeaturedProducts();
