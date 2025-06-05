@@ -1,10 +1,16 @@
-import { get_featured_products } from "@/lib/ssr-fixes/actions";
+import {
+  get_featured_products,
+  get_product_by_sku,
+} from "@/lib/ssr-fixes/actions";
 
 export const fetchProduct = async (sku: string) => {
-  const data = await fetch(`/api/products/getproduct?sku=${sku}`).then((res) =>
-    res.json()
-  );
-  return data;
+  try {
+    const product = await get_product_by_sku(sku);
+    return product;
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
+    return null;
+  }
 };
 
 export const fetchFeaturedProducts = async () => {
@@ -12,11 +18,7 @@ export const fetchFeaturedProducts = async () => {
     const featuredProducts = await get_featured_products();
     return featuredProducts;
   } catch (error) {
-    // Fallback for build time or when API is unavailable
-    console.error(
-      "Failed to fetch featured products, returning empty array:",
-      error
-    );
-    return [];
+    console.error("Failed to fetch product:", error);
+    return null;
   }
 };

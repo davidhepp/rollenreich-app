@@ -1,7 +1,4 @@
-"use client";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -17,25 +14,14 @@ import { ProductImage, Product } from "@prisma/client";
 import { Truck, Heart } from "lucide-react";
 
 import ProductCard from "@/components/cards/ProductCard";
-export default function ProductPage() {
-  const params = useParams();
-
-  const [product, setProduct] = useState<
-    (Product & { images: ProductImage[] }) | null
-  >(null);
-  const [featuredProducts, setFeaturedProducts] = useState<
-    (Product & { images: ProductImage[] })[]
-  >([]);
-  useEffect(() => {
-    const fetchProductData = async () => {
-      const productData = await fetchProduct(params.sku as string);
-
-      setProduct(productData);
-      const featuredProducts = await fetchFeaturedProducts();
-      setFeaturedProducts(featuredProducts);
-    };
-    fetchProductData();
-  }, [params.sku]);
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ sku: string }>;
+}) {
+  const { sku } = await params;
+  const product = await fetchProduct(sku);
+  const featuredProducts = await fetchFeaturedProducts();
 
   console.log("Product data:", product);
   return (
@@ -98,32 +84,44 @@ export default function ProductPage() {
             </div>
           </div>
         </div>
-
-        <h2 className="text-2xl md:text-3xl font-playfair font-semibold">
-          Best Sellers
-        </h2>
-        <Link
-          href="/shop/viewall"
-          className=" hover:text-btn-primary transition-colors"
-        >
-          View All
-        </Link>
-        <div className="flex gap-6 pb-4" style={{ width: "max-content" }}>
-          {featuredProducts.map(
-            (product: Product & { images: ProductImage[] }, index: number) => (
+        <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-playfair font-semibold">
+                Best Sellers
+              </h2>
               <Link
-                href={`/shop/product/${product.sku}`}
-                key={product.id || index}
+                href="/shop/viewall"
+                className=" hover:text-btn-primary transition-colors"
               >
-                <ProductCard
-                  name={product.name}
-                  price={product.price.toString()}
-                  imageSrc={product.images[0]?.url}
-                />
+                View All
               </Link>
-            )
-          )}
-        </div>
+            </div>
+            <div className="overflow-x-auto scrollbar-hide scroll-smooth">
+              <div className="flex gap-6 pb-4" style={{ width: "max-content" }}>
+                {featuredProducts?.map(
+                  (
+                    product: Product & { images: ProductImage[] },
+                    index: number
+                  ) => (
+                    <div
+                      key={product.id || index}
+                      className="flex-shrink-0 w-72 sm:w-80"
+                    >
+                      <Link href={`/shop/product/${product.sku}`}>
+                        <ProductCard
+                          name={product.name}
+                          price={product.price.toString()}
+                          imageSrc={product.images[0]?.url}
+                        />
+                      </Link>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
