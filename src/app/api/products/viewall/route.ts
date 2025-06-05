@@ -8,7 +8,11 @@ export async function GET(request: Request) {
   const skip = (page - 1) * limit;
 
   // Get total count for pagination metadata
-  const totalProducts = await db.product.count();
+  const totalProducts = await db.product.count({
+    where: {
+      isActive: true,
+    },
+  });
 
   // Get products with pagination
   const products = await db.product.findMany({

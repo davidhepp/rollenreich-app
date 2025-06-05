@@ -1,4 +1,6 @@
 import { auth } from "@/auth";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function AdminPage() {
   const session = await auth();
@@ -12,6 +14,9 @@ export default async function AdminPage() {
         <h2 className="text-lg text-text-secondary font-playfair">
           Welcome {session?.user?.name || session?.user?.email}!
         </h2>
+        <Button className="mt-4 bg-btn-primary hover:bg-btn-primary-hover rounded-none">
+          <Link href="/admin/products">Products Management</Link>
+        </Button>
       </div>
     </div>
   );
