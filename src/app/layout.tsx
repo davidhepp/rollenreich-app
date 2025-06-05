@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "@/app/globals.css";
-import Footer from "@/components/home/Footer";
 import { SessionProvider } from "next-auth/react";
+import { QueryProvider } from "@/components/providers/query-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,8 +30,7 @@ export default function RootLayout({
         className={`${inter.variable} ${playfairDisplay.variable} antialiased font-sans`}
       >
         <SessionProvider>
-          {children}
-          <Footer />
+          <QueryProvider>{children}</QueryProvider>
         </SessionProvider>
       </body>
     </html>

@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
 import { fetchProducts, PaginationData } from "./_actions";
 import { ProductCardSkeleton } from "@/components/ui/ProductCardSkeleton";
+import { useQuery } from "@tanstack/react-query";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -20,44 +21,39 @@ import {
 } from "@/components/ui/breadcrumb";
 
 export default function ViewAllProducts() {
-  const [products, setProducts] = useState<
+  const [currentPage, setCurrentPage] = useState(1);
+  const [allProducts, setAllProducts] = useState<
     (Product & { images: ProductImage[] })[]
   >([]);
-  const [pagination, setPagination] = useState<PaginationData | null>(null);
+  const [lastPaginationData, setLastPaginationData] =
+    useState<PaginationData | null>(null);
 
-  const [loading, setLoading] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true);
+  const {
+    data: productsData,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["shop-products", currentPage],
+    queryFn: () => fetchProducts(currentPage, 9),
+  });
 
-  const loadProducts = async (page: number = 1, append: boolean = false) => {
-    setLoading(true);
-    try {
-      const data = await fetchProducts(page, 9);
-
-      if (append) {
-        setProducts((prev) => [...prev, ...data.products]);
-      } else {
-        setProducts(data.products);
-      }
-      setPagination(data.pagination);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
-      setInitialLoading(false);
-    }
-  };
-
+  // Update allProducts when new data comes in
   useEffect(() => {
-    loadProducts(1, false);
-  }, []);
+    if (productsData) {
+      if (currentPage === 1) {
+        setAllProducts(productsData.products);
+      } else {
+        setAllProducts((prev) => [...prev, ...productsData.products]);
+      }
+      setLastPaginationData(productsData.pagination);
+    }
+  }, [productsData, currentPage]);
 
   const handleLoadMore = () => {
-    if (pagination && pagination.hasMore) {
-      loadProducts(pagination.currentPage + 1, true);
-    }
+    setCurrentPage((prev) => prev + 1);
   };
 
-  if (initialLoading) {
+  if (isLoading && currentPage === 1) {
     return (
       <div className="min-h-screen pt-24 px-4 md:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
@@ -82,6 +78,18 @@ export default function ViewAllProducts() {
             {Array.from({ length: 9 }).map((_, index) => (
               <ProductCardSkeleton key={index} />
             ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto py-10">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">
+            Error loading products. Please try again.
           </div>
         </div>
       </div>
@@ -128,32 +136,38 @@ export default function ViewAllProducts() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {products.map((product: Product & { images: ProductImage[] }) => (
-            <ProductCard
-              key={product.id}
-              name={product.name}
-              price={product.price.toString()}
-              imageSrc={product.images?.[0]?.url}
-            />
+          {allProducts.map((product: Product & { images: ProductImage[] }) => (
+            <Link href={`/shop/product/${product.sku}`} key={product.id}>
+              <ProductCard
+                key={product.id}
+                name={product.name}
+                price={product.price.toString()}
+                imageSrc={product.images?.[0]?.url}
+              />
+            </Link>
           ))}
         </div>
 
-        {pagination && pagination.hasMore && (
-          <div className="flex justify-center mb-16">
-            <Button
-              onClick={handleLoadMore}
-              disabled={loading}
-              className="px-8 py-3 transition-colors border-1 border-text-primary hover:bg-bg-secondary bg-white rounded-none"
-              variant="outline"
-            >
-              {loading ? "Loading..." : "Load More"}
-            </Button>
-          </div>
-        )}
+        {(productsData?.pagination || lastPaginationData) &&
+          (productsData?.pagination?.hasMore ||
+            lastPaginationData?.hasMore) && (
+            <div className="flex justify-center mb-16">
+              <Button
+                onClick={handleLoadMore}
+                disabled={isLoading && currentPage > 1}
+                className="px-8 py-3 transition-colors border-1 border-text-primary hover:bg-bg-secondary bg-white rounded-none"
+                variant="outline"
+              >
+                {isLoading && currentPage > 1 ? "Loading..." : "Load More"}
+              </Button>
+            </div>
+          )}
 
-        {pagination && (
+        {(productsData?.pagination || lastPaginationData) && (
           <div className="text-center text-sm text-gray-600 mb-8">
-            Showing {products.length} of {pagination.totalProducts} products
+            Showing {allProducts.length} of{" "}
+            {(productsData?.pagination || lastPaginationData)?.totalProducts}{" "}
+            products
           </div>
         )}
       </div>
