@@ -59,11 +59,13 @@ export default async function Home() {
                     variants={scrollStaggerItem}
                     className="flex-shrink-0 w-72 sm:w-80"
                   >
-                    <ProductCard
-                      name={product.name}
-                      price={product.price.toString()}
-                      imageSrc={product.images[0]?.url}
-                    />
+                    <Link href={`/shop/product/${product.sku}`}>
+                      <ProductCard
+                        name={product.name}
+                        price={product.price.toString()}
+                        imageSrc={product.images[0]?.url}
+                      />
+                    </Link>
                   </AnimatedStaggerItem>
                 )
               )}
