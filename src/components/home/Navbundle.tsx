@@ -19,7 +19,7 @@ export default function Navbundle({
           onOpenChange={onDropdownOpenChange}
         />
         <div className="cursor-pointer w-1 h-1 sm:w-6 sm:h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
-          <Link href="/">
+          <Link href="/cart">
             <ShoppingCart strokeWidth={1.5} />
           </Link>
         </div>
