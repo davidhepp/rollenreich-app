@@ -12,13 +12,7 @@ Rollenreich is a React-based e-commerce web application specializing in luxury a
 
 ## Features
 
-- **Product Catalog** - Browse luxury toilet paper with advanced filtering options
-- **Product Details** - Rich product pages with high-quality images and detailed descriptions
-- **User Management** - Secure user registration and authentication system
-- **Shopping Cart** - Seamless shopping cart and checkout experience
-- **Subscriptions** - Convenient recurring delivery options for regular customers
-- **Responsive Design** - Optimized for both desktop and mobile devices
-- **Secure Checkout** - Safe and reliable payment processing
+- **tbd**
 
 ## Tech Stack
 
@@ -27,7 +21,6 @@ Rollenreich is a React-based e-commerce web application specializing in luxury a
 | **Frontend** | Next.js, React, Tailwind CSS |
 | **Backend**  | Next.js API Routes           |
 | **Database** | PostgreSQL with Prisma ORM   |
-| **Styling**  | Tailwind CSS                 |
 
 ## Installation & Setup
 
