@@ -15,7 +15,7 @@ import { FaPaypal } from "react-icons/fa";
 
 const CartPage = () => {
   return (
-    <main className="min-h-screen bg-white pt-32 pb-16 px-4">
+    <main className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
       <div className="max-w-7xl mx-auto">
         <Breadcrumb className="mb-8">
           <BreadcrumbList>
