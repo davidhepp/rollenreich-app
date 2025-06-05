@@ -10,22 +10,29 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { fetchProduct } from "./_actions";
+import { fetchProduct, fetchFeaturedProducts } from "./_actions";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ProductImage, Product } from "@prisma/client";
 import { Truck, Heart } from "lucide-react";
 
+import ProductCard from "@/components/cards/ProductCard";
 export default function ProductPage() {
   const params = useParams();
+
   const [product, setProduct] = useState<
     (Product & { images: ProductImage[] }) | null
   >(null);
-
+  const [featuredProducts, setFeaturedProducts] = useState<
+    (Product & { images: ProductImage[] })[]
+  >([]);
   useEffect(() => {
     const fetchProductData = async () => {
       const productData = await fetchProduct(params.sku as string);
+
       setProduct(productData);
+      const featuredProducts = await fetchFeaturedProducts();
+      setFeaturedProducts(featuredProducts);
     };
     fetchProductData();
   }, [params.sku]);
@@ -90,6 +97,32 @@ export default function ProductPage() {
               </button>
             </div>
           </div>
+        </div>
+
+        <h2 className="text-2xl md:text-3xl font-playfair font-semibold">
+          Best Sellers
+        </h2>
+        <Link
+          href="/shop/viewall"
+          className=" hover:text-btn-primary transition-colors"
+        >
+          View All
+        </Link>
+        <div className="flex gap-6 pb-4" style={{ width: "max-content" }}>
+          {featuredProducts.map(
+            (product: Product & { images: ProductImage[] }, index: number) => (
+              <Link
+                href={`/shop/product/${product.sku}`}
+                key={product.id || index}
+              >
+                <ProductCard
+                  name={product.name}
+                  price={product.price.toString()}
+                  imageSrc={product.images[0]?.url}
+                />
+              </Link>
+            )
+          )}
         </div>
       </div>
     </div>
