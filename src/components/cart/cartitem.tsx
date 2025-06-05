@@ -50,7 +50,7 @@ const CartItem = ({
 
         <div className="flex flex-col justify-between flex-1 h-40">
           <div>
-            <h3 className="font-semibold text-lg text-gray-900 mb-1">{name}</h3>
+            <h3 className="font-semibold text-lg mb-1">{name}</h3>
             <p className="text-gray-500 text-sm mb-1">Collection</p>
             <p className="text-gray-500 text-sm">Variation</p>
           </div>
@@ -96,7 +96,7 @@ const CartItem = ({
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <span className="font-bold text-xl text-gray-900">
+            <span className="font-bold text-xl">
               ${(price * currentQuantity).toFixed(0)}
             </span>
           </div>
