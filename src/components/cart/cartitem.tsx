@@ -41,10 +41,9 @@ const CartItem = ({
             <Image
               src={imageSrc}
               alt={name}
-              width={128}
+              width={160}
               height={160}
-              className="object-cover rounded bg-bg-primary"
-              style={{ width: "8rem", height: "10rem" }}
+              className="bg-bg-primary object-cover"
             />
           </div>
         )}
