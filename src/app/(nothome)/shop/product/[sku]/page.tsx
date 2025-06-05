@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ProductImage, Product } from "@prisma/client";
 import { Truck, Heart } from "lucide-react";
-
 import ProductCard from "@/components/cards/ProductCard";
 export default async function ProductPage({
   params,
