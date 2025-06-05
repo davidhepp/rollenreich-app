@@ -23,7 +23,6 @@ export default async function ProductPage({
   const product = await fetchProduct(sku);
   const featuredProducts = await fetchFeaturedProducts();
 
-  console.log("Product data:", product);
   return (
     <div className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
       <div className="max-w-7xl mx-auto">
