@@ -1,10 +1,9 @@
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+import { get_featured_products } from "@/lib/ssr-fixes/actions";
+
 export const fetchFeaturedProducts = async () => {
   try {
-    const featuredProducts = await fetch(
-      `${baseUrl}/api/products/getfeatured`,
-      { next: { revalidate: 60 } }
-    ).then((res) => res.json());
+    // using lib function because of SSR
+    const featuredProducts = await get_featured_products();
     return featuredProducts;
   } catch (error) {
     console.error(
