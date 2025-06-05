@@ -1,9 +1,8 @@
 "use client";
-import { columns, Product } from "./columns";
+import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { fetchProducts } from "./_actions";
 import { useQuery } from "@tanstack/react-query";
-import { ProductImage } from "@prisma/client";
 
 export default function ProductsPage() {
   const {

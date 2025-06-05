@@ -84,6 +84,18 @@ export default function ViewAllProducts() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="container mx-auto py-10">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">
+            Error loading products. Please try again.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
       <div className="max-w-7xl mx-auto">
