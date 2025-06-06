@@ -54,7 +54,7 @@ export default async function ProductPage({
         </Breadcrumb>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="aspect-square relative ">
+          <div className="aspect-square relative justify-center items-center flex">
             <div>
               {product?.images?.[0]?.url && (
                 <Image
@@ -74,7 +74,7 @@ export default async function ProductPage({
               <p className="text-lg  mb-2">{product?.price}€</p>
             </div>
 
-            <Button className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
+            <Button className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200 ">
               Add To Cart
             </Button>
 
@@ -94,7 +94,11 @@ export default async function ProductPage({
           <Accordion
             type="single"
             collapsible
+<<<<<<< HEAD
             className=" w-full border bg-bg-primary"
+=======
+            className=" w-full border bg-bg-primary "
+>>>>>>> dff4f52 (Enhances product page layout and details)
             defaultValue="item-1"
           >
             <AccordionItem value="item-1">
@@ -118,6 +122,7 @@ export default async function ProductPage({
             </AccordionItem>
           </Accordion>
 
+<<<<<<< HEAD
           <div className="w-full p-4 border bg-bg-primary">
             <h3 className="text-lg font-semibold">Shipping And Return</h3>
             <Separator className="my-4" />
@@ -127,6 +132,22 @@ export default async function ProductPage({
               Erat, Sed Diam Voluptua. At Vero Eos Et Accusam Et Justo Duo
               Dolores Et Ea Rebum.
             </p>
+=======
+          <div className="w-full border bg-bg-primary  p-6 flex flex-col justify-center">
+            <div className="font-bold text-lg mb-2">Shipping and Return</div>
+            <div className="text-base">
+              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+              erat, sed diam voluptua. At vero eos et accusam et justo duo
+              dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+              sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+              amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+              invidunt ut labore et dolore magna aliquyam erat, sed diam
+              voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+              Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+              dolor sit amet.
+            </div>
+>>>>>>> dff4f52 (Enhances product page layout and details)
           </div>
         </div>
         <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
