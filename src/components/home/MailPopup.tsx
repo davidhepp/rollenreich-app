@@ -14,40 +14,31 @@ import {
 import { ArrowRight } from "lucide-react";
 
 export interface MailPopupRef {
-  triggerPopup: () => void;
+  triggerPopup: (email: string) => void;
 }
 
 export const MailPopup = forwardRef<MailPopupRef>((props, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isResponseOpen, setIsResponseOpen] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
   useImperativeHandle(ref, () => ({
-    triggerPopup: () => {
+    triggerPopup: (email: string) => {
+      setUserEmail(email);
       setIsOpen(true);
     },
   }));
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch("https://naas.isalman.dev/no", {
-        method: "GET",
-      });
-      if (response.ok) {
-        const responseText = await response.text();
-        setResponseMessage(responseText);
-        setIsOpen(false);
-        setIsResponseOpen(true);
-      }
-    } catch (error) {
-      setResponseMessage(
-        error instanceof Error
-          ? error.message
-          : "Failed to connect to the server"
-      );
-      setIsOpen(false);
-      setIsResponseOpen(true);
-    }
+    const response = await fetch("/api/newsletter", {
+      method: "GET",
+    });
+
+    const responseData = await response.json();
+    setResponseMessage(responseData.reason);
+    setIsOpen(false);
+    setIsResponseOpen(true);
   };
 
   return (
@@ -80,8 +71,9 @@ export const MailPopup = forwardRef<MailPopupRef>((props, ref) => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Subscription Status</AlertDialogTitle>
-            <AlertDialogDescription>
-              Sorry, there&apos;s no mail because: {responseMessage}
+            <AlertDialogDescription className="whitespace-pre-line">
+              Sorry, there&apos;s no mail for {userEmail}.{"\n\n"}
+              {responseMessage}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

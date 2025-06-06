@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { FaTwitter, FaInstagram, FaFacebook } from "react-icons/fa";
 import { Input } from "../ui/input";
 import Link from "next/link";
@@ -7,12 +7,12 @@ import { MailPopup, MailPopupRef } from "./MailPopup";
 
 const Footer = () => {
   const mailPopupRef = useRef<MailPopupRef>(null);
+  const [email, setEmail] = useState("");
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Trigger the MailPopup using the ref
-    if (mailPopupRef.current) {
-      mailPopupRef.current.triggerPopup();
+    if (mailPopupRef.current && email.trim()) {
+      mailPopupRef.current.triggerPopup(email);
     }
   };
 
@@ -34,6 +34,8 @@ const Footer = () => {
                   placeholder="Enter Your Email Address"
                   className="flex-1 px-4 py-2 rounded-none border-black focus:outline-none focus:ring-2 focus:ring-btn-primary"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <MailPopup ref={mailPopupRef} />
               </div>
