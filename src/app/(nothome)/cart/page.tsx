@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import CartItem from "../../../components/cart/cartitem";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/cards/ProductCard";
@@ -12,8 +13,31 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { FaPaypal } from "react-icons/fa";
+import { editQuantity, getCart } from "./_actions";
+import {
+  CartItem as CartItemType,
+  Product,
+  ProductImage,
+} from "@prisma/client";
 
 const CartPage = () => {
+  const [cart, setCart] = useState<
+    (CartItemType & { product: Product & { images: ProductImage[] } })[]
+  >([]);
+  useEffect(() => {
+    getCart().then((cart) =>
+      setCart(
+        cart as (CartItemType & {
+          product: Product & { images: ProductImage[] };
+        })[]
+      )
+    );
+  }, []);
+  const total = cart.reduce(
+    (acc, item) => acc + Number(item.product.price) * item.quantity,
+    0
+  );
+  const shipping = 0;
   return (
     <main className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
       <div className="max-w-7xl mx-auto">
@@ -34,12 +58,16 @@ const CartPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <section className="lg:col-span-2">
-            <CartItem
-              name="Lorem Ipsum"
-              price={0}
-              quantity={1}
-              imageSrc="/products/standard.png"
-            />
+            {cart.map((item) => (
+              <CartItem
+                key={item.id}
+                name={item.product.name}
+                price={Number(item.product.price)}
+                quantity={item.quantity}
+                imageSrc={item.product.images[0].url as string}
+                onQuantityChange={(quantity) => editQuantity(item.id, quantity)}
+              />
+            ))}
           </section>
 
           <aside className="lg:col-span-1">
@@ -49,15 +77,15 @@ const CartPage = () => {
               <div className="w-full border-t border-gray-200 my-4" />
               <div className="flex justify-between text-sm mb-2">
                 <span>Subtotal</span>
-                <span>$00</span>
+                <span>${total}</span>
               </div>
               <div className="flex justify-between text-sm mb-2">
                 <span>Shipping</span>
-                <span>Free (Premium Express)</span>
+                <span>${shipping}</span>
               </div>
               <div className="flex justify-between font-semibold text-base mb-4">
                 <span>Estimated Total</span>
-                <span>$00</span>
+                <span>${total + shipping}</span>
               </div>
               <div className="w-full border-t border-gray-200 my-4" />
               <details className="mb-4 text-xs">

@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return new Response("Cart updated", { status: 200 });
+    return Response.json({ message: "Cart updated" }, { status: 200 });
   } catch (error) {
     console.error("Error updating cart:", error);
     return new Response("Internal server error", { status: 500 });
