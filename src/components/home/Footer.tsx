@@ -1,10 +1,21 @@
-import React from "react";
+"use client";
+import React, { useRef, useState } from "react";
 import { FaTwitter, FaInstagram, FaFacebook } from "react-icons/fa";
 import { Input } from "../ui/input";
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { MailPopup, MailPopupRef } from "./MailPopup";
 
 const Footer = () => {
+  const mailPopupRef = useRef<MailPopupRef>(null);
+  const [email, setEmail] = useState("");
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (mailPopupRef.current && email.trim()) {
+      mailPopupRef.current.triggerPopup(email);
+    }
+  };
+
   return (
     <footer className="w-full py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
@@ -13,19 +24,22 @@ const Footer = () => {
             <h3 className="text-lg font-bold mb-4">
               Join Our Club, Get 15% Off
             </h3>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md">
+            <form
+              onSubmit={handleEmailSubmit}
+              className="flex flex-col sm:flex-row gap-4 max-w-md"
+            >
               <div className="relative flex-1">
                 <Input
                   type="email"
                   placeholder="Enter Your Email Address"
                   className="flex-1 px-4 py-2 rounded-none border-black focus:outline-none focus:ring-2 focus:ring-btn-primary"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
-                <ArrowRight
-                  strokeWidth={1.5}
-                  className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 hover:text-btn-primary transition-colors"
-                />
+                <MailPopup ref={mailPopupRef} />
               </div>
-            </div>
+            </form>
             <p className="text-sm mt-4 font-medium">
               By subscribing you agree to our Terms & Conditions and Privacy &
               Cookies Policy.

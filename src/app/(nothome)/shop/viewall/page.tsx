@@ -37,7 +37,6 @@ export default function ViewAllProducts() {
     queryFn: () => fetchProducts(currentPage, 9),
   });
 
-  // Update allProducts when new data comes in
   useEffect(() => {
     if (productsData) {
       if (currentPage === 1) {
