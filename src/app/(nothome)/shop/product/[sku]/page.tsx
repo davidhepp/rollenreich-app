@@ -93,7 +93,8 @@ export default async function ProductPage({
           <Accordion
             type="single"
             collapsible
-            className=" w-full border bg-[#f9f6f2]"
+            className=" w-full border bg-bg-primary"
+            defaultValue="item-1"
           >
             <AccordionItem value="item-1">
               <AccordionTrigger>Product Detail</AccordionTrigger>
@@ -119,7 +120,8 @@ export default async function ProductPage({
           <Accordion
             type="single"
             collapsible
-            className="w-full border bg-[#f9f6f2] "
+            className="w-full border bg-bg-primary "
+            defaultValue="item-2"
           >
             <AccordionItem value="item-2">
               <AccordionTrigger>Shipping and Return</AccordionTrigger>
