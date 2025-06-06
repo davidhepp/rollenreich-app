@@ -6,8 +6,17 @@ export async function POST(request: NextRequest) {
   try {
     const session = await auth();
 
-    if (!session?.user) {
+    if (!session) {
       return new Response("Unauthorized", { status: 401 });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: session.user?.id },
+      select: { id: true },
+    });
+
+    if (!user) {
+      return new Response("User not found", { status: 401 });
     }
 
     const { productId, quantity } = await request.json();
@@ -18,14 +27,19 @@ export async function POST(request: NextRequest) {
 
     let cart = await prisma.cart.findUnique({
       where: {
-        userId: session.user.id,
+        userId: user.id,
       },
     });
 
     if (!cart) {
+      console.log("Creating cart for user:", user.id);
       cart = await prisma.cart.create({
         data: {
-          userId: session.user.id!,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
         },
       });
     }

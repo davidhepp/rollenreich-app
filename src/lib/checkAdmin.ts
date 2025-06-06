@@ -4,12 +4,12 @@ import { prisma } from "@/prisma";
 export async function checkAdmin() {
   const session = await auth();
 
-  if (!session?.user?.email) {
+  if (!session?.user?.id) {
     return false;
   }
 
   const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
+    where: { id: session.user.id },
     select: { isAdmin: true },
   });
 
