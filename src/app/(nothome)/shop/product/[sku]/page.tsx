@@ -71,34 +71,31 @@ export default async function ProductPage({
           <div>
             <div className="mb-30">
               <h1 className="text-3xl font-bold mb-6">{product?.name}</h1>
-              <p className="text-lg  mb-2">{product?.price}€</p>
+              <p className="text-lg mb-2">{product?.price}€</p>
             </div>
 
-            <Button className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200 ">
+            <Button className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
               Add To Cart
             </Button>
 
             <div className="flex justify-between items-center pt-4">
-              <button className="flex items-center gap-2  ">
+              <button className="flex items-center gap-2">
                 <Truck strokeWidth={1.5} />
                 Easy Return
               </button>
-              <button className="flex items-center gap-2 ">
+              <button className="flex items-center gap-2">
                 <Heart strokeWidth={1.5} />
                 Add To Wish List
               </button>
             </div>
           </div>
         </div>
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-start ">
+
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
           <Accordion
             type="single"
             collapsible
-<<<<<<< HEAD
-            className=" w-full border bg-bg-primary"
-=======
-            className=" w-full border bg-bg-primary "
->>>>>>> dff4f52 (Enhances product page layout and details)
+            className="w-full border bg-bg-primary"
             defaultValue="item-1"
           >
             <AccordionItem value="item-1">
@@ -122,19 +119,9 @@ export default async function ProductPage({
             </AccordionItem>
           </Accordion>
 
-<<<<<<< HEAD
-          <div className="w-full p-4 border bg-bg-primary">
-            <h3 className="text-lg font-semibold">Shipping And Return</h3>
-            <Separator className="my-4" />
-            <p className="text-gray-600">
-              Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam
-              Nonumy Eirmod Tempor Invidunt Ut Labore Et Dolore Magna Aliquyam
-              Erat, Sed Diam Voluptua. At Vero Eos Et Accusam Et Justo Duo
-              Dolores Et Ea Rebum.
-            </p>
-=======
           <div className="w-full border bg-bg-primary  p-6 flex flex-col justify-center">
             <div className="font-bold text-lg mb-2">Shipping and Return</div>
+            <Separator className="my-4" />
             <div className="text-base">
               Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
               nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
@@ -147,9 +134,9 @@ export default async function ProductPage({
               Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
               dolor sit amet.
             </div>
->>>>>>> dff4f52 (Enhances product page layout and details)
           </div>
         </div>
+
         <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-8">
@@ -158,7 +145,7 @@ export default async function ProductPage({
               </h2>
               <Link
                 href="/shop/viewall"
-                className=" hover:text-btn-primary transition-colors"
+                className="hover:text-btn-primary transition-colors"
               >
                 View All
               </Link>
