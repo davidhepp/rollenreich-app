@@ -19,16 +19,18 @@ interface CartItemProps {
   quantity: number;
   imageSrc?: string;
   onQuantityChange?: (newQuantity: number) => void;
+  onRemove?: () => void;
 }
 
 const CartItem = ({
   name,
   price,
-    collection,
-    variation,
+  collection,
+  variation,
   quantity,
   imageSrc,
   onQuantityChange,
+  onRemove,
 }: CartItemProps) => {
   const [currentQuantity, setCurrentQuantity] = useState(quantity);
 
@@ -64,7 +66,10 @@ const CartItem = ({
               Edit
             </button>
             <span className="text-gray-300">|</span>
-            <button className="cursor-pointer hover:text-gray-700 transition-colors">
+            <button
+              className="cursor-pointer hover:text-gray-700 transition-colors"
+              onClick={onRemove}
+            >
               Remove
             </button>
             <span className="text-gray-300">|</span>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CartItem from "../../../components/cart/cartitem";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/cards/ProductCard";
@@ -13,30 +13,58 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { FaPaypal } from "react-icons/fa";
-import { editQuantity, getCart } from "./_actions";
+import { editQuantity, getCart, removeFromCart } from "./_actions";
 import {
   CartItem as CartItemType,
   Product,
   ProductImage,
 } from "@prisma/client";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const CartPage = () => {
-  const [cart, setCart] = useState<
-    (CartItemType & { product: Product & { images: ProductImage[] } })[]
-  >([]);
-  useEffect(() => {
-    getCart().then((cart) =>
-      setCart(
-        cart as (CartItemType & {
-          product: Product & { images: ProductImage[] };
-        })[]
-      )
-    );
-  }, []);
-  const total = cart.reduce(
-    (acc, item) => acc + Number(item.product.price) * item.quantity,
+  const queryClient = useQueryClient();
+
+  const { data: cart, isLoading } = useQuery({
+    queryKey: ["cart"],
+    queryFn: getCart,
+  });
+
+  const editQuantityMutation = useMutation({
+    mutationFn: ({
+      productId,
+      quantity,
+    }: {
+      productId: string;
+      quantity: number;
+    }) => editQuantity(productId, quantity),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+
+  const removeFromCartMutation = useMutation({
+    mutationFn: (productId: string) => removeFromCart(productId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+
+  const handleQuantityChange = (productId: string, quantity: number) => {
+    editQuantityMutation.mutate({ productId, quantity });
+  };
+
+  const handleRemoveItem = (productId: string) => {
+    removeFromCartMutation.mutate(productId);
+  };
+
+  const total = cart?.reduce(
+    (
+      acc: number,
+      item: CartItemType & { product: Product & { images: ProductImage[] } }
+    ) => acc + Number(item.product.price) * item.quantity,
     0
   );
+  if (isLoading) return <div>Loading...</div>;
   const shipping = 0;
   return (
     <main className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
@@ -58,16 +86,25 @@ const CartPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <section className="lg:col-span-2">
-            {cart.map((item) => (
-              <CartItem
-                key={item.id}
-                name={item.product.name}
-                price={Number(item.product.price)}
-                quantity={item.quantity}
-                imageSrc={item.product.images[0].url as string}
-                onQuantityChange={(quantity) => editQuantity(item.id, quantity)}
-              />
-            ))}
+            {cart?.map(
+              (
+                item: CartItemType & {
+                  product: Product & { images: ProductImage[] };
+                }
+              ) => (
+                <CartItem
+                  key={item.id}
+                  name={item.product.name}
+                  price={Number(item.product.price)}
+                  quantity={item.quantity}
+                  imageSrc={item.product.images[0].url as string}
+                  onQuantityChange={(quantity) =>
+                    handleQuantityChange(item.id, quantity)
+                  }
+                  onRemove={() => handleRemoveItem(item.id)}
+                />
+              )
+            )}
           </section>
 
           <aside className="lg:col-span-1">
@@ -96,7 +133,14 @@ const CartPage = () => {
                   the time of purchase.
                 </div>
               </details>
-              <Button className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 border rounded-none">
+              <Button
+                className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 border rounded-none"
+                disabled={
+                  isLoading ||
+                  editQuantityMutation.isPending ||
+                  removeFromCartMutation.isPending
+                }
+              >
                 Checkout
               </Button>
               <div className="flex items-center my-2">
@@ -107,6 +151,11 @@ const CartPage = () => {
               <Button
                 variant="outline"
                 className="w-full flex items-center justify-center border-text-primary hover:bg-bg-secondary bg-white rounded-none"
+                disabled={
+                  isLoading ||
+                  editQuantityMutation.isPending ||
+                  removeFromCartMutation.isPending
+                }
               >
                 Pay With <FaPaypal />
               </Button>

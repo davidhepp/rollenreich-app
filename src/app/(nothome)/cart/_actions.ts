@@ -10,3 +10,11 @@ export const editQuantity = async (productId: string, quantity: number) => {
   });
   return response.json();
 };
+
+export const removeFromCart = async (productId: string) => {
+  const response = await fetch("/api/cart/removefromcart", {
+    method: "POST",
+    body: JSON.stringify({ productId }),
+  });
+  return response.json();
+};
