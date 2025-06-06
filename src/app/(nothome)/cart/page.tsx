@@ -24,7 +24,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 const CartPage = () => {
   const queryClient = useQueryClient();
 
-  const { data: cart, isLoading } = useQuery({
+  const { data: cartData, isLoading } = useQuery({
     queryKey: ["cart"],
     queryFn: getCart,
   });
@@ -56,6 +56,8 @@ const CartPage = () => {
   const handleRemoveItem = (productId: string) => {
     removeFromCartMutation.mutate(productId);
   };
+
+  const cart = cartData?.items;
 
   const total = cart?.reduce(
     (
@@ -110,7 +112,7 @@ const CartPage = () => {
           <aside className="lg:col-span-1">
             <div className="border rounded-none border-gray-200 p-6">
               <h2 className="font-semibold mb-4 text-sm">ORDER SUMMARY</h2>
-              <div className="text-xs mb-2">USCART2121041</div>
+              <div className="text-xs mb-2">{cartData?.id}</div>
               <div className="w-full border-t border-gray-200 my-4" />
               <div className="flex justify-between text-sm mb-2">
                 <span>Subtotal</span>

@@ -23,5 +23,5 @@ export async function GET() {
       },
     },
   });
-  return NextResponse.json(cart?.items);
+  return NextResponse.json(cart);
 }
