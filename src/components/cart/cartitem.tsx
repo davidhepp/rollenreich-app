@@ -14,6 +14,8 @@ import { Button } from "../ui/button";
 interface CartItemProps {
   name: string;
   price: number;
+  collection?: string;
+  variation?: string;
   quantity: number;
   imageSrc?: string;
   onQuantityChange?: (newQuantity: number) => void;
@@ -22,6 +24,8 @@ interface CartItemProps {
 const CartItem = ({
   name,
   price,
+    collection,
+    variation,
   quantity,
   imageSrc,
   onQuantityChange,
@@ -51,8 +55,8 @@ const CartItem = ({
         <div className="flex flex-col justify-between flex-1 h-40">
           <div>
             <h3 className="font-semibold text-lg mb-1">{name}</h3>
-            <p className="text-gray-500 text-sm mb-1">Collection</p>
-            <p className="text-gray-500 text-sm">Variation</p>
+            <p className="text-gray-500 text-sm mb-1">{collection}</p>
+            <p className="text-gray-500 text-sm">{variation}</p>
           </div>
           {/* TODO: fix styling */}
           <div className="flex items-center gap-3 text-sm text-gray-500 mt-2">
