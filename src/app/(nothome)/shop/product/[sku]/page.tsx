@@ -19,6 +19,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Separator } from "@/components/ui/separator";
 
 export default async function ProductPage({
   params,
@@ -117,17 +118,16 @@ export default async function ProductPage({
             </AccordionItem>
           </Accordion>
 
-          <Accordion
-            type="single"
-            collapsible
-            className="w-full border bg-bg-primary "
-            defaultValue="item-2"
-          >
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Shipping and Return</AccordionTrigger>
-              <AccordionContent>{product?.description}</AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <div className="w-full p-4 border bg-bg-primary">
+            <h3 className="text-lg font-semibold">Shipping And Return</h3>
+            <Separator className="my-4" />
+            <p className="text-gray-600">
+              Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam
+              Nonumy Eirmod Tempor Invidunt Ut Labore Et Dolore Magna Aliquyam
+              Erat, Sed Diam Voluptua. At Vero Eos Et Accusam Et Justo Duo
+              Dolores Et Ea Rebum.
+            </p>
+          </div>
         </div>
         <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
