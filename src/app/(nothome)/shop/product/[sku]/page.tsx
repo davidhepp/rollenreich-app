@@ -13,6 +13,14 @@ import Image from "next/image";
 import { ProductImage, Product } from "@prisma/client";
 import { Truck, Heart } from "lucide-react";
 import ProductCard from "@/components/cards/ProductCard";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Separator } from "@/components/ui/separator";
+
 export default async function ProductPage({
   params,
 }: {
@@ -46,7 +54,7 @@ export default async function ProductPage({
         </Breadcrumb>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="aspect-square relative ">
+          <div className="aspect-square relative justify-center items-center flex">
             <div>
               {product?.images?.[0]?.url && (
                 <Image
@@ -63,7 +71,7 @@ export default async function ProductPage({
           <div>
             <div className="mb-30">
               <h1 className="text-3xl font-bold mb-6">{product?.name}</h1>
-              <p className="text-lg  mb-2">{product?.description}</p>
+              <p className="text-lg mb-2">{product?.price}€</p>
             </div>
 
             <Button className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
@@ -71,17 +79,64 @@ export default async function ProductPage({
             </Button>
 
             <div className="flex justify-between items-center pt-4">
-              <button className="flex items-center gap-2  ">
+              <button className="flex items-center gap-2">
                 <Truck strokeWidth={1.5} />
                 Easy Return
               </button>
-              <button className="flex items-center gap-2 ">
+              <button className="flex items-center gap-2">
                 <Heart strokeWidth={1.5} />
                 Add To Wish List
               </button>
             </div>
           </div>
         </div>
+
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+          <Accordion
+            type="single"
+            collapsible
+            className="w-full border bg-bg-primary"
+            defaultValue="item-1"
+          >
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Product Detail</AccordionTrigger>
+              <AccordionContent>{product?.description}</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Lorem Ipsum</AccordionTrigger>
+              <AccordionContent>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua. At vero eos et accusam et
+                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+                dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                sed diam voluptua. At vero eos et accusam et justo duo dolores
+                et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+                est Lorem ipsum dolor sit amet.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          <div className="w-full border bg-bg-primary  p-6 flex flex-col justify-center">
+            <div className="font-bold text-lg mb-2">Shipping and Return</div>
+            <Separator className="my-4" />
+            <div className="text-base">
+              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+              erat, sed diam voluptua. At vero eos et accusam et justo duo
+              dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+              sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+              amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+              invidunt ut labore et dolore magna aliquyam erat, sed diam
+              voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+              Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+              dolor sit amet.
+            </div>
+          </div>
+        </div>
+
         <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-8">
@@ -90,7 +145,7 @@ export default async function ProductPage({
               </h2>
               <Link
                 href="/shop/viewall"
-                className=" hover:text-btn-primary transition-colors"
+                className="hover:text-btn-primary transition-colors"
               >
                 View All
               </Link>
