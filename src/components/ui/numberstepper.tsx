@@ -24,6 +24,12 @@ export default function NumberStepper({
     onChange?.(newValue);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(e.target.value) || 0;
+    setValue(newValue);
+    onChange?.(newValue);
+  };
+
   return (
     <div
       className={`inline-flex items-center border border-gray-300 rounded-md overflow-hidden ${className}`}
@@ -38,7 +44,13 @@ export default function NumberStepper({
       </Button>
 
       <div className="px-3 py-1 text-sm font-medium min-w-[40px] text-center bg-white">
-        {value}
+        <input
+          type="number"
+          value={value}
+          onChange={handleInputChange}
+          min="0"
+          className="w-[30px] text-center bg-transparent border-none focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [-moz-appearance:textfield]"
+        />
       </div>
 
       <Button

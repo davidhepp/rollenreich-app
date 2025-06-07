@@ -10,7 +10,7 @@ export default function ProductActions({ productId }: { productId: string }) {
     <>
       <div className="flex">
         <NumberStepper
-          className="ml-auto"
+          className="ml-auto mb-5"
           onChange={(value) => setQuantity(value)}
         />
       </div>

@@ -69,12 +69,14 @@ export default async function ProductPage({
 
           {/* Product Details */}
           <div>
-            <div className="mb-30">
-              <h1 className="text-3xl font-bold mb-6">{product?.name}</h1>
-              <p className="text-lg mb-2">{product?.price}€</p>
+            <div className="">
+              <h1 className="text-3xl font-bold ">{product?.name}</h1>
+              <p className="text-sm mt-2">Artikel {product?.sku}</p>
             </div>
-            <ProductActions productId={product?.id} />
-
+            <div className="mt-30">
+              <p className="text-lg font-bold mb-2">{product?.price}€</p>
+              <ProductActions productId={product?.id} />
+            </div>
             <div className="flex justify-between items-center pt-4">
               <button className="flex items-center gap-2">
                 <Truck strokeWidth={1.5} />
@@ -93,14 +95,23 @@ export default async function ProductPage({
             type="single"
             collapsible
             className="w-full border bg-bg-primary"
-            defaultValue="item-1"
+            defaultValue="item-2"
           >
             <AccordionItem value="item-1">
               <AccordionTrigger>Product Detail</AccordionTrigger>
               <AccordionContent>{product?.description}</AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger>Lorem Ipsum</AccordionTrigger>
+              <AccordionTrigger>About The Collection</AccordionTrigger>
+              <AccordionContent>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua. At vero eos et accusam et
+                justo duo dolores et ea rebum.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Sustainability</AccordionTrigger>
               <AccordionContent>
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
                 diam nonumy eirmod tempor invidunt ut labore et dolore magna
