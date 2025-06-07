@@ -19,7 +19,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
-import AddToCartButton from "@/components/product/AddToCartButton";
+import ProductActions from "@/components/product/ProductActions";
 
 export default async function ProductPage({
   params,
@@ -73,8 +73,7 @@ export default async function ProductPage({
               <h1 className="text-3xl font-bold mb-6">{product?.name}</h1>
               <p className="text-lg mb-2">{product?.price}€</p>
             </div>
-
-            <AddToCartButton productId={product?.id} />
+            <ProductActions productId={product?.id} />
 
             <div className="flex justify-between items-center pt-4">
               <button className="flex items-center gap-2">

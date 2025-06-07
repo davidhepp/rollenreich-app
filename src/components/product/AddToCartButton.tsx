@@ -3,7 +3,13 @@ import { addToCart } from "@/app/(nothome)/shop/product/[sku]/_actions";
 import { Button } from "../ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function AddToCartButton({ productId }: { productId: string }) {
+export default function AddToCartButton({
+  productId,
+  quantity,
+}: {
+  productId: string;
+  quantity: number;
+}) {
   const queryClient = useQueryClient();
 
   const addToCartMutation = useMutation({
@@ -21,7 +27,7 @@ export default function AddToCartButton({ productId }: { productId: string }) {
   });
 
   const handleAddToCart = () => {
-    addToCartMutation.mutate({ productId, quantity: 1 });
+    addToCartMutation.mutate({ productId, quantity: quantity });
   };
 
   return (
