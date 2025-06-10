@@ -1,10 +1,10 @@
-import { fetchFeaturedProducts } from "@/lib/featured";
+import { get_featured_products } from "@/lib/ssr-fixes/actions";
 import ProductCard from "../cards/ProductCard";
 import Link from "next/link";
 import { Product, ProductImage } from "@prisma/client";
 
 export default async function BestSellers() {
-  const featuredProducts = await fetchFeaturedProducts();
+  const featuredProducts = await get_featured_products();
   return (
     <div className="overflow-x-auto scrollbar-hide scroll-smooth">
       <div className="flex gap-6 pb-4" style={{ width: "max-content" }}>
