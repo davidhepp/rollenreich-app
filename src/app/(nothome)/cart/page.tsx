@@ -85,7 +85,7 @@ const CartPage = () => {
                 <span>${total}</span>
               </div>
               <Button
-                className="w-full bg-btn-primary text-white mb-2"
+                className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2"
                 disabled={isMutating}
               >
                 Checkout
