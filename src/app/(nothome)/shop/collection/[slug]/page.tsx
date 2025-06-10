@@ -12,7 +12,13 @@ import ProductCard from "@/components/cards/ProductCard";
 import CollectionHero from "@/components/collection/CollectionHero";
 import { ChevronDown } from "lucide-react";
 
-const CollectionPageView = () => {
+const CollectionPageView = ({ params }: { params: { slug: string } }) => {
+  const { slug } = params;
+  const display = slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+
   return (
     <main className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
       <div className="max-w-7xl mx-auto">
@@ -33,7 +39,7 @@ const CollectionPageView = () => {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>/</BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Collection</BreadcrumbPage>
+                  <BreadcrumbPage>{display}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
