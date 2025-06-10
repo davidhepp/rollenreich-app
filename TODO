@@ -1,0 +1,13 @@
+david 13:45 10.06.2026:
+    Collection Page:
+    [] Grab Collection related Items from db and display them
+    [] Change image display from static to dynamically gathered via slug
+
+    note: db probably needs a little restructuring for that
+
+    Shop Page:
+    [] Make sorting and filtering work properly
+    [] Maybe change pagination for proper filtering?
+
+    Cart Item Component:
+    [] Look over and fix styling a little
