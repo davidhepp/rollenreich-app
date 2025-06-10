@@ -1,12 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface CollectionCardProps {
   title?: string;
   buttonText?: string;
   size?: "small" | "large";
   imageSrc?: string;
+  href?: string;
 }
 
 const CollectionCard: React.FC<CollectionCardProps> = ({
@@ -14,6 +16,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   buttonText = "Call To Action",
   size = "small",
   imageSrc,
+  href,
 }) => {
   const cardHeight = size === "large" ? "h-200" : "h-128";
 
@@ -35,9 +38,11 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
       </div>
       <div className="space-y-4 relative z-10 p-6">
         {title && <h3 className=" text-lg font-medium">{title}</h3>}
-        <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-6 py-2 rounded-none transition-colors duration-200 w-fit">
-          {buttonText}
-        </Button>
+        <Link href={href || ""}>
+          <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-6 py-2 rounded-none transition-colors duration-200 w-fit">
+            {buttonText}
+          </Button>
+        </Link>
       </div>
     </div>
   );
