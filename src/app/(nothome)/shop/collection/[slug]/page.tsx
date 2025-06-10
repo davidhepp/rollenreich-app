@@ -12,8 +12,8 @@ import ProductCard from "@/components/cards/ProductCard";
 import CollectionHero from "@/components/collection/CollectionHero";
 import { ChevronDown } from "lucide-react";
 
-const CollectionPageView = ({ params }: { params: { slug: string } }) => {
-  const { slug } = params;
+const CollectionPageView = async ({ params }: { params: { slug: string } }) => {
+  const { slug } = await params;
   const display = slug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
