@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
-  const { productId, quantity } = await request.json();
+  const { cartItemId, quantity } = await request.json();
   const cart = await prisma.cart.findUnique({
     where: {
       userId: session.user?.id,
@@ -18,14 +18,14 @@ export async function POST(request: NextRequest) {
   }
   const cartItem = await prisma.cartItem.findUnique({
     where: {
-      id: productId,
+      id: cartItemId,
     },
   });
   if (!cartItem) {
     return new Response("Cart item not found", { status: 404 });
   }
   await prisma.cartItem.update({
-    where: { id: productId },
+    where: { id: cartItemId },
     data: { quantity },
   });
   return Response.json({ message: "Cart item updated" }, { status: 200 });

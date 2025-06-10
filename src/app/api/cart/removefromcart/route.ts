@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
-  const { productId } = await request.json();
+  const { cartItemId } = await request.json();
   const cart = await prisma.cart.findUnique({
     where: {
       userId: session.user?.id,
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   }
   await prisma.cartItem.delete({
     where: {
-      id: productId,
+      id: cartItemId,
     },
   });
   return Response.json({ message: "Cart item removed" }, { status: 200 });
