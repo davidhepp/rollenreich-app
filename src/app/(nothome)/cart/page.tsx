@@ -2,7 +2,6 @@
 import React from "react";
 import CartItem from "../../../components/cart/cartitem";
 import { Button } from "@/components/ui/button";
-import ProductCard from "@/components/cards/ProductCard";
 import { FaPaypal } from "react-icons/fa";
 import { useCart } from "@/hooks/useCart";
 import {
@@ -20,6 +19,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import BestSellersClient from "@/components/product/BestSellersClient";
 
 const CartPage = () => {
   const { cart, total, isLoading, editQuantity, removeItem, isMutating } =
@@ -108,23 +108,7 @@ const CartPage = () => {
 
         <section className="mt-16">
           <h3 className="text-xl font-semibold mb-6">You May Also Like</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <ProductCard
-              name="Sample 1"
-              price="99"
-              imageSrc="/products/standard.png"
-            />
-            <ProductCard
-              name="Sample 2"
-              price="199"
-              imageSrc="/products/standard_black.png"
-            />
-            <ProductCard
-              name="Sample 3"
-              price="299"
-              imageSrc="/products/standard_green.png"
-            />
-          </div>
+          <BestSellersClient />
         </section>
       </div>
     </main>
