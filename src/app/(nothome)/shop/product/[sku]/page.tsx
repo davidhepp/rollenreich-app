@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
 import ProductActions from "@/components/product/ProductActions";
+import Rating from "@/components/product/Rating";
+import DavidRating from "@/components/product/DavidRating";
 
 export default async function ProductPage({
   params,
@@ -72,6 +74,8 @@ export default async function ProductPage({
             <div className="">
               <h1 className="text-3xl font-bold ">{product?.name}</h1>
               <p className="text-sm mt-2">Artikel {product?.sku}</p>
+              <Rating initialRating={5} allowHalfStars={false}></Rating>
+              <DavidRating rating={5} variant="outline"></DavidRating>
             </div>
             <div className="mt-30">
               <p className="text-lg font-bold mb-2">{product?.price}€</p>
