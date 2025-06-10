@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Star } from "lucide-react";
 
 interface RatingProps {
   initialRating?: number;
@@ -96,56 +97,49 @@ const Rating = ({
         onMouseMove={(e) => handleMouseMove(e, starIndex)}
         onMouseEnter={() => handleMouseEnter(starIndex)}
       >
-        {/* Background star (empty) */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          className="absolute inset-0 w-full h-full fill-gray-200 text-gray-200 transition-colors duration-200"
-        >
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-        </svg>
+        {fillType === "empty" && (
+          <Star
+            className={`w-full h-full text-gray-200 fill-gray-200 transition-colors duration-200`}
+          />
+        )}
 
-        {/* Filled star overlay */}
-        {fillType !== "empty" && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            className={`absolute inset-0 w-full h-full transition-colors duration-200 ${
+        {fillType === "full" && (
+          <Star
+            className={`w-full h-full transition-colors duration-200 ${
               hoverRating > 0 && hoverRating >= starIndex - 0.5
-                ? "fill-[#c8aa6e] text-[#c8aa6e]"
-                : "fill-[#c8aa6e] text-[#c8aa6e]"
+                ? "text-[#c8aa6e] fill-[#c8aa6e]"
+                : "text-[#c8aa6e] fill-[#c8aa6e]"
             }`}
-            style={{
-              clipPath: fillType === "half" ? "inset(0 50% 0 0)" : "none",
-            }}
-          >
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-          </svg>
+          />
+        )}
+
+        {fillType === "half" && (
+          <div className="relative w-full h-full">
+            <Star className="absolute inset-0 w-full h-full text-gray-200 fill-gray-200" />
+            <div
+              className="absolute inset-0 w-full h-full overflow-hidden"
+              style={{ clipPath: "inset(0 50% 0 0)" }}
+            >
+              <Star className="w-full h-full text-[#c8aa6e] fill-[#c8aa6e]" />
+            </div>
+          </div>
         )}
       </div>
     );
   };
 
-  const formatRating = (value: number): string => {
-    if (value === 0) return "Noch nicht bewertet";
-    return `${value} von 5 Sternen`;
-  };
-
   return (
-    <div className="flex flex-col items-center space-y-2">
-      <div className="flex space-x-1" onMouseLeave={handleMouseLeave}>
-        {Array.from({ length: maxRating }, (_, i) => getStar(i + 1))}
-      </div>
-
-      {showLabel && (
-        <div className="text-sm text-gray-600 font-medium">
-          {hoverRating || rating ? (
-            <span>{formatRating(hoverRating || rating)}</span>
-          ) : (
-            <span className="text-gray-400">Noch nicht bewertet</span>
-          )}
+    <div className="flex flex-col space-y-2">
+      <div className="flex items-center">
+        <div className="flex space-x-1" onMouseLeave={handleMouseLeave}>
+          {Array.from({ length: maxRating }, (_, i) => getStar(i + 1))}
         </div>
-      )}
+        {showLabel && (
+          <span className="ml-2 text-sm font-medium text-text-primary">
+            {hoverRating || rating ? `${hoverRating || rating}` : ""}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

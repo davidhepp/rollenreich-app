@@ -21,7 +21,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import ProductActions from "@/components/product/ProductActions";
 import Rating from "@/components/product/Rating";
-import DavidRating from "@/components/product/DavidRating";
 
 export default async function ProductPage({
   params,
@@ -71,21 +70,24 @@ export default async function ProductPage({
 
           {/* Product Details */}
           <div>
-            <div className="">
+            <div className="flex items-center justify-between">
               <h1 className="text-3xl font-bold ">{product?.name}</h1>
-              <p className="text-sm mt-2">Artikel {product?.sku}</p>
-              <Rating initialRating={5} allowHalfStars={false}></Rating>
-              <DavidRating rating={5} variant="outline"></DavidRating>
+              <Rating
+                size="sm"
+                //initialRating={product?.rating}
+                initialRating={5}
+                allowHalfStars={true}
+                showLabel={true}
+                readonly={true}
+              />
             </div>
+            <p className="text-sm mt-2">Artikel {product?.sku}</p>
             <div className="mt-30">
               <p className="text-lg font-bold mb-2">{product?.price}€</p>
               <ProductActions productId={product?.id} />
             </div>
             <div className="flex justify-between items-center pt-4">
-              <button className="flex items-center gap-2">
-                <Truck strokeWidth={1.5} />
-                Easy Return
-              </button>
+              <button className="flex items-center gap-2">Easy Return</button>
               <button className="flex items-center gap-2">
                 <Heart strokeWidth={1.5} />
                 Add To Wish List
@@ -149,6 +151,40 @@ export default async function ProductPage({
           </div>
         </div>
 
+        {/* Kundenbewertung */}
+
+        <div className="max-w-3xl mx-auto mt-10">
+          <div className="bg-bg-primary p-6 rounded-lg shadow-sm">
+            <h3 className="text-lg font-medium mb-4">
+              Wie bewerten Sie dieses Produkt?
+            </h3>
+            <div className="mb-4">
+              <Rating
+                initialRating={0}
+                allowHalfStars={true}
+                showLabel={true}
+                readonly={false}
+                size="lg"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="review"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Ihr Kommentar (optional)
+              </label>
+              <textarea
+                id="review"
+                rows={4}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="Teilen Sie Ihre Erfahrungen mit diesem Produkt..."
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Bestseller */}
         <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-8">
