@@ -1,20 +1,23 @@
 export const getCart = async () => {
-  const cart = await fetch("/api/cart/getcart").then((res) => res.json());
-  return cart;
+  const res = await fetch("/api/cart/getcart");
+  if (!res.ok) throw new Error("Failed to fetch cart");
+  return res.json();
 };
 
-export const editQuantity = async (productId: string, quantity: number) => {
-  const response = await fetch("/api/cart/editquantity", {
+export const updateQuantity = async (productId: string, quantity: number) => {
+  const res = await fetch("/api/cart/editquantity", {
     method: "POST",
     body: JSON.stringify({ productId, quantity }),
   });
-  return response.json();
+  if (!res.ok) throw new Error("Failed to update quantity");
+  return res.json();
 };
 
-export const removeFromCart = async (productId: string) => {
-  const response = await fetch("/api/cart/removefromcart", {
+export const removeItem = async (productId: string) => {
+  const res = await fetch("/api/cart/removefromcart", {
     method: "POST",
     body: JSON.stringify({ productId }),
   });
-  return response.json();
+  if (!res.ok) throw new Error("Failed to remove item");
+  return res.json();
 };
