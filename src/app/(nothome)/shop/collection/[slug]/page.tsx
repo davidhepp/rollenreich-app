@@ -12,7 +12,11 @@ import ProductCard from "@/components/cards/ProductCard";
 import CollectionHero from "@/components/collection/CollectionHero";
 import { ChevronDown } from "lucide-react";
 
-const CollectionPageView = async ({ params }: { params: { slug: string } }) => {
+const CollectionPageView = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
   const { slug } = await params;
   const display = slug
     .split("-")
