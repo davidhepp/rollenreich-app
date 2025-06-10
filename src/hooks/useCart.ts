@@ -1,16 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  getCart,
-  updateQuantity,
-  removeItem,
-} from "@/app/(nothome)/cart/_actions";
+import { getCart, updateQuantity, removeItem } from "@/lib/cartActions";
 import {
   CartItem as CartItemType,
   Product,
   ProductImage,
 } from "@prisma/client";
 
-export const useCart = () => {
+export const useCart = (enabled: boolean = true) => {
   const queryClient = useQueryClient();
 
   const {
@@ -20,6 +16,7 @@ export const useCart = () => {
   } = useQuery({
     queryKey: ["cart"],
     queryFn: getCart,
+    enabled: enabled,
   });
 
   const editQuantity = useMutation({
