@@ -8,7 +8,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { fetchProduct, fetchFeaturedProducts } from "./_actions";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ProductImage, Product } from "@prisma/client";
 import { Truck, Heart } from "lucide-react";
@@ -20,6 +19,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
+import ProductActions from "@/components/product/ProductActions";
 
 export default async function ProductPage({
   params,
@@ -73,10 +73,7 @@ export default async function ProductPage({
               <h1 className="text-3xl font-bold mb-6">{product?.name}</h1>
               <p className="text-lg mb-2">{product?.price}€</p>
             </div>
-
-            <Button className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
-              Add To Cart
-            </Button>
+            <ProductActions productId={product?.id} />
 
             <div className="flex justify-between items-center pt-4">
               <button className="flex items-center gap-2">

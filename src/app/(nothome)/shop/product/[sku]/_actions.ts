@@ -22,3 +22,16 @@ export const fetchFeaturedProducts = async () => {
     return null;
   }
 };
+
+export const addToCart = async (productId: string, quantity: number) => {
+  try {
+    const response = await fetch("/api/cart/addtocart", {
+      method: "POST",
+      body: JSON.stringify({ productId, quantity }),
+    });
+    return response.json();
+  } catch (error) {
+    console.error("Failed to add to cart:", error);
+    return null;
+  }
+};
