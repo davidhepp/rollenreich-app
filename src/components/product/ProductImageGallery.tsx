@@ -28,7 +28,6 @@ function ThumbnailItem({
 
   return (
     <div
-      key={image.id}
       className={`${baseClasses} ${
         isSelected ? selectedClasses : unselectedClasses
       }`}
@@ -55,12 +54,14 @@ function ThumbnailItem({
 interface MainDisplayImageProps {
   selectedImage: ProductImage | undefined;
   productName?: string;
+  onClick: () => void;
 }
 
 // Komponente für das Hauptanzeigebild
 function MainDisplayImage({
   selectedImage,
   productName,
+  onClick,
 }: MainDisplayImageProps) {
   if (!selectedImage) {
     return (
@@ -71,7 +72,7 @@ function MainDisplayImage({
   }
 
   return (
-    <div className="relative aspect-square w-full h-full">
+    <div className="relative aspect-square w-full h-full hover:cursor-pointer">
       <Image
         src={selectedImage.url}
         alt={productName || "Product"}
@@ -79,6 +80,7 @@ function MainDisplayImage({
         objectFit="contain" // 'contain' zeigt das ganze Bild, 'cover' füllt den Bereich
         className="rounded-lg"
         priority // Lade das Hauptbild priorisiert
+        onClick={onClick}
       />
     </div>
   );
@@ -119,6 +121,9 @@ export default function ProductImageGallery({
     setSelectedImage(image);
   }, []);
 
+  // State für das Modal
+  const [showModal, setShowModal] = useState(false);
+
   // Fallback, wenn keine Bilder vorhanden sind
   if (!images || images.length === 0) {
     return (
@@ -129,26 +134,51 @@ export default function ProductImageGallery({
   }
 
   return (
-    <div className="grid grid-cols-[100px_1fr] gap-4 h-[500px] max-h-[500px]">
-      {/* Spalte für Vorschaubilder */}
-      <div className="overflow-y-auto flex flex-col space-y-2 pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-        {images.map((image, index) => (
-          <ThumbnailItem
-            key={image.id} // React key
-            image={image}
-            isSelected={selectedImage?.id === image.id}
-            onClick={() => handleThumbnailClick(image)}
-            productName={productName}
-            index={index}
-          />
-        ))}
-      </div>
+    <>
+      <div className="grid grid-cols-[100px_1fr] gap-4 h-[500px] max-h-[500px]">
+        {/* Spalte für Vorschaubilder */}
+        <div className="overflow-y-auto flex flex-col space-y-2 pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          {images.map((image, index) => (
+            <ThumbnailItem
+              key={image.id} // React key
+              image={image}
+              isSelected={selectedImage?.id === image.id}
+              onClick={() => handleThumbnailClick(image)}
+              productName={productName}
+              index={index}
+            />
+          ))}
+        </div>
 
-      {/* Spalte für das Hauptbild */}
-      <MainDisplayImage
-        selectedImage={selectedImage}
-        productName={productName}
-      />
-    </div>
+        {/* Spalte für das Hauptbild */}
+        <MainDisplayImage
+          selectedImage={selectedImage}
+          productName={productName}
+          onClick={() => setShowModal(true)}
+        />
+      </div>
+      {/* Modal für große Bildansicht */}
+      {showModal && selectedImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+          onClick={() => setShowModal(false)}
+        >
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="absolute top-2 right-2 text-white text-3xl font-bold z-10 hover:text-red-400 hover:cursor-pointer"
+              onClick={() => setShowModal(false)}
+              aria-label="Schließen"
+            >
+              ×
+            </button>
+            <img
+              src={selectedImage.url}
+              alt={selectedImage.altText || productName || "Product"}
+              className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-lg"
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
