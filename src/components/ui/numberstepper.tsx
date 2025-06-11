@@ -32,7 +32,7 @@ export default function NumberStepper({
 
   return (
     <div
-      className={`inline-flex items-center border border-gray-300 rounded-md overflow-hidden ${className}`}
+      className={`inline-flex items-center border border-gray-300  overflow-hidden ${className}`}
     >
       <Button
         variant="ghost"
