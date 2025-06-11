@@ -8,7 +8,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { fetchProduct, fetchFeaturedProducts } from "./_actions";
-import Image from "next/image";
 import { ProductImage, Product } from "@prisma/client";
 import { Truck, Heart } from "lucide-react";
 import ProductCard from "@/components/cards/ProductCard";
@@ -21,6 +20,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import ProductActions from "@/components/product/ProductActions";
 import Rating from "@/components/product/Rating";
+import ProductImageGallery from "@/components/product/ProductImageGallery";
 
 export default async function ProductPage({
   params,
@@ -55,17 +55,8 @@ export default async function ProductPage({
         </Breadcrumb>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="aspect-square relative justify-center items-center flex">
-            <div>
-              {product?.images?.[0]?.url && (
-                <Image
-                  src={product?.images?.[0]?.url}
-                  alt={product?.name}
-                  width={500}
-                  height={500}
-                />
-              )}
-            </div>
+          <div>
+            <ProductImageGallery images={product?.images ?? []} productName={product?.name} />
           </div>
 
           {/* Product Details */}
@@ -83,11 +74,16 @@ export default async function ProductPage({
             </div>
             <p className="text-sm mt-2">Artikel {product?.sku}</p>
             <div className="mt-30">
-              <p className="text-lg font-bold mb-2">{product?.price}€</p>
-              <ProductActions productId={product?.id} />
+              <ProductActions
+                productId={product?.id}
+                productPrice={product?.price}
+              />
             </div>
             <div className="flex justify-between items-center pt-4">
-              <button className="flex items-center gap-2">Easy Return</button>
+              <button className="flex items-center gap-2">
+                <Truck strokeWidth={1.5} />
+                Easy Return
+              </button>
               <button className="flex items-center gap-2">
                 <Heart strokeWidth={1.5} />
                 Add To Wish List
