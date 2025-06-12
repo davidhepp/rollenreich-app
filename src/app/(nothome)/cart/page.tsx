@@ -2,7 +2,14 @@
 import React from "react";
 import CartItem from "../../../components/cart/cartitem";
 import { Button } from "@/components/ui/button";
-import ProductCard from "@/components/cards/ProductCard";
+import { FaPaypal } from "react-icons/fa";
+import { useCart } from "@/hooks/useCart";
+import {
+  CartItem as CartItemType,
+  Product,
+  ProductImage,
+} from "@prisma/client";
+import CartSkeleton from "@/components/skeletons/CartSkeleton";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,62 +19,20 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
-import { FaPaypal } from "react-icons/fa";
-import { editQuantity, getCart, removeFromCart } from "./_actions";
-import {
-  CartItem as CartItemType,
-  Product,
-  ProductImage,
-} from "@prisma/client";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import BestSellersClient from "@/components/product/BestSellersClient";
+import { useSession } from "next-auth/react";
 
 const CartPage = () => {
-  const queryClient = useQueryClient();
+  const { data: session } = useSession();
 
-  const { data: cartData, isLoading } = useQuery({
-    queryKey: ["cart"],
-    queryFn: getCart,
-  });
+  // Only query cart data if user is logged in
+  const { cart, total, isLoading, editQuantity, removeItem, isMutating } =
+    useCart(!!session);
 
-  const editQuantityMutation = useMutation({
-    mutationFn: ({
-      productId,
-      quantity,
-    }: {
-      productId: string;
-      quantity: number;
-    }) => editQuantity(productId, quantity),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
-  });
+  if (session && isLoading) {
+    return <CartSkeleton />;
+  }
 
-  const removeFromCartMutation = useMutation({
-    mutationFn: (productId: string) => removeFromCart(productId),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
-  });
-
-  const handleQuantityChange = (productId: string, quantity: number) => {
-    editQuantityMutation.mutate({ productId, quantity });
-  };
-
-  const handleRemoveItem = (productId: string) => {
-    removeFromCartMutation.mutate(productId);
-  };
-
-  const cart = cartData?.items;
-
-  const total = cart?.reduce(
-    (
-      acc: number,
-      item: CartItemType & { product: Product & { images: ProductImage[] } }
-    ) => acc + Number(item.product.price) * item.quantity,
-    0
-  );
-  if (isLoading) return <div>Loading...</div>;
-  const shipping = 0;
   return (
     <main className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
       <div className="max-w-7xl mx-auto">
@@ -84,35 +49,65 @@ const CartPage = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        {/* Cart grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cart Items */}
           <section className="lg:col-span-2">
-            {cart?.map(
-              (
-                item: CartItemType & {
-                  product: Product & { images: ProductImage[] };
-                }
-              ) => (
-                <CartItem
-                  key={item.id}
-                  name={item.product.name}
-                  price={Number(item.product.price)}
-                  quantity={item.quantity}
-                  imageSrc={item.product.images[0].url as string}
-                  onQuantityChange={(quantity) =>
-                    handleQuantityChange(item.id, quantity)
+            {!session ? (
+              <div className="text-center py-12">
+                <h2 className="text-xl font-semibold mb-4">
+                  Please log in to view your cart
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  You need to be logged in to see your cart items and make
+                  purchases.
+                </p>
+                <Button
+                  asChild
+                  className="bg-btn-primary hover:bg-btn-primary-hover text-white rounded-none"
+                >
+                  <Link href="/signin">Sign In</Link>
+                </Button>
+              </div>
+            ) : cart.length === 0 ? (
+              <div className="text-center py-12">
+                <h2 className="text-xl font-semibold mb-4">
+                  Your cart is empty
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Add some items to your cart to get started.
+                </p>
+                <Button
+                  asChild
+                  className="bg-btn-primary hover:bg-btn-primary-hover text-white"
+                >
+                  <Link href="/">Continue Shopping</Link>
+                </Button>
+              </div>
+            ) : (
+              cart.map(
+                (
+                  item: CartItemType & {
+                    product: Product & { images: ProductImage[] };
                   }
-                  onRemove={() => handleRemoveItem(item.id)}
-                />
+                ) => (
+                  <CartItem
+                    key={item.id}
+                    name={item.product.name}
+                    price={Number(item.product.price)}
+                    quantity={item.quantity}
+                    imageSrc={item.product.images[0]?.url ?? ""}
+                    onQuantityChange={(qty) =>
+                      editQuantity({ productId: item.id, quantity: qty })
+                    }
+                    onRemove={() => removeItem(item.id)}
+                  />
+                )
               )
             )}
           </section>
 
           <aside className="lg:col-span-1">
-            <div className="border rounded-none border-gray-200 p-6">
+            <div className="border border-gray-200 p-6">
               <h2 className="font-semibold mb-4 text-sm">ORDER SUMMARY</h2>
-              <div className="text-xs mb-2">{cartData?.id}</div>
               <div className="w-full border-t border-gray-200 my-4" />
               <div className="flex justify-between text-sm mb-2">
                 <span>Subtotal</span>
@@ -120,46 +115,29 @@ const CartPage = () => {
               </div>
               <div className="flex justify-between text-sm mb-2">
                 <span>Shipping</span>
-                <span>${shipping}</span>
+                <span>$0</span>
               </div>
               <div className="flex justify-between font-semibold text-base mb-4">
-                <span>Estimated Total</span>
-                <span>${total + shipping}</span>
+                <span>Total</span>
+                <span>${total}</span>
               </div>
-              <div className="w-full border-t border-gray-200 my-4" />
-              <details className="mb-4 text-xs">
-                <summary className="cursor-pointer">View Details</summary>
-                <div className="text-xs mt-2">
-                  You will be charged at the time of shipment. If this is a
-                  personalized or made-to-order purchase, you will be charged at
-                  the time of purchase.
-                </div>
-              </details>
               <Button
-                className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 border rounded-none"
-                disabled={
-                  isLoading ||
-                  editQuantityMutation.isPending ||
-                  removeFromCartMutation.isPending
-                }
+                className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none"
+                disabled={!session || isMutating}
               >
                 Checkout
               </Button>
               <div className="flex items-center my-2">
-                <span className="flex-1 border-t border-gray-200" />
-                <span className="mx-2 text-xs text-gray-400">OR</span>
-                <span className="flex-1 border-t border-gray-200" />
+                <span className="flex-1 border-t" />
+                <span className="mx-2 text-xs">OR</span>
+                <span className="flex-1 border-t" />
               </div>
               <Button
                 variant="outline"
-                className="w-full flex items-center justify-center border-text-primary hover:bg-bg-secondary bg-white rounded-none"
-                disabled={
-                  isLoading ||
-                  editQuantityMutation.isPending ||
-                  removeFromCartMutation.isPending
-                }
+                className="w-full flex items-center justify-center rounded-none"
+                disabled={!session || isMutating}
               >
-                Pay With <FaPaypal />
+                Pay With <FaPaypal className="ml-2" />
               </Button>
             </div>
           </aside>
@@ -167,23 +145,7 @@ const CartPage = () => {
 
         <section className="mt-16">
           <h3 className="text-xl font-semibold mb-6">You May Also Like</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <ProductCard
-              name="Lorem Ipsum"
-              price="00"
-              imageSrc="/products/standard.png"
-            />
-            <ProductCard
-              name="Lorem Ipsum"
-              price="00"
-              imageSrc="/products/standard_black.png"
-            />
-            <ProductCard
-              name="Lorem Ipsum"
-              price="00"
-              imageSrc="/products/standard_green.png"
-            />
-          </div>
+          <BestSellersClient />
         </section>
       </div>
     </main>

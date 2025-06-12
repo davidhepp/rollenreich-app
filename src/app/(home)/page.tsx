@@ -96,12 +96,14 @@ export default async function Home() {
                   size="large"
                   imageSrc="/collections/demo1.png"
                   buttonText="Greek Seas"
+                  href="/shop/collection/greek-seas"
                 />
               </AnimatedStaggerItem>
               <AnimatedStaggerItem variants={scrollStaggerItem}>
                 <CollectionCard
                   buttonText="Economic Wipes"
                   imageSrc="/collections/demo3.png"
+                  href="/shop/collection/economic-wipes"
                 />
               </AnimatedStaggerItem>
             </div>
@@ -110,6 +112,7 @@ export default async function Home() {
                 <CollectionCard
                   buttonText="Basics"
                   imageSrc="/collections/demo4.png"
+                  href="/shop/collection/basics"
                 />
               </AnimatedStaggerItem>
               <AnimatedStaggerItem variants={scrollStaggerItem}>
@@ -117,6 +120,7 @@ export default async function Home() {
                   size="large"
                   buttonText="Luxurious Nights"
                   imageSrc="/collections/demo2.png"
+                  href="/shop/collection/luxurious-nights"
                 />
               </AnimatedStaggerItem>
             </div>
