@@ -150,12 +150,10 @@ export default async function ProductPage({
           </div>
         </div>
 
-        {/* Kundenbewertung */}
-
         <div className="max-w-3xl mx-auto mt-10">
           <div className="bg-bg-primary p-6 rounded-lg shadow-sm">
             <h3 className="text-lg font-medium mb-4">
-              Wie bewerten Sie dieses Produkt?
+              How do you rate this product?
             </h3>
             <div className="mb-4">
               <Rating
@@ -171,13 +169,13 @@ export default async function ProductPage({
                 htmlFor="review"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Ihr Kommentar (optional)
+                Your comment (optional)
               </label>
               <textarea
                 id="review"
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                placeholder="Teilen Sie Ihre Erfahrungen mit diesem Produkt..."
+                placeholder="Share your experience with this product..."
               />
             </div>
           </div>
