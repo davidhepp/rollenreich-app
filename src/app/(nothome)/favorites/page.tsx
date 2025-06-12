@@ -98,14 +98,16 @@ const FavoritesPage = () => {
         </Breadcrumb>
         {favorites.length === 0 ? (
           <div className="text-center py-10 flex flex-col items-center">
-            <p className="text-gray-600 text-xl mb-4">
+            <p className="text-gray-600 text-xl mb-2">
               Your wishlist is currently empty.
             </p>
-            <p className="text-gray-500">Add products you want to buy later.</p>
+            <p className="text-gray-500 mb-8">
+              Add products you want to buy later.
+            </p>
             <Link href="/shop/viewall">
               <Button
                 variant="outline"
-                className="mt-6 px-6 py-3 border-text-primary hover:bg-bg-secondary bg-white rounded-none"
+                className="px-6 py-3 border-text-primary hover:bg-bg-secondary bg-white rounded-none"
               >
                 Shop Now
               </Button>
