@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 
-import { Heart, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "../ui/button";
 
 interface FavoritItemProps {
@@ -23,7 +23,6 @@ const FavoritItem = ({
   price,
   collection,
   variation,
-  quantity,
   imageSrc,
   onRemove,
   onAddToCart,
@@ -46,8 +45,12 @@ const FavoritItem = ({
         <div className="flex flex-col justify-between flex-1">
           <div>
             <h3 className="text-lg font-semibold mb-1">{name}</h3>
-            {collection && <h3 className="text-gray-500 text-sm">{collection}</h3>}
-            {variation && <h3 className="text-gray-500 text-sm">{variation}</h3>}
+            {collection && (
+              <h3 className="text-gray-500 text-sm">{collection}</h3>
+            )}
+            {variation && (
+              <h3 className="text-gray-500 text-sm">{variation}</h3>
+            )}
             <span className="font-bold text-xl mt-2 block">
               €{price.toFixed(2)}
             </span>
@@ -57,19 +60,19 @@ const FavoritItem = ({
             {}
             <Button
               onClick={onRemove}
-              variant="ghost" 
-              className="flex items-center gap-1 p-0 h-auto" 
+              variant="ghost"
+              className="flex items-center gap-1 p-0 h-auto"
             >
               <X className="w-4 h-4" />
-              Remove 
+              Remove
             </Button>
-           <Button
-            onClick={onAddToCart}
-            variant="outline"          
-            className="px-6 py-3 rounded-none bg-white text-gray-900 border-gray-300 hover:bg-gray-100"
+            <Button
+              onClick={onAddToCart}
+              variant="outline"
+              className="px-6 py-3 rounded-none bg-white text-gray-900 border-gray-300 hover:bg-gray-100"
             >
-            Add to Cart
-            </Button> 
+              Add to Cart
+            </Button>
           </div>
         </div>
       </div>

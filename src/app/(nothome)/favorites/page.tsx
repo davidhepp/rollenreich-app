@@ -21,34 +21,34 @@ interface WishlistItemType {
   name: string;
   price: number;
   collection?: string;
-  variation?: string; 
+  variation?: string;
   imageSrc?: string;
 }
 
 const mockWishlistItems: WishlistItemType[] = [
   {
-    id: 'tp1',
+    id: "tp1",
     name: 'Toilete Paper "Standard"',
     price: 8.99,
-    collection: 'Standard Collection',
-    variation: 'Black',
-    imageSrc: '/products/standard_black.png', 
+    collection: "Standard Collection",
+    variation: "Black",
+    imageSrc: "/products/standard_black.png",
   },
   {
-    id: 'tp2',
+    id: "tp2",
     name: 'Toilete Paper "Standard"',
     price: 9.99,
-    collection: 'Standard Collektion',
-    variation: 'Green',
-    imageSrc: '/products/standard_green.png',
+    collection: "Standard Collektion",
+    variation: "Green",
+    imageSrc: "/products/standard_green.png",
   },
   {
-    id: 'tp3',
+    id: "tp3",
     name: 'Toilete Paper "Standard"',
     price: 7.49,
-    collection: 'Standard Collection',
-    variation: 'White',
-    imageSrc: '/products/standard.png',
+    collection: "Standard Collection",
+    variation: "White",
+    imageSrc: "/products/standard.png",
   },
 ];
 
@@ -56,33 +56,21 @@ const mockWishlistItems: WishlistItemType[] = [
 
 const FavoritesPage = () => {
   const [favorites, setFavorites] = useState<WishlistItemType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulated Loading Time from API or Database
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      setFavorites(mockWishlistItems);
-    }, 1000); 
-    return () => clearTimeout(timer);
+    setFavorites(mockWishlistItems);
   }, []);
 
   const RemoveFavorite = (id: string) => {
     console.log(`${id} removed from favorites`);
-    setFavorites((prevFavorites) => prevFavorites.filter(item => item.id !== id));
+    setFavorites((prevFavorites) =>
+      prevFavorites.filter((item) => item.id !== id)
+    );
   };
 
   const AddToCart = (item: WishlistItemType) => {
     console.log(`${item.name} added to cart`);
   };
-
-  if (isLoading) {
-        return (
-      <main className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4 flex items-center justify-center">
-        <p className="text-lg">Loading...</p>
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen pt-24 px-4 md:px-8 bg-white pb-4">
@@ -100,23 +88,25 @@ const FavoritesPage = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-
         <h1 className="text-3xl font-bold mb-8 text-center">Wishlist</h1> {}
-
         <div className="grid grid-cols-1 gap-8">
           {favorites.length === 0 ? (
-           <div className="text-center py-10 bg-gray-50 rounded-lg shadow-inner flex flex-col items-center">
-            <p className="text-gray-600 text-xl mb-4">Wishlist is empty.</p>
-            <p className="text-gray-500">Add products you want to buy later.</p>
-            <Link href="/shop/viewall" passHref className="block"> {}
-            <Button
-              variant="outline"
-              className="mt-6 px-6 py-3 rounded-none bg-white text-gray-900 border-gray-300 hover:bg-gray-100"
-            >
-            Shop Now
-            </Button>
-            </Link>
-          </div> 
+            <div className="text-center py-10 bg-gray-50 rounded-lg shadow-inner flex flex-col items-center">
+              <p className="text-gray-600 text-xl mb-4">Wishlist is empty.</p>
+              <p className="text-gray-500">
+                Add products you want to buy later.
+              </p>
+              <Link href="/shop/viewall" passHref className="block">
+                {" "}
+                {}
+                <Button
+                  variant="outline"
+                  className="mt-6 px-6 py-3 rounded-none bg-white text-gray-900 border-gray-300 hover:bg-gray-100"
+                >
+                  Shop Now
+                </Button>
+              </Link>
+            </div>
           ) : (
             favorites.map((item) => (
               <FavoritItem
@@ -125,7 +115,7 @@ const FavoritesPage = () => {
                 price={item.price}
                 collection={item.collection}
                 variation={item.variation}
-                quantity={1} 
+                quantity={1}
                 imageSrc={item.imageSrc}
                 onRemove={() => RemoveFavorite(item.id)}
                 onAddToCart={() => AddToCart(item)}
