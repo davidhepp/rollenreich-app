@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ProductImage } from "@prisma/client";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 // Props für ein einzelnes Vorschaubild
 interface ThumbnailItemProps {
@@ -163,19 +164,88 @@ export default function ProductImageGallery({
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
           onClick={() => setShowModal(false)}
         >
-          <div className="relative" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="relative flex items-center"
+            onClick={(e) => e.stopPropagation()}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && setShowModal(false)}
+            aria-label="Close modal"
+          >
+            {/* Left Arrow */}
             <button
-              className="absolute top-2 right-2 text-white text-3xl font-bold z-10 hover:text-red-400 hover:cursor-pointer"
-              onClick={() => setShowModal(false)}
-              aria-label="Schließen"
+              className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 text-4xl px-3 py-1 rounded-full bg-black bg-opacity-40 text-white transition  hover:cursor-pointer hover:bg-opacity-70 ${
+                images.findIndex((img) => img.id === selectedImage.id) === 0
+                  ? "opacity-40 cursor-not-allowed"
+                  : "hover:text-primary"
+              }`}
+              onClick={() => {
+                const currentIdx = images.findIndex(
+                  (img) => img.id === selectedImage.id
+                );
+                if (currentIdx > 0) setSelectedImage(images[currentIdx - 1]);
+              }}
+              aria-label="Vorheriges Bild"
+              disabled={
+                images.findIndex((img) => img.id === selectedImage.id) === 0
+              }
+              tabIndex={
+                images.findIndex((img) => img.id === selectedImage.id) === 0
+                  ? -1
+                  : 0
+              }
             >
-              ×
+              <ArrowLeft />
             </button>
-            <img
-              src={selectedImage.url}
-              alt={selectedImage.altText || productName || "Product"}
-              className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-lg"
-            />
+            {/* Modal Content */}
+            <div className="relative">
+              <button
+                className="absolute top-2 right-2 text-white text-3xl font-bold z-10 hover:text-red-400 hover:cursor-pointer"
+                onClick={() => setShowModal(false)}
+                aria-label="Schließen"
+              >
+                ×
+              </button>
+              <img
+                src={selectedImage.url}
+                alt={selectedImage.altText || productName || "Product"}
+                className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-lg"
+              />
+              {/* Counter unten zentriert */}
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black bg-opacity-60 text-white px-3 py-1 rounded-full text-sm shadow-lg">
+                {images.findIndex((img) => img.id === selectedImage.id) + 1}/
+                {images.length}
+              </div>
+            </div>
+            {/* Right Arrow */}
+            <button
+              className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 text-4xl px-3 py-1 rounded-full bg-black bg-opacity-40 text-white transition hover:cursor-pointer hover:bg-opacity-70 ${
+                images.findIndex((img) => img.id === selectedImage.id) ===
+                images.length - 1
+                  ? "opacity-40 cursor-not-allowed"
+                  : "hover:text-primary"
+              }`}
+              onClick={() => {
+                const currentIdx = images.findIndex(
+                  (img) => img.id === selectedImage.id
+                );
+                if (currentIdx < images.length - 1)
+                  setSelectedImage(images[currentIdx + 1]);
+              }}
+              aria-label="Nächstes Bild"
+              disabled={
+                images.findIndex((img) => img.id === selectedImage.id) ===
+                images.length - 1
+              }
+              tabIndex={
+                images.findIndex((img) => img.id === selectedImage.id) ===
+                images.length - 1
+                  ? -1
+                  : 0
+              }
+            >
+              <ArrowRight />
+            </button>
           </div>
         </div>
       )}
