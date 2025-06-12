@@ -50,6 +50,14 @@ const mockWishlistItems: WishlistItemType[] = [
     variation: "White",
     imageSrc: "/products/standard.png",
   },
+  {
+    id: "tp4",
+    name: 'Toilete Paper "Standard"',
+    price: 7.49,
+    collection: "Standard Collection",
+    variation: "White",
+    imageSrc: "/products/standard.png",
+  },
 ];
 
 // =========================================================================
@@ -84,33 +92,31 @@ const FavoritesPage = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbPage>Favorites</BreadcrumbPage> {}
+              <BreadcrumbPage>Favorites</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className="text-3xl font-bold mb-8 text-center">Wishlist</h1> {}
-        <div className="grid grid-cols-1 gap-8">
-          {favorites.length === 0 ? (
-            <div className="text-center py-10 bg-gray-50 rounded-lg shadow-inner flex flex-col items-center">
-              <p className="text-gray-600 text-xl mb-4">Wishlist is empty.</p>
-              <p className="text-gray-500">
-                Add products you want to buy later.
-              </p>
-              <Link href="/shop/viewall" passHref className="block">
-                {" "}
-                {}
-                <Button
-                  variant="outline"
-                  className="mt-6 px-6 py-3 rounded-none bg-white text-gray-900 border-gray-300 hover:bg-gray-100"
-                >
-                  Shop Now
-                </Button>
-              </Link>
-            </div>
-          ) : (
-            favorites.map((item) => (
+        {favorites.length === 0 ? (
+          <div className="text-center py-10 flex flex-col items-center">
+            <p className="text-gray-600 text-xl mb-4">
+              Your wishlist is currently empty.
+            </p>
+            <p className="text-gray-500">Add products you want to buy later.</p>
+            <Link href="/shop/viewall">
+              <Button
+                variant="outline"
+                className="mt-6 px-6 py-3 border-text-primary hover:bg-bg-secondary bg-white rounded-none"
+              >
+                Shop Now
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-8">
+            {favorites.map((item) => (
               <FavoritItem
                 key={item.id}
+                id={item.id}
                 name={item.name}
                 price={item.price}
                 collection={item.collection}
@@ -120,9 +126,9 @@ const FavoritesPage = () => {
                 onRemove={() => RemoveFavorite(item.id)}
                 onAddToCart={() => AddToCart(item)}
               />
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   );

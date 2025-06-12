@@ -2,11 +2,12 @@
 
 import React from "react";
 import Image from "next/image";
-
+import Link from "next/link";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 
 interface FavoritItemProps {
+  id: string;
   name: string;
   price: number;
   collection?: string;
@@ -19,6 +20,7 @@ interface FavoritItemProps {
 }
 
 const FavoritItem = ({
+  id,
   name,
   price,
   collection,
@@ -31,15 +33,17 @@ const FavoritItem = ({
     <div className="border-t border-b border-gray-200 py-6">
       <div className="flex gap-6 items-start">
         {imageSrc && (
-          <div className="relative w-40 h-40 flex-shrink-0">
-            <Image
-              src={imageSrc}
-              alt={name}
-              layout="fill"
-              objectFit="cover"
-              className="bg-bg-primary rounded-md"
-            />
-          </div>
+          <Link href={`/shop/product/${id}`} key={id} className="group">
+            <div className="relative w-40 h-40 flex-shrink-0 bg-bg-primary">
+              <Image
+                src={imageSrc}
+                alt={name}
+                layout="fill"
+                objectFit="cover"
+                className="w-3/4 h-3/4 object-contain transition-transform duration-700 group-hover:scale-105"
+              />
+            </div>
+          </Link>
         )}
 
         <div className="flex flex-col justify-between flex-1">
@@ -61,7 +65,7 @@ const FavoritItem = ({
             <Button
               onClick={onRemove}
               variant="ghost"
-              className="flex items-center gap-1 p-0 h-auto"
+              className="flex items-center gap-1 p-0 rounded-none"
             >
               <X className="w-4 h-4" />
               Remove
@@ -69,7 +73,7 @@ const FavoritItem = ({
             <Button
               onClick={onAddToCart}
               variant="outline"
-              className="px-6 py-3 rounded-none bg-white text-gray-900 border-gray-300 hover:bg-gray-100"
+              className="px-6 py-3 border-text-primary hover:bg-bg-secondary bg-white rounded-none"
             >
               Add to Cart
             </Button>
