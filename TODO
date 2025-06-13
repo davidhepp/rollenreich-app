@@ -1,9 +1,7 @@
 david 13:45 10.06.2026:
     Collection Page:
-    [] Grab Collection related Items from db and display them
-    [] Change image display from static to dynamically gathered via slug
-
-    note: db probably needs a little restructuring for that
+    [x] Grab Collection related Items from db and display them
+    [x] Change image display from static to dynamically gathered via slug
 
     Shop Page:
     [] Make sorting and filtering work properly
