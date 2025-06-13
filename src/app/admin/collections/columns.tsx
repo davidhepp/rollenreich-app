@@ -12,22 +12,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal, Check, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ProductImage } from "@prisma/client";
-export type Product = {
+import { Product, ProductImage } from "@prisma/client";
+export type Collection = {
   id: string;
-  sku: string;
   name: string;
-  price: number;
-  stock: number;
+  slug: string;
+  index: number;
   isActive: boolean;
   isFeatured: boolean;
-  images: ProductImage[];
-  description: string;
+  image: ProductImage;
+  products: Product[];
   createdAt: string;
   updatedAt: string;
 };
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<Collection>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -49,18 +48,8 @@ export const columns: ColumnDef<Product>[] = [
     ),
   },
   {
-    accessorKey: "sku",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          SKU
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    accessorKey: "index",
+    header: "Index",
   },
   {
     accessorKey: "name",
@@ -75,22 +64,6 @@ export const columns: ColumnDef<Product>[] = [
         </Button>
       );
     },
-  },
-  {
-    accessorKey: "price",
-    header: () => <div className="text-right">Price</div>,
-    cell: ({ row }) => {
-      const price = parseFloat(row.original.price.toString());
-      const formattedPrice = price.toLocaleString("de-DE", {
-        style: "currency",
-        currency: "EUR",
-      });
-      return <div className="text-right">{formattedPrice}</div>;
-    },
-  },
-  {
-    accessorKey: "inStock",
-    header: "Stock",
   },
   {
     accessorKey: "isActive",
@@ -143,8 +116,8 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "description",
-    header: "Description",
+    accessorKey: "slug",
+    header: "Slug",
   },
   {
     accessorKey: "createdAt",
@@ -181,9 +154,16 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
+    accessorKey: "products",
+    header: "Products",
+    cell: ({ row }) => {
+      return <div>{row.original.products.length}</div>;
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
-      const product = row.original;
+      const collection = row.original;
 
       return (
         <DropdownMenu>
@@ -196,13 +176,13 @@ export const columns: ColumnDef<Product>[] = [
           <DropdownMenuContent>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product.id)}
+              onClick={() => navigator.clipboard.writeText(collection.id)}
             >
-              Copy product ID
+              Copy collection ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit product</DropdownMenuItem>
-            <DropdownMenuItem>Delete product</DropdownMenuItem>
+            <DropdownMenuItem>Edit collection</DropdownMenuItem>
+            <DropdownMenuItem>Delete collection</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
