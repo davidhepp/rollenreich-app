@@ -206,10 +206,12 @@ export default function ProductImageGallery({
               >
                 ×
               </button>
-              <img
+              <Image
                 src={selectedImage.url}
                 alt={selectedImage.altText || productName || "Product"}
-                className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-lg"
+                className="max-h-[90vh] max-w-[90vw] rounded-none shadow-lg"
+                width={500}
+                height={500}
               />
               {/* Counter unten zentriert */}
               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black bg-opacity-60 text-white px-3 py-1 rounded-full text-sm shadow-lg">
