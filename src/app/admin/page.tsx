@@ -14,7 +14,10 @@ export default async function AdminPage() {
         <h2 className="text-lg text-text-secondary font-playfair">
           Welcome {session?.user?.name || session?.user?.email}!
         </h2>
-        <Button className="mt-4 bg-btn-primary hover:bg-btn-primary-hover rounded-none">
+        <Button
+          className="mt-4 bg-btn-primary hover:bg-btn-primary-hover rounded-none"
+          asChild
+        >
           <Link href="/admin/products">Products Management</Link>
         </Button>
       </div>
