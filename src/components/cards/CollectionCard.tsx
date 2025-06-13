@@ -38,11 +38,12 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
       </div>
       <div className="space-y-4 relative z-10 p-6">
         {title && <h3 className=" text-lg font-medium">{title}</h3>}
-        <Link href={href || ""}>
-          <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-6 py-2 rounded-none transition-colors duration-200 w-fit">
-            {buttonText}
-          </Button>
-        </Link>
+        <Button
+          className="bg-btn-primary hover:bg-btn-primary-hover text-white px-6 py-2 rounded-none transition-colors duration-200 w-fit"
+          asChild
+        >
+          <Link href={href || ""}>{buttonText}</Link>
+        </Button>
       </div>
     </div>
   );
