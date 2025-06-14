@@ -78,9 +78,9 @@ function MainDisplayImage({
         src={selectedImage.url}
         alt={productName || "Product"}
         layout="fill"
-        objectFit="contain" // 'contain' zeigt das ganze Bild, 'cover' füllt den Bereich
-        className="rounded-lg"
-        priority // Lade das Hauptbild priorisiert
+        objectFit="contain"
+        className="rounded-lg object-contain w-full h-full" // Added object-contain w-full h-full
+        priority
         onClick={onClick}
       />
     </div>
@@ -118,9 +118,28 @@ export default function ProductImageGallery({
     }
   }, [images, selectedImage]);
 
-  const handleThumbnailClick = useCallback((image: ProductImage) => {
-    setSelectedImage(image);
-  }, []);
+  const handleThumbnailClick = useCallback(
+    (image: ProductImage) => {
+      setSelectedImage(image);
+    },
+    [setSelectedImage]
+  );
+
+  const handlePrevImage = useCallback(() => {
+    if (!selectedImage) return;
+    const currentIndex = images.findIndex((img) => img.id === selectedImage.id);
+    if (currentIndex > 0) {
+      setSelectedImage(images[currentIndex - 1]);
+    }
+  }, [images, selectedImage, setSelectedImage]);
+
+  const handleNextImage = useCallback(() => {
+    if (!selectedImage) return;
+    const currentIndex = images.findIndex((img) => img.id === selectedImage.id);
+    if (currentIndex < images.length - 1) {
+      setSelectedImage(images[currentIndex + 1]);
+    }
+  }, [images, selectedImage, setSelectedImage]);
 
   // State für das Modal
   const [showModal, setShowModal] = useState(false);
@@ -136,12 +155,12 @@ export default function ProductImageGallery({
 
   return (
     <>
-      <div className="grid grid-cols-[100px_1fr] gap-4 h-[500px] max-h-[500px]">
-        {/* Spalte für Vorschaubilder */}
-        <div className="overflow-y-auto flex flex-col space-y-2 pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+      <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4 md:h-[500px] md:max-h-[500px]">
+        {/* Spalte für Vorschaubilder (Desktop) */}
+        <div className="hidden md:flex flex-col space-y-2 pr-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {images.map((image, index) => (
             <ThumbnailItem
-              key={image.id} // React key
+              key={image.id}
               image={image}
               isSelected={selectedImage?.id === image.id}
               onClick={() => handleThumbnailClick(image)}
@@ -151,12 +170,47 @@ export default function ProductImageGallery({
           ))}
         </div>
 
-        {/* Spalte für das Hauptbild */}
-        <MainDisplayImage
-          selectedImage={selectedImage}
-          productName={productName}
-          onClick={() => setShowModal(true)}
-        />
+        {/* Spalte für das Hauptbild mit mobiler Navigation */}
+        <div className="relative w-full h-full">
+          {/* Wrapper for main image and mobile nav */}
+          <MainDisplayImage
+            selectedImage={selectedImage}
+            productName={productName}
+            onClick={() => setShowModal(true)} // This opens the modal
+          />
+          {/* Mobile Navigation Buttons & Counter */}
+          {images && images.length > 1 && (
+            <div className="md:hidden absolute inset-0 flex items-center justify-between p-1 sm:p-2 z-10">
+              <button
+                onClick={handlePrevImage}
+                disabled={
+                  images.findIndex((img) => img.id === selectedImage?.id) === 0
+                }
+                className="bg-black bg-opacity-40 text-white p-2 rounded-full disabled:opacity-30 focus:outline-none focus:ring-2 focus:ring-primary"
+                aria-label="Vorheriges Bild"
+              >
+                <ArrowLeft size={20} />
+              </button>
+              <button
+                onClick={handleNextImage}
+                disabled={
+                  images.findIndex((img) => img.id === selectedImage?.id) ===
+                  images.length - 1
+                }
+                className="bg-black bg-opacity-40 text-white p-2 rounded-full disabled:opacity-30 focus:outline-none focus:ring-2 focus:ring-primary"
+                aria-label="Nächstes Bild"
+              >
+                <ArrowRight size={20} />
+              </button>
+            </div>
+          )}
+          {images && images.length > 0 && selectedImage && (
+            <div className="md:hidden absolute bottom-2 left-1/2 -translate-x-1/2 bg-black bg-opacity-60 text-white px-2 py-1 rounded-full text-xs z-10">
+              {images.findIndex((img) => img.id === selectedImage.id) + 1} /{" "}
+              {images.length}
+            </div>
+          )}
+        </div>
       </div>
       {/* Modal für große Bildansicht */}
       {showModal && selectedImage && (
