@@ -37,6 +37,7 @@ export default function ProductsPage() {
       </div>
     );
   }
+  console.log(products);
 
   return (
     <div className="container mx-auto py-10">

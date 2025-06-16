@@ -11,7 +11,7 @@ export type Product = {
   sku: string;
   name: string;
   price: number;
-  stock: number;
+  inStock: number;
   isActive: boolean;
   isFeatured: boolean;
   images: ProductImage[];
