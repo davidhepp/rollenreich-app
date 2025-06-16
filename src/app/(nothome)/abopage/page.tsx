@@ -1,0 +1,83 @@
+"use client";
+import React, { useState } from "react";
+import Abomodell from "@/components/abopage/abomodell";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Link from "next/link";
+import BestSellersClient from "@/components/product/BestSellersClient";
+
+export default function PricingPage() {
+    const [yearly, setYearly] = useState(false);
+
+    return (
+        <div className="bg-white min-h-screen py-16 px-4 md:px-12">
+            <Breadcrumb className="mb-8">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink asChild>
+                            <Link href="/">Home</Link>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator>/</BreadcrumbSeparator>
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Subscriptions</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
+            {/* Header */}
+            <div className="text-center max-w-2xl mx-auto mb-12">
+                <h1 className="text-4xl font-bold mb-4">Subscriptions</h1>
+                <p className="text-gray-600 mb-6">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat odio, expedita neque ipsum pariatur suscipit!
+                </p>
+                <div className="inline-flex border rounded overflow-hidden">
+                    <button
+                        onClick={() => setYearly(false)}
+                        className={`px-4 py-2 text-sm ${!yearly ? "bg-black text-white" : "bg-white text-gray-700"}`}
+                    >
+                        Monthly
+                    </button>
+                    <button
+                        onClick={() => setYearly(true)}
+                        className={`px-4 py-2 text-sm ${yearly ? "bg-black text-white" : "bg-white text-gray-700"}`}
+                    >
+                        Yearly
+                    </button>
+                </div>
+            </div>
+
+            {/* Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <Abomodell
+                    title="Basic"
+                    price={0}
+                    features={["Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub"]}
+                    billingCycle={yearly ? "Yearly" : "Monthly"}
+                />
+                <Abomodell
+                    title="Pro"
+                    price={yearly ? 90 : 9}
+                    features={["Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub"]}
+                    billingCycle={yearly ? "Yearly" : "Monthly"}
+                />
+                <Abomodell
+                    title="Elite"
+                    price={yearly ? 190 : 29}
+                    features={["Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub"]}
+                    highlight
+                    billingCycle={yearly ? "Yearly" : "Monthly"}
+                />
+            </div>
+            <section className="mt-16">
+                <h3 className="text-xl font-semibold mb-6">You May Also Like</h3>
+                <BestSellersClient />
+            </section>
+        </div>
+    );
+}
