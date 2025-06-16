@@ -209,7 +209,7 @@ export const ProductEditForm = ({
         <Input
           id="price"
           type="number"
-          step="0.01"
+          step="1"
           min="0"
           {...register("price", { valueAsNumber: true })}
           placeholder="Enter price"
