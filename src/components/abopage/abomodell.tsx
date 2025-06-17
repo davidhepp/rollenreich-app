@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 interface AbomodellProps {
     title: string;
     price: number;
@@ -30,7 +31,7 @@ const Abomodell: React.FC<AbomodellProps> = ({ title, price, features, highlight
             <ul className="mt-4 space-y-2 text-sm text-gray-700 flex-1">
                 {features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-2">
-                        <span className="text-gray-700">✓</span>
+                        <Check className="w-4 h-4 text-btn-primary mt-0.5" />
                         <span>{feature}</span>
                     </li>
                 ))}
