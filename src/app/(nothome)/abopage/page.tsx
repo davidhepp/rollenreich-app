@@ -36,16 +36,16 @@ export default function PricingPage() {
                 <p className="text-gray-600 mb-6">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat odio, expedita neque ipsum pariatur suscipit!
                 </p>
-                <div className="inline-flex border rounded overflow-hidden">
+                <div className="inline-flex border rounded-none overflow-hidden">
                     <button
                         onClick={() => setYearly(false)}
-                        className={`px-4 py-2 text-sm ${!yearly ? "bg-black text-white" : "bg-white text-gray-700"}`}
+                        className={`px-4 py-2 text-sm ${!yearly ? "bg-btn-primary text-white" : "bg-white text-gray-700"}`}
                     >
                         Monthly
                     </button>
                     <button
                         onClick={() => setYearly(true)}
-                        className={`px-4 py-2 text-sm ${yearly ? "bg-black text-white" : "bg-white text-gray-700"}`}
+                        className={`px-4 py-2 text-sm ${yearly ? "bg-btn-primary text-white" : "bg-white text-gray-700"}`}
                     >
                         Yearly
                     </button>
