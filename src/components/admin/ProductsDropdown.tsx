@@ -1,13 +1,11 @@
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -22,25 +20,15 @@ import { Product } from "@/app/admin/products/columns";
 import { useState } from "react";
 import { ProductEditForm } from "./ProductEditForm";
 import { DeletionModal } from "./DeletionModal";
+import { copyToClipboard } from "./_actions";
 
 export const ProductsDropdown = ({ product }: { product: Product }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDeletionModalOpen, setIsDeletionModalOpen] = useState(false);
-  const handleCopyId = async () => {
-    await navigator.clipboard.writeText(product.id);
-  };
-
-  const handleFormSuccess = () => {
-    setIsDialogOpen(false);
-  };
 
   const handleFormError = (error: Error) => {
     // TODO: Add error handling here
     console.error("Form error:", error.message);
-  };
-
-  const handleDeleteProduct = async () => {
-    setIsDeletionModalOpen(true);
   };
 
   return (
@@ -54,7 +42,9 @@ export const ProductsDropdown = ({ product }: { product: Product }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="rounded-none">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={handleCopyId}>
+          <DropdownMenuItem
+            onClick={() => copyToClipboard(product.id, () => {})}
+          >
             Copy product ID
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -69,7 +59,7 @@ export const ProductsDropdown = ({ product }: { product: Product }) => {
           </DialogTrigger>
           <DropdownMenuItem
             className="text-destructive"
-            onClick={handleDeleteProduct}
+            onClick={() => setIsDeletionModalOpen(true)}
           >
             Delete product
           </DropdownMenuItem>
@@ -84,28 +74,15 @@ export const ProductsDropdown = ({ product }: { product: Product }) => {
 
         <ProductEditForm
           product={product}
-          onSuccess={handleFormSuccess}
+          images={product.images.map((image) => image.url)}
+          onSuccess={() => setIsDialogOpen(false)}
           onError={handleFormError}
         />
-
-        <DialogFooter className="mt-4">
-          <DialogClose asChild>
-            <Button
-              type="button"
-              variant="outline"
-              className="rounded-none bg-btn-secondary"
-              onClick={() => setIsDialogOpen(false)}
-            >
-              Cancel
-            </Button>
-          </DialogClose>
-        </DialogFooter>
       </DialogContent>
 
       <DeletionModal
         isOpen={isDeletionModalOpen}
         onClose={() => setIsDeletionModalOpen(false)}
-        onDelete={handleDeleteProduct}
         product={product}
       />
     </Dialog>

@@ -8,8 +8,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id, sku, name, price, inStock, isActive, isFeatured, description } =
-    await request.json();
+  const {
+    id,
+    sku,
+    name,
+    price,
+    inStock,
+    isActive,
+    isFeatured,
+    description,
+    images,
+  } = await request.json();
 
   const product = await db.product.update({
     where: { id },
@@ -21,6 +30,12 @@ export async function POST(request: NextRequest) {
       isActive,
       isFeatured,
       description,
+      images: {
+        deleteMany: {},
+        create: images.map((image: string) => ({
+          url: image,
+        })),
+      },
     },
     include: {
       images: true, // Include images in the response

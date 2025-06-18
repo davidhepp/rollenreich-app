@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { Product } from "@/app/admin/products/columns";
 import { deleteProduct } from "./_actions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 export const DeletionModal = ({
   isOpen,
@@ -53,7 +54,14 @@ export const DeletionModal = ({
             onClick={() => mutation.mutate()}
             disabled={mutation.isPending}
           >
-            Delete
+            {mutation.isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              "Delete"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

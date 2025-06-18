@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Check, Copy, Lock, Unlock, Loader2 } from "lucide-react";
+import { Check, Copy, Lock, Unlock, Loader2, Plus, X } from "lucide-react";
 
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -15,7 +15,7 @@ import { Product } from "@/app/admin/products/columns";
 import { ProductFormSchema } from "@/lib/schemas/productSchema";
 import { ProductFormData, ProductEditFormProps } from "@/lib/types";
 import { updateProduct, copyToClipboard } from "./_actions";
-import { DialogClose } from "../ui/dialog";
+import { DialogClose, DialogFooter } from "../ui/dialog";
 
 export const ProductEditForm = ({
   product,
@@ -48,8 +48,13 @@ export const ProductEditForm = ({
       isActive: product.isActive,
       isFeatured: product.isFeatured,
       description: product.description,
-      images: [],
+      images: product.images.map((image) => image.url),
     },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "images" as never,
   });
 
   // Reset form when product changes
@@ -66,7 +71,7 @@ export const ProductEditForm = ({
       isActive: product.isActive,
       isFeatured: product.isFeatured,
       description: product.description,
-      images: [],
+      images: product.images.map((image) => image.url),
     });
     setIsEditingSku(false);
   }, [product, reset]);
@@ -99,6 +104,10 @@ export const ProductEditForm = ({
 
   const onSubmit = (data: ProductFormData) => {
     mutation.mutate(data);
+  };
+
+  const addImageField = () => {
+    append("");
   };
 
   return (
@@ -236,6 +245,56 @@ export const ProductEditForm = ({
       </div>
 
       <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <Label>Image URLs</Label>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={addImageField}
+            className="rounded-none"
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            Add Image
+          </Button>
+        </div>
+
+        {fields.length === 0 ? (
+          <div className="text-sm text-gray-500 italic">
+            No images added yet. Click &quot;Add Image&quot; to add image URLs.
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex gap-2">
+                <Input
+                  {...register(`images.${index}` as const)}
+                  placeholder="Enter image URL"
+                  className={errors.images?.[index] ? "border-red-500" : ""}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => remove(index)}
+                  className="rounded-none"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {errors.images && (
+          <p className="text-sm text-red-600">
+            {Array.isArray(errors.images)
+              ? "Please check the image URLs"
+              : errors.images.message}
+          </p>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-2">
         <Label htmlFor="description">Description</Label>
         <Textarea
           id="description"
@@ -277,7 +336,7 @@ export const ProductEditForm = ({
         </div>
       </div>
 
-      <div className="flex justify-end gap-2 mt-4">
+      <DialogFooter className="mt-4">
         <DialogClose asChild>
           <Button variant="outline" className="rounded-none">
             Cancel
@@ -297,7 +356,7 @@ export const ProductEditForm = ({
             "Save Changes"
           )}
         </Button>
-      </div>
+      </DialogFooter>
     </form>
   );
 };

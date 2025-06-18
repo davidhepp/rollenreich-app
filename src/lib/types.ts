@@ -14,6 +14,7 @@ export interface ProductFormData {
 
 export interface ProductEditFormProps {
   product: Product;
+  images: string[];
   onSuccess?: () => void;
   onError?: (error: Error) => void;
 }
