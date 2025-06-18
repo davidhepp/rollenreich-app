@@ -39,7 +39,7 @@ const Abomodell: React.FC<AbomodellProps> = ({ title, price, features, highlight
 
             {/* Button */}
         <Button className="mt-6 w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none">
-          TO CART
+          CONTINUE
         </Button>
 
         </div>

@@ -53,31 +53,20 @@ export default function PricingPage() {
             </div>
 
             {/* Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
                 <Abomodell
                     title="Basic"
-                    price={0}
-                    features={["Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub"]}
-                    billingCycle={yearly ? "Yearly" : "Monthly"}
-                />
-                <Abomodell
-                    title="Pro"
                     price={yearly ? 90 : 9}
-                    features={["Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub"]}
+                    features={["Monthly Fresh Products", "Guranted Toiletpaper every Month", "Two Premium papers"]}
                     billingCycle={yearly ? "Yearly" : "Monthly"}
                 />
                 <Abomodell
-                    title="Elite"
-                    price={yearly ? 190 : 29}
-                    features={["Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub", "Bli Bla Blub"]}
-                    highlight
+                    title="Premium"
+                    price={yearly ? 90 : 9}
+                    features={["Monthly fresh premium paper", "Get every Drops special paper", "Also Benefit from special Subscription only Drops"]}
                     billingCycle={yearly ? "Yearly" : "Monthly"}
                 />
             </div>
-            <section className="mt-16">
-                <h3 className="text-xl font-semibold mb-6">You May Also Like</h3>
-                <BestSellersClient />
-            </section>
         </div>
     );
 }
