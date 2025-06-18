@@ -260,7 +260,7 @@ export const ProductEditForm = ({
         </div>
 
         {fields.length === 0 ? (
-          <div className="text-sm text-gray-500 italic">
+          <div className="text-xs text-gray-500 italic">
             No images added yet. Click &quot;Add Image&quot; to add image URLs.
           </div>
         ) : (
