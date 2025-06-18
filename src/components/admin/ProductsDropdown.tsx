@@ -21,10 +21,11 @@ import { MoreHorizontal } from "lucide-react";
 import { Product } from "@/app/admin/products/columns";
 import { useState } from "react";
 import { ProductEditForm } from "./ProductEditForm";
+import { DeletionModal } from "./DeletionModal";
 
 export const ProductsDropdown = ({ product }: { product: Product }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+  const [isDeletionModalOpen, setIsDeletionModalOpen] = useState(false);
   const handleCopyId = async () => {
     await navigator.clipboard.writeText(product.id);
   };
@@ -38,6 +39,10 @@ export const ProductsDropdown = ({ product }: { product: Product }) => {
     console.error("Form error:", error.message);
   };
 
+  const handleDeleteProduct = async () => {
+    setIsDeletionModalOpen(true);
+  };
+
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DropdownMenu>
@@ -47,7 +52,7 @@ export const ProductsDropdown = ({ product }: { product: Product }) => {
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="rounded-none">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem onClick={handleCopyId}>
             Copy product ID
@@ -62,7 +67,10 @@ export const ProductsDropdown = ({ product }: { product: Product }) => {
               Edit product
             </DropdownMenuItem>
           </DialogTrigger>
-          <DropdownMenuItem className="text-destructive">
+          <DropdownMenuItem
+            className="text-destructive"
+            onClick={handleDeleteProduct}
+          >
             Delete product
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -93,6 +101,13 @@ export const ProductsDropdown = ({ product }: { product: Product }) => {
           </DialogClose>
         </DialogFooter>
       </DialogContent>
+
+      <DeletionModal
+        isOpen={isDeletionModalOpen}
+        onClose={() => setIsDeletionModalOpen(false)}
+        onDelete={handleDeleteProduct}
+        product={product}
+      />
     </Dialog>
   );
 };
