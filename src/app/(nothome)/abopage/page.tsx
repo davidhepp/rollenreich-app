@@ -10,7 +10,6 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
-import BestSellersClient from "@/components/product/BestSellersClient";
 
 export default function PricingPage() {
     const [yearly, setYearly] = useState(false);
