@@ -28,3 +28,20 @@ export const copyToClipboard = async (
   setter(true);
   setTimeout(() => setter(false), 2000);
 };
+
+export const deleteProduct = async (id: string) => {
+  const response = await fetch("/api/admin/deleteproduct", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to delete product");
+  }
+
+  return response.json();
+};

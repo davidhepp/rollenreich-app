@@ -8,18 +8,27 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { Product } from "@/app/admin/products/columns";
+import { deleteProduct } from "./_actions";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const DeletionModal = ({
   isOpen,
   onClose,
-  onDelete,
   product,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  onDelete: () => void;
   product: Product;
 }) => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: () => deleteProduct(product.id),
+    onSuccess: () => {
+      onClose();
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+    },
+  });
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
@@ -32,10 +41,18 @@ export const DeletionModal = ({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
+          <Button
+            variant="outline"
+            onClick={onClose}
+            disabled={mutation.isPending}
+          >
             Cancel
           </Button>
-          <Button variant="destructive" onClick={onDelete}>
+          <Button
+            variant="destructive"
+            onClick={() => mutation.mutate()}
+            disabled={mutation.isPending}
+          >
             Delete
           </Button>
         </DialogFooter>
