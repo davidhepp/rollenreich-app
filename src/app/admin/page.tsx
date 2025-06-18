@@ -12,14 +12,22 @@ export default async function AdminPage() {
           ADMIN
         </h1>
         <h2 className="text-lg text-text-secondary font-playfair">
-          Welcome {session?.user?.name || session?.user?.email}!
+          Welcome, {session?.user?.name || session?.user?.email}!
         </h2>
-        <Button
-          className="mt-4 bg-btn-primary hover:bg-btn-primary-hover rounded-none"
-          asChild
-        >
-          <Link href="/admin/products">Products Management</Link>
-        </Button>
+        <div className="flex gap-4">
+          <Button
+            className="mt-4 bg-btn-primary hover:bg-btn-primary-hover rounded-none"
+            asChild
+          >
+            <Link href="/admin/products">Products Management</Link>
+          </Button>
+          <Button
+            className="mt-4 bg-btn-primary hover:bg-btn-primary-hover rounded-none"
+            asChild
+          >
+            <Link href="/admin/collections">Collections Management</Link>
+          </Button>
+        </div>
       </div>
     </div>
   );

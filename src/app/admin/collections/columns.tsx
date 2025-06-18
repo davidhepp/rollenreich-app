@@ -1,26 +1,32 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, Check, X } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Check, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ProductImage } from "@prisma/client";
-import { ProductsDropdown } from "@/components/admin/ProductsDropdown";
-export type Product = {
+import { Product, ProductImage } from "@prisma/client";
+export type Collection = {
   id: string;
-  sku: string;
   name: string;
-  price: number;
-  inStock: number;
+  slug: string;
+  index: number;
   isActive: boolean;
   isFeatured: boolean;
-  images: ProductImage[];
-  description: string;
+  image: ProductImage;
+  products: Product[];
   createdAt: string;
   updatedAt: string;
 };
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<Collection>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -31,7 +37,6 @@ export const columns: ColumnDef<Product>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
-        className="rounded-none"
       />
     ),
     cell: ({ row }) => (
@@ -39,23 +44,12 @@ export const columns: ColumnDef<Product>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
-        className="rounded-none"
       />
     ),
   },
   {
-    accessorKey: "sku",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          SKU
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    accessorKey: "index",
+    header: "Index",
   },
   {
     accessorKey: "name",
@@ -70,22 +64,6 @@ export const columns: ColumnDef<Product>[] = [
         </Button>
       );
     },
-  },
-  {
-    accessorKey: "price",
-    header: () => <div className="text-right">Price</div>,
-    cell: ({ row }) => {
-      const price = parseFloat(row.original.price.toString());
-      const formattedPrice = price.toLocaleString("de-DE", {
-        style: "currency",
-        currency: "EUR",
-      });
-      return <div className="text-right">{formattedPrice}</div>;
-    },
-  },
-  {
-    accessorKey: "inStock",
-    header: "Stock",
   },
   {
     accessorKey: "isActive",
@@ -138,8 +116,8 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "description",
-    header: "Description",
+    accessorKey: "slug",
+    header: "Slug",
   },
   {
     accessorKey: "createdAt",
@@ -176,11 +154,38 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
+    accessorKey: "products",
+    header: "Products",
+    cell: ({ row }) => {
+      return <div>{row.original.products.length}</div>;
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
-      const product = row.original;
+      const collection = row.original;
 
-      return <ProductsDropdown product={product} />;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(collection.id)}
+            >
+              Copy collection ID
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Edit collection</DropdownMenuItem>
+            <DropdownMenuItem>Delete collection</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
   },
 ];
