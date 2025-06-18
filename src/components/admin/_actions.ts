@@ -1,8 +1,8 @@
 import { Product } from "@/app/admin/products/columns";
-import { ProductFormData } from "@/lib/types";
+import { ProductAddFormData, ProductEditFormData } from "@/lib/types";
 
 export const updateProduct = async (
-  data: ProductFormData
+  data: ProductEditFormData
 ): Promise<Product> => {
   const response = await fetch("/api/admin/editproduct", {
     method: "POST",
@@ -41,6 +41,23 @@ export const deleteProduct = async (id: string) => {
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.message || "Failed to delete product");
+  }
+
+  return response.json();
+};
+
+export const addProduct = async (data: ProductAddFormData) => {
+  const response = await fetch("/api/admin/addproduct", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to add product");
   }
 
   return response.json();

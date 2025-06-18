@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Check, Copy, Lock, Unlock, Loader2, Plus, X } from "lucide-react";
+import { Loader2, Plus, X } from "lucide-react";
 
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -12,43 +12,31 @@ import { Checkbox } from "../ui/checkbox";
 import { Separator } from "../ui/separator";
 
 import { Product } from "@/app/admin/products/columns";
-import { ProductEditFormSchema } from "@/lib/schemas/productSchema";
-import { ProductEditFormData, ProductEditFormProps } from "@/lib/types";
-import { updateProduct, copyToClipboard } from "./_actions";
+import { ProductAddFormSchema } from "@/lib/schemas/productSchema";
+import { ProductAddFormData, ProductAddFormProps } from "@/lib/types";
+import { addProduct } from "./_actions";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 
-export const ProductEditForm = ({
-  product,
-  onSuccess,
-  onError,
-}: ProductEditFormProps) => {
+export const ProductAddForm = ({ onSuccess, onError }: ProductAddFormProps) => {
   const queryClient = useQueryClient();
-  const [isCopiedId, setIsCopiedId] = useState(false);
-  const [isCopiedSku, setIsCopiedSku] = useState(false);
-  const [isEditingSku, setIsEditingSku] = useState(false);
 
   const {
     register,
     handleSubmit,
     control,
     reset,
-    getValues,
     formState: { errors },
-  } = useForm<ProductEditFormData>({
-    resolver: zodResolver(ProductEditFormSchema),
+  } = useForm<ProductAddFormData>({
+    resolver: zodResolver(ProductAddFormSchema),
     defaultValues: {
-      id: product.id,
-      sku: product.sku,
-      name: product.name,
-      price:
-        typeof product.price === "string"
-          ? parseFloat(String(product.price).replace(",", "."))
-          : Number(product.price),
-      inStock: product.inStock,
-      isActive: product.isActive,
-      isFeatured: product.isFeatured,
-      description: product.description,
-      images: product.images.map((image) => image.url),
+      sku: "",
+      name: "",
+      price: 0,
+      inStock: 0,
+      isActive: true,
+      isFeatured: false,
+      description: "",
+      images: [],
     },
   });
 
@@ -60,49 +48,40 @@ export const ProductEditForm = ({
   // Reset form when product changes
   useEffect(() => {
     reset({
-      id: product.id,
-      sku: product.sku,
-      name: product.name,
-      price:
-        typeof product.price === "string"
-          ? parseFloat(String(product.price).replace(",", "."))
-          : Number(product.price),
-      inStock: product.inStock,
-      isActive: product.isActive,
-      isFeatured: product.isFeatured,
-      description: product.description,
-      images: product.images.map((image) => image.url),
+      sku: "",
+      name: "",
+      price: 0,
+      inStock: 0,
+      isActive: true,
+      isFeatured: false,
+      description: "",
+      images: [],
     });
-    setIsEditingSku(false);
-  }, [product, reset]);
+  }, [reset]);
 
   const mutation = useMutation({
-    mutationFn: updateProduct,
-    onSuccess: (updatedProduct) => {
+    mutationFn: addProduct,
+    onSuccess: (newProduct) => {
       // Update the cache with the new product data
       queryClient.setQueryData(
         ["admin-products"],
         (oldData: Product[] | undefined) => {
-          if (!oldData) return [updatedProduct];
-          return oldData.map((p) =>
-            p.id === updatedProduct.id ? updatedProduct : p
-          );
+          if (!oldData) return [newProduct];
+          return oldData.map((p) => (p.id === newProduct.id ? newProduct : p));
         }
       );
 
       queryClient.invalidateQueries({ queryKey: ["admin-products"] });
 
-      setIsEditingSku(false);
-
       onSuccess?.();
     },
     onError: (error: Error) => {
-      console.error("Failed to update product:", error.message);
+      console.error("Failed to add product:", error.message);
       onError?.(error);
     },
   });
 
-  const onSubmit = (data: ProductEditFormData) => {
+  const onSubmit = (data: ProductAddFormData) => {
     mutation.mutate(data);
   };
 
@@ -117,83 +96,13 @@ export const ProductEditForm = ({
       noValidate
     >
       <div className="flex flex-col gap-2">
-        <Label>ID</Label>
-        <div className="relative flex-1">
-          <Input value={product.id} disabled />
-          <Button
-            type="button"
-            variant="ghost"
-            className="rounded-none absolute right-0 top-0 transition-all duration-200"
-            onClick={() => copyToClipboard(product.id, setIsCopiedId)}
-          >
-            <div className="relative">
-              <Copy
-                className={`h-4 w-4 transition-all duration-200 ${
-                  isCopiedId ? "scale-0 opacity-0" : "scale-100 opacity-100"
-                }`}
-              />
-              <Check
-                className={`h-4 w-4 absolute inset-0 transition-all duration-200 ${
-                  isCopiedId ? "scale-100 opacity-100" : "scale-0 opacity-0"
-                }`}
-              />
-            </div>
-            <span className="sr-only">Copy ID</span>
-          </Button>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>SKU</Label>
+        <Label>SKU *</Label>
         <div className="relative flex-1">
           <Input
             {...register("sku")}
-            disabled={!isEditingSku}
             placeholder="Enter SKU"
             className={errors.sku ? "border-red-500" : ""}
           />
-          <div className="absolute right-0 top-0 flex">
-            <Button
-              type="button"
-              variant="ghost"
-              className="rounded-none"
-              onClick={() => setIsEditingSku(!isEditingSku)}
-            >
-              <div className="relative">
-                <Lock
-                  className={`h-4 w-4 transition-all duration-200 ${
-                    isEditingSku ? "scale-0 opacity-0" : "scale-100 opacity-100"
-                  }`}
-                />
-                <Unlock
-                  className={`h-4 w-4 absolute inset-0 transition-all duration-200 ${
-                    isEditingSku ? "scale-100 opacity-100" : "scale-0 opacity-0"
-                  }`}
-                />
-              </div>
-              <span className="sr-only">Edit SKU</span>
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              className="rounded-none transition-all duration-200"
-              onClick={() => copyToClipboard(getValues("sku"), setIsCopiedSku)}
-            >
-              <div className="relative">
-                <Copy
-                  className={`h-4 w-4 transition-all duration-200 ${
-                    isCopiedSku ? "scale-0 opacity-0" : "scale-100 opacity-100"
-                  }`}
-                />
-                <Check
-                  className={`h-4 w-4 absolute inset-0 transition-all duration-200 ${
-                    isCopiedSku ? "scale-100 opacity-100" : "scale-0 opacity-0"
-                  }`}
-                />
-              </div>
-              <span className="sr-only">Copy SKU</span>
-            </Button>
-          </div>
         </div>
         {errors.sku && (
           <p className="text-sm text-red-600">{errors.sku.message}</p>
@@ -353,7 +262,7 @@ export const ProductEditForm = ({
               Saving...
             </>
           ) : (
-            "Save Changes"
+            "Add Product"
           )}
         </Button>
       </DialogFooter>
