@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Button } from "../ui/button";
 import { Order, OrderCardProps } from "../orderhistory/orderhistelement";
 import Rating from "@/components/product/Rating";
 import Image from "next/image";
@@ -27,28 +26,28 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
     const getStatusText = (status: Order['status']) => {
         switch (status) {
             case 'delivered':
-                return 'Zugestellt';
+                return 'delivered';
             case 'shipped':
-                return 'Versandt';
+                return 'shipped';
             case 'processing':
-                return 'In Bearbeitung';
+                return 'processing';
             case 'pending':
-                return 'Ausstehend';
+                return 'pending';
             case 'cancelled':
-                return 'Storniert';
+                return 'cancelled';
             default:
                 return status;
         }
     };
 
     return (
-        <div className="bg-gray-50 rounded-none p-6 border-t border-b">
+        <div className="bg-gray-50 rounded-none p-6 border-b">
             {/* Order Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-4">
                     <div>
                         <h3 className="font-semibold text-lg">
-                            Bestellung {order.orderNumber}
+                            Order {order.orderNumber}
                         </h3>
                         <p className="text-sm text-gray-600">
                             {new Date(order.createdAt).toLocaleDateString('de-DE', {
@@ -59,11 +58,13 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
                         </p>
                     </div>
                     <span className={`px-3 py-1 rounded-none text-sm font-medium ${getStatusColor(order.status)}`}>
+                        {/* TODO: Replace with status badge icon when available */}
+                        <span className="inline-block w-4 h-4 bg-gray-300 rounded-full" />
                         {getStatusText(order.status)}
                     </span>
                 </div>
                 <div className="text-right">
-                    <p className="text-sm text-gray-600">Gesamt</p>
+                    <p className="text-sm text-gray-600">Whole</p>
                     <p className="font-semibold text-lg">
                         {order.total.toFixed(2)} €
                     </p>
@@ -97,7 +98,7 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
                                 </p>
                             )}
                             <p className="text-sm text-gray-600">
-                                Menge: {item.quantity}
+                                Quantity: {item.quantity}
                             </p>
                         </div>
                         <div className="flex items-center gap-4">
@@ -114,7 +115,7 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
                                 {(item.price * item.quantity).toFixed(2)} €
                             </p>
                             <p className="text-sm text-gray-600">
-                                {item.price.toFixed(2)} € / Stück
+                                {item.price.toFixed(2)} € / piece
                             </p>
                         </div>
                     </div>
@@ -122,19 +123,20 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
             </div>
 
             {/* Order Actions */}
-            <div className="flex gap-3 pt-4 border-t">
-                <Button
-                    className=" bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none"
-                    onClick={() => onAddAllToCart(order)}
-                >
-                    Alle Artikel zum Warenkorb hinzufügen
-                </Button>
-                <Button className=" bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none">
-                    Bestellung verfolgen
-                </Button>
-                <Button className=" bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none">
-                    Rechnung herunterladen
-                </Button>
+            <div className="flex gap-3 pt-4">
+                <button className="flex items-center space-x-1 hover:opacity-70 transition-opacity"
+                        onClick={() => onAddAllToCart(order)}>
+                    <span className="underline text-sm">Add all to cart</span>
+
+                </button>
+                <button className="flex items-center space-x-1 hover:opacity-70 transition-opacity">
+                    <span className="underline text-sm">Track Order</span>
+
+                </button>
+                <button className="flex items-center space-x-1 hover:opacity-70 transition-opacity">
+                    <span className="underline text-sm">Downloading Invoice</span>
+
+                </button>
             </div>
         </div>
     );

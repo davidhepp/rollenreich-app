@@ -118,11 +118,11 @@ export default function OrderHistoryPage() {
                     <div className="text-center py-12">
                         <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                         <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                            Fehler beim Laden
+                            Error while loading orders
                         </h2>
                         <p className="text-gray-600 mb-4">{error}</p>
                         <Button onClick={() => window.location.reload()}>
-                            Erneut versuchen
+                            Retry
                         </Button>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ export default function OrderHistoryPage() {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator>/</BreadcrumbSeparator>
                         <BreadcrumbItem>
-                            <BreadcrumbPage>Bestellhistorie</BreadcrumbPage>
+                            <BreadcrumbPage>Orderhistory</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
@@ -150,10 +150,10 @@ export default function OrderHistoryPage() {
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                        Meine Bestellungen
+                        My Order History
                     </h1>
                     <p className="text-gray-600">
-                        Übersicht über alle deine bisherigen Bestellungen
+                        Overview of your past orders and their details.
                     </p>
                 </div>
 
@@ -163,13 +163,13 @@ export default function OrderHistoryPage() {
                     <div className="text-center py-12">
                         <ShoppingBag className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                         <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                            Noch keine Bestellungen
+                            No Orders Found
                         </h2>
                         <p className="text-gray-600 mb-4">
-                            Du hast noch keine Bestellungen aufgegeben.
+                            You have not made any order yet.
                         </p>
                         <Button asChild>
-                            <Link href="/products">Jetzt einkaufen</Link>
+                            <Link href="/products">Shop Now</Link>
                         </Button>
                     </div>
                 ) : (
