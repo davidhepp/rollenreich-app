@@ -41,7 +41,7 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
     };
 
     return (
-        <div className="bg-gray-50 rounded-none p-6 border-b">
+        <div className="bg-white rounded-none p-6 border-b">
             {/* Order Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-4">
@@ -59,7 +59,6 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
                     </div>
                     <span className={`px-3 py-1 rounded-none text-sm font-medium ${getStatusColor(order.status)}`}>
                         {/* TODO: Replace with status badge icon when available */}
-                        <span className="inline-block w-4 h-4 bg-gray-300 rounded-full" />
                         {getStatusText(order.status)}
                     </span>
                 </div>
@@ -74,7 +73,7 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
             {/* Order Items */}
             <div className="space-y-3 mb-4">
                 {order.items.map((item) => (
-                    <div key={item.id} className="flex items-center gap-4 p-4 bg-white rounded-lg">
+                    <div key={item.id} className="flex items-center gap-4 p-4 bg-bg-primary rounded-none">
                         <div className="w-16 h-16 bg-gray-200 rounded-md flex-shrink-0">
                             {item.imageSrc && (
                                 <Image
