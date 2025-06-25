@@ -79,7 +79,8 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
                                 <Image
                                     src={item.imageSrc}
                                     alt={item.title}
-                                    fill
+                                    width={160}
+                                    height={160}
                                     className="object-cover rounded-none"
                                 />
                             )}

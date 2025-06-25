@@ -45,7 +45,7 @@ export default function OrderHistoryPage() {
                                 quantity: 2,
                                 collection: 'Summer Collection',
                                 variation: 'Größe M, Farbe Blau',
-                                imageSrc: '/images/tshirt.jpg'
+                                imageSrc: '/products/standard.png'
                             },
                             {
                                 id: '2',
@@ -54,7 +54,7 @@ export default function OrderHistoryPage() {
                                 quantity: 1,
                                 collection: 'Basics',
                                 variation: 'Größe 32, Farbe Schwarz',
-                                imageSrc: '/images/jeans.jpg'
+                                imageSrc: '/products/standard.png'
                             }
                         ]
                     },
@@ -72,7 +72,7 @@ export default function OrderHistoryPage() {
                                 quantity: 1,
                                 collection: 'Sport Collection',
                                 variation: 'Größe 42, Farbe Weiß',
-                                imageSrc: '/images/sneakers.jpg'
+                                imageSrc: '/products/standard.png'
                             }
                         ]
                     }
