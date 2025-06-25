@@ -80,7 +80,7 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
                                     src={item.imageSrc}
                                     alt={item.title}
                                     fill
-                                    className="object-cover rounded-md"
+                                    className="object-cover rounded-none"
                                 />
                             )}
                         </div>
