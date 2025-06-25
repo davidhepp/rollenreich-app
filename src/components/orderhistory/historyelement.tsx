@@ -41,7 +41,7 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
     };
 
     return (
-        <div className="bg-white rounded-none p-6 border-b">
+        <div className="bg-white rounded-none p-6 border-b ">
             {/* Order Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-4">
@@ -74,7 +74,7 @@ const OrderCard = ({ order, onAddAllToCart }: OrderCardProps) => {
             <div className="space-y-3 mb-4">
                 {order.items.map((item) => (
                     <div key={item.id} className="flex items-center gap-4 p-4 bg-bg-primary rounded-none">
-                        <div className="w-16 h-16 bg-gray-200 rounded-md flex-shrink-0">
+                        <div className="w-16 h-16 bg-gray-200 rounded-none flex-shrink-0">
                             {item.imageSrc && (
                                 <Image
                                     src={item.imageSrc}
