@@ -66,8 +66,6 @@ model Product {
   sustainable Boolean @default(false)
   sustainabilityInfo String?
 
-
-
   inStock Int @default(0)
   isFeatured Boolean @default(false)
   isActive Boolean @default(true)

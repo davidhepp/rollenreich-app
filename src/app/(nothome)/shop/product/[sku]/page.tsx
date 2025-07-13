@@ -108,28 +108,22 @@ export default async function ProductPage({
               <AccordionTrigger>Product Detail</AccordionTrigger>
               <AccordionContent>{product?.description}</AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>About The Collection</AccordionTrigger>
-              <AccordionContent>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                justo duo dolores et ea rebum.
-              </AccordionContent>
-            </AccordionItem>
+            {product.collections && product.collections.length > 0 && (
+              <AccordionItem value="item-2">
+                <AccordionTrigger>About The Collection</AccordionTrigger>
+                <AccordionContent>
+                  {product.collections[0].collection.description}
+                </AccordionContent>
+              </AccordionItem>
+            )}
             <AccordionItem value="item-3">
               <AccordionTrigger>Sustainability</AccordionTrigger>
               <AccordionContent>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-                dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                sed diam voluptua. At vero eos et accusam et justo duo dolores
-                et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                est Lorem ipsum dolor sit amet.
+                {product?.sustainabilityInfo?.split("\\n\\n").map((paragraph: string, index: number) => (
+                  <p key={index} className={index > 0 ? "mt-4" : ""}>
+                    {paragraph.trim()}
+                  </p>
+                ))}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
