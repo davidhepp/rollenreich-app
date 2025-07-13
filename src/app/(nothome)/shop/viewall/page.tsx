@@ -116,6 +116,7 @@ export default function ViewAllProducts() {
                 name={product.name}
                 price={product.price.toString()}
                 imageSrc={product.images?.[0]?.url}
+                productId={product.id}
               />
             </Link>
           ))}

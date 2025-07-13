@@ -211,6 +211,7 @@ export default async function ProductPage({
                           name={product.name}
                           price={product.price.toString()}
                           imageSrc={product.images[0]?.url}
+                          productId={product.id}
                         />
                       </Link>
                     </div>

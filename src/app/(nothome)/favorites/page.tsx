@@ -1,5 +1,4 @@
 "use client";
-// =========================================================================
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,75 +8,32 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import FavoritItem from "@/components/favorites/favorititem";
 import { Button } from "@/components/ui/button";
-
-// =========================================================================
-// NEUE TYPEN und MOCK-DATEN FÜR WISHLIST
-// =========================================================================
-interface WishlistItemType {
-  id: string;
-  name: string;
-  price: number;
-  collection?: string;
-  variation?: string;
-  imageSrc?: string;
-}
-
-const mockWishlistItems: WishlistItemType[] = [
-  {
-    id: "tp1",
-    name: 'Toilete Paper "Standard"',
-    price: 8.99,
-    collection: "Standard Collection",
-    variation: "Black",
-    imageSrc: "/products/standard_black.png",
-  },
-  {
-    id: "tp2",
-    name: 'Toilete Paper "Standard"',
-    price: 9.99,
-    collection: "Standard Collektion",
-    variation: "Green",
-    imageSrc: "/products/standard_green.png",
-  },
-  {
-    id: "tp3",
-    name: 'Toilete Paper "Standard"',
-    price: 7.49,
-    collection: "Standard Collection",
-    variation: "White",
-    imageSrc: "/products/standard.png",
-  },
-  {
-    id: "tp4",
-    name: 'Toilete Paper "Standard"',
-    price: 7.49,
-    collection: "Standard Collection",
-    variation: "White",
-    imageSrc: "/products/standard.png",
-  },
-];
-
-// =========================================================================
+import { useWishlist } from "@/hooks/useWishlist";
+import { useSession } from "next-auth/react";
+import {
+  Collection,
+  Product,
+  ProductImage,
+  WishlistItem,
+} from "@prisma/client";
+import { useCart } from "@/hooks/useCart";
 
 const FavoritesPage = () => {
-  const [favorites, setFavorites] = useState<WishlistItemType[]>([]);
-
-  useEffect(() => {
-    setFavorites(mockWishlistItems);
-  }, []);
+  const { data: session } = useSession();
+  const { wishlist, removeFromWishlist } = useWishlist(!!session);
+  const { addToCart } = useCart(!!session);
 
   const RemoveFavorite = (id: string) => {
-    console.log(`${id} removed from favorites`);
-    setFavorites((prevFavorites) =>
-      prevFavorites.filter((item) => item.id !== id)
-    );
+    removeFromWishlist.mutate(id);
   };
 
-  const AddToCart = (item: WishlistItemType) => {
-    console.log(`${item.name} added to cart`);
+  const AddToCart = (
+    item: WishlistItem & { product: Product & { images: ProductImage[] } }
+  ) => {
+    addToCart({ productId: item.productId, quantity: 1 });
   };
 
   return (
@@ -96,7 +52,7 @@ const FavoritesPage = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        {favorites.length === 0 ? (
+        {!wishlist || wishlist.length === 0 ? (
           <div className="text-center py-10 flex flex-col items-center">
             <p className="text-gray-600 text-xl mb-2">
               Your wishlist is currently empty.
@@ -114,21 +70,30 @@ const FavoritesPage = () => {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-8">
-            {favorites.map((item) => (
-              <FavoritItem
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                price={item.price}
-                collection={item.collection}
-                variation={item.variation}
-                quantity={1}
-                imageSrc={item.imageSrc}
-                onRemove={() => RemoveFavorite(item.id)}
-                onAddToCart={() => AddToCart(item)}
-              />
-            ))}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
+            {wishlist.items.map(
+              (
+                item: WishlistItem & {
+                  product: Product & {
+                    images: ProductImage[];
+                    collections: Collection[];
+                  };
+                }
+              ) => (
+                <FavoritItem
+                  key={item.id}
+                  id={item.product.id}
+                  sku={item.product.sku ?? ""}
+                  name={item.product.name}
+                  price={Number(item.product.price)}
+                  collection={item.product.collections[0].name}
+                  quantity={1}
+                  imageSrc={item.product.images[0].url}
+                  onRemove={() => RemoveFavorite(item.id)}
+                  onAddToCart={() => AddToCart(item)}
+                />
+              )
+            )}
           </div>
         )}
       </div>
