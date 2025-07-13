@@ -17,3 +17,24 @@ export async function get_featured_products() {
     return [];
   }
 }
+
+export async function get_collections() {
+  try {
+    const collections = await db.collection.findMany({
+      where: {
+        isActive: true,
+        isFeatured: true,
+      },
+      include: {
+        image: true,
+      },
+      orderBy: {
+        index: "asc",
+      },
+    });
+    return collections;
+  } catch (error) {
+    console.error("Error fetching collections:", error);
+    return [];
+  }
+}

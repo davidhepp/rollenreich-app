@@ -17,10 +17,11 @@ import { Button } from "@/components/ui/button";
 import CooperationCard from "@/components/cards/CooperationCard";
 import Image from "next/image";
 import { Product, ProductImage } from "@prisma/client";
-import { fetchFeaturedProducts } from "./_actions";
+import { fetchFeaturedProducts, fetchCollections } from "./_actions";
 
 export default async function Home() {
   const featuredProducts = await fetchFeaturedProducts();
+  const collections = await fetchCollections();
 
   return (
     <main className="min-h-screen bg-white">
@@ -91,38 +92,46 @@ export default async function Home() {
             className="grid md:grid-cols-2 gap-6 auto-rows-auto"
           >
             <div className="flex flex-col gap-6">
-              <AnimatedStaggerItem variants={scrollStaggerItem}>
-                <CollectionCard
-                  size="large"
-                  imageSrc="/collections/demo1.png"
-                  buttonText="Greek Seas"
-                  href="/shop/collection/greek-seas"
-                />
-              </AnimatedStaggerItem>
-              <AnimatedStaggerItem variants={scrollStaggerItem}>
-                <CollectionCard
-                  buttonText="Economic Wipes"
-                  imageSrc="/collections/demo3.png"
-                  href="/shop/collection/economic-wipes"
-                />
-              </AnimatedStaggerItem>
+              {collections[0] && (
+                <AnimatedStaggerItem variants={scrollStaggerItem}>
+                  <CollectionCard
+                    size="large"
+                    imageSrc={collections[0].image?.url}
+                    buttonText={collections[0].name}
+                    href={`/shop/collection/${collections[0].slug}`}
+                  />
+                </AnimatedStaggerItem>
+              )}
+              {collections[1] && (
+                <AnimatedStaggerItem variants={scrollStaggerItem}>
+                  <CollectionCard
+                    buttonText={collections[1].name}
+                    imageSrc={collections[1].image?.url}
+                    href={`/shop/collection/${collections[1].slug}`}
+                  />
+                </AnimatedStaggerItem>
+              )}
             </div>
             <div className="flex flex-col gap-6">
-              <AnimatedStaggerItem variants={scrollStaggerItem}>
-                <CollectionCard
-                  buttonText="Basics"
-                  imageSrc="/collections/demo4.png"
-                  href="/shop/collection/basics"
-                />
-              </AnimatedStaggerItem>
-              <AnimatedStaggerItem variants={scrollStaggerItem}>
-                <CollectionCard
-                  size="large"
-                  buttonText="Luxurious Nights"
-                  imageSrc="/collections/demo2.png"
-                  href="/shop/collection/luxurious-nights"
-                />
-              </AnimatedStaggerItem>
+              {collections[2] && (
+                <AnimatedStaggerItem variants={scrollStaggerItem}>
+                  <CollectionCard
+                    buttonText={collections[2].name}
+                    imageSrc={collections[2].image?.url}
+                    href={`/shop/collection/${collections[2].slug}`}
+                  />
+                </AnimatedStaggerItem>
+              )}
+              {collections[3] && (
+                <AnimatedStaggerItem variants={scrollStaggerItem}>
+                  <CollectionCard
+                    size="large"
+                    buttonText={collections[3].name}
+                    imageSrc={collections[3].image?.url}
+                    href={`/shop/collection/${collections[3].slug}`}
+                  />
+                </AnimatedStaggerItem>
+              )}
             </div>
           </AnimatedStagger>
         </div>

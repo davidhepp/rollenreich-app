@@ -20,9 +20,11 @@ export default function AddToCartButton({
       productId: string;
       quantity: number;
     }) => addToCart(productId, quantity),
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate and refetch cart data
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
+      // Force refetch to ensure fresh data
+      await queryClient.refetchQueries({ queryKey: ["cart"] });
     },
   });
 

@@ -77,7 +77,7 @@ const CartPage = () => {
                 </p>
                 <Button
                   asChild
-                  className="bg-btn-primary hover:bg-btn-primary-hover text-white"
+                  className="bg-btn-primary hover:bg-btn-primary-hover text-white rounded-none"
                 >
                   <Link href="/">Continue Shopping</Link>
                 </Button>
