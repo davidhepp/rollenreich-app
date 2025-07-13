@@ -65,6 +65,7 @@ export default async function Home() {
                         name={product.name}
                         price={product.price.toString()}
                         imageSrc={product.images[0]?.url}
+                        productId={product.id}
                       />
                     </Link>
                   </AnimatedStaggerItem>

@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { prisma as db } from "@/prisma";
 
 export async function get_featured_products() {
@@ -37,4 +38,26 @@ export async function get_collections() {
     console.error("Error fetching collections:", error);
     return [];
   }
+}
+
+export async function addToWishlist(productId: string) {
+  const session = await auth();
+  if (!session) {
+    return { error: "Unauthorized" };
+  }
+  const wishlist = await db.wishlist.findFirst({
+    where: {
+      userId: session.user?.id,
+    },
+  });
+  if (!wishlist) {
+    return { error: "Wishlist not found" };
+  }
+  await db.wishlistItem.create({
+    data: {
+      wishlistId: wishlist.id,
+      productId: productId,
+    },
+  });
+  return { success: "Product added to wishlist" };
 }
