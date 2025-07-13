@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCart, updateQuantity, removeItem } from "@/lib/cartActions";
+import {
+  getCart,
+  updateQuantity,
+  removeItem,
+  addToCart,
+} from "@/lib/cartActions";
 import {
   CartItem as CartItemType,
   Product,
@@ -17,6 +22,17 @@ export const useCart = (enabled: boolean = true) => {
     queryKey: ["cart"],
     queryFn: getCart,
     enabled: enabled,
+  });
+
+  const addToCartMutation = useMutation({
+    mutationFn: ({
+      productId,
+      quantity,
+    }: {
+      productId: string;
+      quantity: number;
+    }) => addToCart(productId, quantity),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
   });
 
   const editQuantity = useMutation({
@@ -49,6 +65,10 @@ export const useCart = (enabled: boolean = true) => {
       ) ?? 0,
     editQuantity: editQuantity.mutate,
     removeItem: removeFromCart.mutate,
-    isMutating: editQuantity.isPending || removeFromCart.isPending,
+    addToCart: addToCartMutation.mutate,
+    isMutating:
+      editQuantity.isPending ||
+      removeFromCart.isPending ||
+      addToCartMutation.isPending,
   };
 };

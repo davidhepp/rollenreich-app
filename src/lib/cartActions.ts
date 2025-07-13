@@ -21,3 +21,12 @@ export const removeItem = async (productId: string) => {
   if (!res.ok) throw new Error("Failed to remove item");
   return res.json();
 };
+
+export const addToCart = async (productId: string, quantity: number) => {
+  const res = await fetch("/api/cart/addtocart", {
+    method: "POST",
+    body: JSON.stringify({ productId, quantity }),
+  });
+  if (!res.ok) throw new Error("Failed to add to cart");
+  return res.json();
+};

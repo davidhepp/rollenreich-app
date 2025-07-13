@@ -1,14 +1,21 @@
-import { Heart } from "lucide-react";
+"use client";
 import Image from "next/image";
 import React from "react";
+import AddToWishlistButton from "../favorites/AddToWishlistButton";
 
 interface ProductCardProps {
   name: string;
   price: string;
   imageSrc?: string;
+  productId: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ name, price, imageSrc }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  name,
+  price,
+  imageSrc,
+  productId,
+}) => {
   return (
     <div className="overflow-hidden group cursor-pointer">
       <div className="relative bg-bg-primary aspect-square flex items-center justify-center">
@@ -21,10 +28,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, price, imageSrc }) => {
             className="w-3/4 h-3/4 object-contain transition-transform duration-700 group-hover:scale-105"
           />
         )}
-        <div className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
-          <Heart
+        <div className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center">
+          <AddToWishlistButton
+            productId={productId}
+            variant="icon"
+            className="w-6 h-6"
+            iconSize={16}
             strokeWidth={1.5}
-            className="w-6 h-6 hover:text-red-500 transition-colors duration-200"
           />
         </div>
       </div>

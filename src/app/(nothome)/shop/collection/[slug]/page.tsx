@@ -98,6 +98,7 @@ const CollectionPageView = async ({
                   name={product.name}
                   price={product.price?.toString() || "0"}
                   imageSrc={product.images?.[0]?.url}
+                  productId={product.id}
                 />
               </Link>
             ))}
