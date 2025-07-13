@@ -26,8 +26,8 @@ const FavoritesPage = () => {
   const { wishlist, removeFromWishlist } = useWishlist(!!session);
   const { addToCart } = useCart(!!session);
 
-  const RemoveFavorite = (id: string) => {
-    removeFromWishlist.mutate(id);
+  const RemoveFavorite = (productId: string) => {
+    removeFromWishlist.mutate(productId);
   };
 
   const AddToCart = (
@@ -52,7 +52,7 @@ const FavoritesPage = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        {!wishlist || wishlist.length === 0 ? (
+        {!wishlist || wishlist.items.length === 0 ? (
           <div className="text-center py-10 flex flex-col items-center">
             <p className="text-gray-600 text-xl mb-2">
               Your wishlist is currently empty.
@@ -89,7 +89,7 @@ const FavoritesPage = () => {
                   collection={item.product.collections[0].name}
                   quantity={1}
                   imageSrc={item.product.images[0].url}
-                  onRemove={() => RemoveFavorite(item.id)}
+                  onRemove={() => RemoveFavorite(item.productId)}
                   onAddToCart={() => AddToCart(item)}
                 />
               )

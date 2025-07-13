@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { fetchProduct, fetchFeaturedProducts } from "./_actions";
 import { ProductImage, Product } from "@prisma/client";
-import { Truck, Heart } from "lucide-react";
+import { Truck } from "lucide-react";
 import ProductCard from "@/components/cards/ProductCard";
 import {
   Accordion,
@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import ProductActions from "@/components/product/ProductActions";
 import Rating from "@/components/product/Rating";
 import ProductImageGallery from "@/components/product/ProductImageGallery";
+import AddToWishlistButton from "@/components/favorites/AddToWishlistButton";
 
 export default async function ProductPage({
   params,
@@ -87,10 +88,11 @@ export default async function ProductPage({
                 <Truck strokeWidth={1.5} />
                 Easy Return
               </button>
-              <button className="flex items-center gap-2">
-                <Heart strokeWidth={1.5} />
-                Add To Wish List
-              </button>
+              <AddToWishlistButton
+                productId={product?.id}
+                variant="text"
+                iconSize={16}
+              />
             </div>
           </div>
         </div>
