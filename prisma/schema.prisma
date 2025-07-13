@@ -17,7 +17,8 @@ model User {
   accounts      Account[]
   isAdmin       Boolean         @default(false)
   cart          Cart?
- 
+  wishlist      Wishlist?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -63,6 +64,9 @@ model Product {
   material String?
 
   sustainable Boolean @default(false)
+  sustainabilityInfo String?
+
+
 
   inStock Int @default(0)
   isFeatured Boolean @default(false)
@@ -70,6 +74,7 @@ model Product {
   images ProductImage[]
   collections ProductCollection[]
   cartItems CartItem[]
+  wishlistItems WishlistItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -163,5 +168,31 @@ model CartItem {
 
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
+}
+
+model Wishlist {
+  id String @id @default(cuid())
+  items WishlistItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+}
+
+model WishlistItem {
+  id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wishlist Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  wishlistId String
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+
+  @@unique([wishlistId, productId])
 }
 
