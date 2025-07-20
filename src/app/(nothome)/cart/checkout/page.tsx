@@ -18,8 +18,7 @@ export default function CheckoutPage() {
 
   const subtotal = total;
   const shipping = 9.99;
-  const tax = subtotal * 0.08; // 8% tax
-  const finalTotal = subtotal + shipping + tax;
+  const finalTotal = subtotal + shipping;
 
   return (
     <div className="min-h-screen bg-white">
@@ -59,7 +58,7 @@ export default function CheckoutPage() {
                   />
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="updates" />
+                  <Checkbox id="updates" className="rounded-none" />
                   <Label htmlFor="updates" className="text-sm">
                     Keep me updated on news and offers
                   </Label>
@@ -202,10 +201,6 @@ export default function CheckoutPage() {
                   <div className="flex justify-between text-sm">
                     <span>Shipping</span>
                     <span>{shipping.toFixed(2)}€</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Tax</span>
-                    <span>{tax.toFixed(2)}€</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between text-base font-medium">

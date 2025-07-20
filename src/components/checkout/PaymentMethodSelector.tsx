@@ -43,8 +43,8 @@ export default function PaymentMethodSelector({
           cy="18.5"
           r="2"
           stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
         ></circle>
         <rect
           x="2"
@@ -52,14 +52,14 @@ export default function PaymentMethodSelector({
           width="4"
           height="17"
           stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
         ></rect>
         <path
           d="M15 3.5H11.1985C11.1985 9.8463 6 12.5 6 12.5L11.8931 20.5H16.5L11 13C11 13 15 10 15 3.5Z"
           stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
         ></path>
       </svg>
     );
@@ -119,7 +119,7 @@ export default function PaymentMethodSelector({
                 />
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="billingAddress" />
+                <Checkbox id="billingAddress" className="rounded-none" />
                 <Label htmlFor="billingAddress" className="text-sm">
                   Use shipping address as billing address
                 </Label>
@@ -154,7 +154,7 @@ export default function PaymentMethodSelector({
                 <p className="text-sm text-gray-600 mb-6">
                   Split your payment into 4 interest-free installments.
                 </p>
-                <div className="bg-pink-50 border border-pink-200 rounded-lg p-4 space-y-2">
+                <div className="bg-pink-50 border border-pink-200 rounded-none p-4 space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>Today:</span>
                     <span className="font-medium">
