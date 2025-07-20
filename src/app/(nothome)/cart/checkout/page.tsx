@@ -205,7 +205,7 @@ export default function CheckoutPage() {
                   <Separator />
                   <div className="flex justify-between text-base font-medium">
                     <span>Total</span>
-                    <span>${finalTotal.toFixed(2)}</span>
+                    <span>{finalTotal.toFixed(2)}€</span>
                   </div>
                 </div>
 
