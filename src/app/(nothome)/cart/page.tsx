@@ -124,8 +124,9 @@ const CartPage = () => {
               <Button
                 className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none"
                 disabled={!session || isMutating}
+                asChild
               >
-                Checkout
+                <Link href="/cart/checkout">Checkout</Link>
               </Button>
               <div className="flex items-center my-2">
                 <span className="flex-1 border-t" />
