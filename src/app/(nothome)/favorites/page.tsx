@@ -86,9 +86,9 @@ const FavoritesPage = () => {
                   sku={item.product.sku ?? ""}
                   name={item.product.name}
                   price={Number(item.product.price)}
-                  collection={item.product.collections[0].name}
+                  collection={item.product.collections[0]?.name ?? ""}
                   quantity={1}
-                  imageSrc={item.product.images[0].url}
+                  imageSrc={item.product.images[0]?.url ?? ""}
                   onRemove={() => RemoveFavorite(item.productId)}
                   onAddToCart={() => AddToCart(item)}
                 />

@@ -106,20 +106,20 @@ export default function UserDropdown({
                   >
                     ACCOUNT SETTINGS
                   </Link>
-                  <Link
+                  {/* <Link
                     href="/address-book"
                     className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
                     onClick={handleLinkClick}
                   >
                     MY ADDRESS BOOK
-                  </Link>
-                  <Link
+                  </Link> */}
+                  {/* <Link
                     href="/payment-methods"
                     className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
                     onClick={handleLinkClick}
                   >
                     CREDIT CARDS
-                  </Link>
+                  </Link> */}
                   <Link
                     href="/favorites"
                     className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
