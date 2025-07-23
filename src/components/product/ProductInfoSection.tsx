@@ -32,11 +32,13 @@ export default function ProductInfoSection({
           <Truck strokeWidth={1.5} />
           Easy Return
         </button>
-        <AddToWishlistButton
-          productId={product?.id}
-          variant="text"
-          iconSize={16}
-        />
+        {product?.id && (
+          <AddToWishlistButton
+            productId={product.id}
+            variant="text"
+            iconSize={16}
+          />
+        )}
       </div>
     </div>
   );
