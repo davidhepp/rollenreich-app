@@ -22,6 +22,7 @@ import ProductActions from "@/components/product/ProductActions";
 import Rating from "@/components/product/Rating";
 import ProductImageGallery from "@/components/product/ProductImageGallery";
 import AddToWishlistButton from "@/components/favorites/AddToWishlistButton";
+import ProductReviewSection from "@/components/product/ProductReviewSection";
 
 export default async function ProductPage({
   params,
@@ -119,11 +120,13 @@ export default async function ProductPage({
             <AccordionItem value="item-3">
               <AccordionTrigger>Sustainability</AccordionTrigger>
               <AccordionContent>
-                {product?.sustainabilityInfo?.split("\\n\\n").map((paragraph: string, index: number) => (
-                  <p key={index} className={index > 0 ? "mt-4" : ""}>
-                    {paragraph.trim()}
-                  </p>
-                ))}
+                {product?.sustainabilityInfo
+                  ?.split("\\n\\n")
+                  .map((paragraph: string, index: number) => (
+                    <p key={index} className={index > 0 ? "mt-4" : ""}>
+                      {paragraph.trim()}
+                    </p>
+                  ))}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -146,36 +149,7 @@ export default async function ProductPage({
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto mt-10">
-          <div className="bg-bg-primary p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-medium mb-4">
-              How do you rate this product?
-            </h3>
-            <div className="mb-4">
-              <Rating
-                initialRating={0}
-                allowHalfStars={true}
-                showLabel={true}
-                readonly={false}
-                size="lg"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="review"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Your comment (optional)
-              </label>
-              <textarea
-                id="review"
-                rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                placeholder="Share your experience with this product..."
-              />
-            </div>
-          </div>
-        </div>
+        <ProductReviewSection />
 
         {/* Bestseller */}
         <section id="best-sellers" className="w-full py-16 px-4 md:px-8">
