@@ -14,14 +14,15 @@ export default function ShippingInfoCard({
       <div className="font-bold text-lg mb-2">Shipping and Return</div>
       <Separator className="my-4" />
       <div className="text-base">
-        We roll out your order as smoothly as our toilet paper. Once your
-        purchase is confirmed, we’ll dispatch your premium rolls faster than you
-        can say “number two.” Standard shipping usually takes 2–5 business days,
-        depending on your bathroom emergency level. All orders are lovingly
-        packed (no crumpling, we promise) and shipped in discreet, eco-friendly
-        packaging — because your business is nobody else’s. Whether you’re
-        wiping tears of joy or… well, you know — we’ve got your rear covered.
-        Sit tight, relief is on the way!
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+        amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+        rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+        ipsum dolor sit amet.
       </div>
     </div>
   );
