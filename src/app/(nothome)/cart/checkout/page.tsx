@@ -73,7 +73,7 @@ export default function CheckoutPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
-            <Card className="rounded-none">
+            <Card className="rounded-none bg-transparent shadow-none">
               <CardHeader>
                 <CardTitle className="text-lg">Contact Information</CardTitle>
               </CardHeader>
@@ -96,7 +96,7 @@ export default function CheckoutPage() {
               </CardContent>
             </Card>
 
-            <Card className="rounded-none">
+            <Card className="rounded-none bg-transparent shadow-none">
               <CardHeader>
                 <CardTitle className="text-lg">Shipping Address</CardTitle>
               </CardHeader>
@@ -175,7 +175,7 @@ export default function CheckoutPage() {
           </div>
 
           <div className="lg:pl-6">
-            <Card className="sticky top-16 rounded-none">
+            <Card className="sticky top-16 rounded-none bg-transparent shadow-none">
               <CardHeader>
                 <CardTitle className="text-lg">Order Summary</CardTitle>
               </CardHeader>

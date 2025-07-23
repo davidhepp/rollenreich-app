@@ -41,7 +41,7 @@ export default function AccountPage() {
         <div className="pt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-center min-h-[400px]">
-              <Card className="rounded-none max-w-md w-full">
+              <Card className="rounded-none max-w-md w-full bg-transparent shadow-none">
                 <CardHeader>
                   <CardTitle className="text-center">Please Sign In</CardTitle>
                 </CardHeader>
@@ -70,7 +70,7 @@ export default function AccountPage() {
         <div className="pt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-center min-h-[400px]">
-              <Card className="rounded-none max-w-md w-full">
+              <Card className="rounded-none max-w-md w-full bg-transparent shadow-none">
                 <CardHeader>
                   <CardTitle className="text-center">Loading...</CardTitle>
                 </CardHeader>
@@ -109,7 +109,7 @@ export default function AccountPage() {
 
           <div className="flex justify-center">
             <div className="w-full max-w-2xl space-y-6">
-              <Card className="rounded-none">
+              <Card className="rounded-none bg-transparent shadow-none">
                 <CardHeader>
                   <CardTitle className="text-lg">Account Information</CardTitle>
                 </CardHeader>
@@ -166,7 +166,7 @@ export default function AccountPage() {
                 </CardContent>
               </Card>
 
-              <Card className="rounded-none">
+              <Card className="rounded-none bg-transparent shadow-none">
                 <CardHeader>
                   <CardTitle className="text-lg">Account Settings</CardTitle>
                 </CardHeader>

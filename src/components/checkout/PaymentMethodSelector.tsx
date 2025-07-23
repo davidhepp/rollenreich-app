@@ -90,7 +90,7 @@ export default function PaymentMethodSelector({
     switch (selectedMethod) {
       case "credit-card":
         return (
-          <Card className="mt-4 border-gray-200 rounded-none">
+          <Card className="mt-4 border-gray-200 rounded-none bg-transparent shadow-none">
             <CardContent className="pt-6 space-y-4">
               <div>
                 <Label htmlFor="cardNumber">Card number</Label>
@@ -130,7 +130,7 @@ export default function PaymentMethodSelector({
 
       case "paypal":
         return (
-          <Card className="mt-4 border-gray-200 rounded-none">
+          <Card className="mt-4 border-gray-200 rounded-none bg-transparent shadow-none">
             <CardContent className="pt-6">
               <div className="text-center py-8">
                 <Button className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none">
@@ -144,7 +144,7 @@ export default function PaymentMethodSelector({
 
       case "klarna":
         return (
-          <Card className="mt-4 border-gray-200 rounded-none">
+          <Card className="mt-4 border-gray-200 rounded-none bg-transparent shadow-none">
             <CardContent className="pt-6">
               <div className="text-center py-8">
                 <Button className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none">
@@ -191,7 +191,7 @@ export default function PaymentMethodSelector({
   };
 
   return (
-    <Card className="rounded-none">
+    <Card className="rounded-none bg-transparent shadow-none">
       <CardHeader>
         <CardTitle className="text-lg">Payment Method</CardTitle>
       </CardHeader>
