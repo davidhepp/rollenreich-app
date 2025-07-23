@@ -104,7 +104,7 @@ export default function UserDropdown({
                     className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
                     onClick={handleLinkClick}
                   >
-                    ACCOUNT SETTINGS
+                    MY ACCOUNT
                   </Link>
                   {/* <Link
                     href="/address-book"

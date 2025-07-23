@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import PaymentMethodSelector from "@/components/checkout/PaymentMethodSelector";
 import Image from "next/image";
-import { Lock, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { CartItem, Product, ProductImage } from "@prisma/client";
 
@@ -19,6 +19,40 @@ export default function CheckoutPage() {
   const subtotal = total;
   const shipping = 9.99;
   const finalTotal = subtotal + shipping;
+
+  if (cart.length === 0) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        <div className="pt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <Link
+                href="/cart"
+                className="flex items-center text-sm text-gray-600 hover:text-gray-900"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to cart
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-1 items-center justify-center">
+          <div className="flex flex-col items-center">
+            <h1 className="text-2xl font-bold">No items in cart</h1>
+            <p className="text-sm text-gray-600">
+              <Link
+                href="/shop/viewall"
+                className="text-btn-primary hover:underline"
+              >
+                Add items
+              </Link>{" "}
+              to your cart to continue
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -32,10 +66,6 @@ export default function CheckoutPage() {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to cart
             </Link>
-            <div className="flex items-center space-x-2">
-              <Lock className="w-4 h-4 text-green-600" />
-              <span className="text-sm text-gray-600">Secure checkout</span>
-            </div>
           </div>
         </div>
       </div>
