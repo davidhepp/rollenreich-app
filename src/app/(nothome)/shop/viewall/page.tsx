@@ -18,9 +18,25 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+const sortOptions = [
+  { value: "newest", label: "New Arrivals" },
+  { value: "oldest", label: "Oldest" },
+  { value: "price-asc", label: "Price: Low to High" },
+  { value: "price-desc", label: "Price: High to Low" },
+  { value: "name-asc", label: "Name: A to Z" },
+  { value: "name-desc", label: "Name: Z to A" },
+];
 
 export default function ViewAllProducts() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState("newest");
   const [allProducts, setAllProducts] = useState<
     (Product & { images: ProductImage[] })[]
   >([]);
@@ -32,8 +48,8 @@ export default function ViewAllProducts() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["shop-products", currentPage],
-    queryFn: () => fetchProducts(currentPage, 9),
+    queryKey: ["shop-products", currentPage, sortBy],
+    queryFn: () => fetchProducts(currentPage, 9, sortBy),
   });
 
   useEffect(() => {
@@ -49,6 +65,19 @@ export default function ViewAllProducts() {
 
   const handleLoadMore = () => {
     setCurrentPage((prev) => prev + 1);
+  };
+
+  const handleSortChange = (newSort: string) => {
+    setSortBy(newSort);
+    setCurrentPage(1);
+    setAllProducts([]);
+  };
+
+  const getCurrentSortLabel = () => {
+    return (
+      sortOptions.find((option) => option.value === sortBy)?.label ||
+      "New Arrivals"
+    );
   };
 
   if (isLoading && currentPage === 1) {
@@ -99,10 +128,31 @@ export default function ViewAllProducts() {
 
               <div className="flex items-center space-x-2">
                 <span className="text-sm">Sort By:</span>
-                <button className="flex items-center space-x-1 hover:opacity-70 transition-opacity">
-                  <span className="underline text-sm">New Arrivals</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center space-x-1 hover:opacity-70 transition-opacity cursor-pointer">
+                      <span className="underline text-sm">
+                        {getCurrentSortLabel()}
+                      </span>
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    {sortOptions.map((option) => (
+                      <DropdownMenuItem
+                        key={option.value}
+                        onClick={() => handleSortChange(option.value)}
+                        className={`cursor-pointer ${
+                          sortBy === option.value
+                            ? "bg-accent text-accent-foreground"
+                            : ""
+                        }`}
+                      >
+                        {option.label}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </div>
