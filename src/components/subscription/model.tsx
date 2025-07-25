@@ -33,7 +33,7 @@ const Model: React.FC<ModelProps> = ({
 
       {/* Preis */}
       <div className="mb-2">
-        <h3 className="text-3xl font-bold">${price}</h3>
+        <h3 className="text-3xl font-bold">{price}€</h3>
         <p className="text-gray-500 text-sm">{billingCycle}</p>
       </div>
 
