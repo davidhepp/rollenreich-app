@@ -3,6 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { Separator } from "../ui/separator";
 interface ModelProps {
   title: string;
   price: number;
@@ -37,7 +38,7 @@ const Model: React.FC<ModelProps> = ({
         <p className="text-gray-500 text-sm">{billingCycle}</p>
       </div>
 
-      <div className="border-b"></div>
+      <Separator className="my-4" />
 
       {/* Features */}
       <ul className="mt-4 space-y-2 text-sm text-gray-700 flex-1">
