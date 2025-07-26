@@ -3,9 +3,10 @@ interface Address {
   lastName: string;
   email: string;
   phone: string;
-  street: string;
+  address: string;
   city: string;
-  postalCode: string;
+  state: string;
+  zipCode: string;
   country: string;
 }
 
