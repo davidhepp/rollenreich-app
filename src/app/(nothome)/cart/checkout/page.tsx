@@ -1,6 +1,7 @@
 "use client";
 
 import { useCart } from "@/hooks/useCart";
+import { useOrders } from "@/hooks/useOrders";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -12,13 +13,61 @@ import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { CartItem, Product, ProductImage } from "@prisma/client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const { total, cart } = useCart();
+  const { createOrder, isCreatingOrder } = useOrders();
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "Germany",
+    phone: "",
+    paymentMethod: "credit",
+  });
 
   const subtotal = total;
   const shipping = 9.99;
   const finalTotal = subtotal + shipping;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleCompleteOrder = async () => {
+    const shippingAddress = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      address: formData.address,
+      city: formData.city,
+      state: formData.state,
+      zipCode: formData.zipCode,
+      country: formData.country,
+      phone: formData.phone,
+    };
+
+    try {
+      await createOrder({
+        shippingAddress,
+        billingAddress: shippingAddress, // Using same address for billing
+        paymentMethod: formData.paymentMethod,
+      });
+
+      // Redirect to orders page on success
+      router.push("/orders");
+    } catch (error) {
+      console.error("Error creating order:", error);
+    }
+  };
 
   if (cart.length === 0) {
     return (
@@ -85,6 +134,8 @@ export default function CheckoutPage() {
                     type="email"
                     placeholder="Enter your email"
                     className="mt-1"
+                    value={formData.email}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="flex items-center space-x-2">
@@ -108,6 +159,8 @@ export default function CheckoutPage() {
                       id="firstName"
                       placeholder="First name"
                       className="mt-1"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div>
@@ -116,6 +169,8 @@ export default function CheckoutPage() {
                       id="lastName"
                       placeholder="Last name"
                       className="mt-1"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
                     />
                   </div>
                 </div>
@@ -125,6 +180,8 @@ export default function CheckoutPage() {
                     id="address"
                     placeholder="Street address"
                     className="mt-1"
+                    value={formData.address}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div>
@@ -140,11 +197,23 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="city">City</Label>
-                    <Input id="city" placeholder="City" className="mt-1" />
+                    <Input
+                      id="city"
+                      placeholder="City"
+                      className="mt-1"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div>
                     <Label htmlFor="state">State</Label>
-                    <Input id="state" placeholder="State" className="mt-1" />
+                    <Input
+                      id="state"
+                      placeholder="State"
+                      className="mt-1"
+                      value={formData.state}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div>
                     <Label htmlFor="zipCode">ZIP code</Label>
@@ -152,12 +221,20 @@ export default function CheckoutPage() {
                       id="zipCode"
                       placeholder="ZIP code"
                       className="mt-1"
+                      value={formData.zipCode}
+                      onChange={handleInputChange}
                     />
                   </div>
                 </div>
                 <div>
                   <Label htmlFor="country">Country/Region</Label>
-                  <Input id="country" placeholder="Germany" className="mt-1" />
+                  <Input
+                    id="country"
+                    placeholder="Germany"
+                    className="mt-1"
+                    value={formData.country}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div>
                   <Label htmlFor="phone">Phone (optional)</Label>
@@ -166,6 +243,8 @@ export default function CheckoutPage() {
                     type="tel"
                     placeholder="Phone number"
                     className="mt-1"
+                    value={formData.phone}
+                    onChange={handleInputChange}
                   />
                 </div>
               </CardContent>
@@ -242,8 +321,16 @@ export default function CheckoutPage() {
                 <Button
                   className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none"
                   size="lg"
+                  onClick={handleCompleteOrder}
+                  disabled={
+                    isCreatingOrder ||
+                    !formData.firstName ||
+                    !formData.lastName ||
+                    !formData.email ||
+                    !formData.address
+                  }
                 >
-                  Complete Order
+                  {isCreatingOrder ? "Processing..." : "Complete Order"}
                 </Button>
 
                 <p className="text-xs text-center text-gray-500 mt-4">

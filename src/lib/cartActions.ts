@@ -30,3 +30,19 @@ export const addToCart = async (productId: string, quantity: number) => {
   if (!res.ok) throw new Error("Failed to add to cart");
   return res.json();
 };
+
+export const addMultipleToCart = async (
+  items: { productId: string; quantity: number }[]
+) => {
+  try {
+    // Add items sequentially to avoid race conditions
+    const results = [];
+    for (const item of items) {
+      const result = await addToCart(item.productId, item.quantity);
+      results.push(result);
+    }
+    return results;
+  } catch (error) {
+    throw new Error("Failed to add items to cart");
+  }
+};
