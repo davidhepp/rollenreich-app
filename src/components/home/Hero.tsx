@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -90,7 +91,7 @@ const Hero = () => {
 
       <div className="relative z-10 text-center pb-20">
         <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
-          Shop Now
+          <Link href="/shop/viewall">Shop Now</Link>
         </Button>
       </div>
     </section>
