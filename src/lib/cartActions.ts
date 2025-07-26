@@ -43,6 +43,7 @@ export const addMultipleToCart = async (
     }
     return results;
   } catch (error) {
+    console.error("Failed to add items to cart:", error);
     throw new Error("Failed to add items to cart");
   }
 };

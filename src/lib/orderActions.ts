@@ -1,3 +1,14 @@
+interface Address {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
 export const getOrders = async () => {
   const res = await fetch("/api/orders/getorders");
   if (!res.ok) throw new Error("Failed to fetch orders");
@@ -5,8 +16,8 @@ export const getOrders = async () => {
 };
 
 export const createOrder = async (orderData: {
-  shippingAddress: any;
-  billingAddress?: any;
+  shippingAddress: Address;
+  billingAddress?: Address;
   paymentMethod: string;
 }) => {
   const res = await fetch("/api/orders/checkout", {
