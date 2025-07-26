@@ -15,6 +15,11 @@ export async function GET(request: Request) {
       where: { sku },
       include: {
         images: true,
+        collections: {
+          include: {
+            collection: true,
+          },
+        },
       },
     });
 

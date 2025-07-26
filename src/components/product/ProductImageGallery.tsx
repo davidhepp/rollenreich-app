@@ -23,7 +23,7 @@ function ThumbnailItem({
   index,
 }: ThumbnailItemProps) {
   const baseClasses =
-    "relative aspect-square w-full cursor-pointer rounded-md border-2 transition-all";
+    "relative aspect-square w-full cursor-pointer border-2 transition-all";
   const selectedClasses = "border-primary opacity-100";
   const unselectedClasses = "border-transparent opacity-75 hover:opacity-100";
 
@@ -35,18 +35,36 @@ function ThumbnailItem({
       onClick={onClick}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && onClick()}
-      aria-label={`View image ${index + 1}`}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      aria-label={`${isSelected ? "Currently selected: " : "Select "}image ${
+        index + 1
+      } of ${productName || "product"}${
+        image.altText ? `: ${image.altText}` : ""
+      }`}
       aria-pressed={isSelected}
+      aria-describedby={`thumbnail-desc-${index}`}
     >
       <Image
         src={image.url}
-        alt={`${productName || "Product"} thumbnail ${index + 1}`}
+        alt={
+          image.altText || `${productName || "Product"} thumbnail ${index + 1}`
+        }
         layout="fill"
         objectFit="cover"
-        className="rounded-md"
+        className=""
         priority={index < 3} // Lade die ersten paar Bilder priorisiert
       />
+      {/* Hidden description for screen readers */}
+      <span id={`thumbnail-desc-${index}`} className="sr-only">
+        {isSelected
+          ? "Currently viewing this image"
+          : "Click to view this image in main display"}
+      </span>
     </div>
   );
 }
@@ -66,23 +84,41 @@ function MainDisplayImage({
 }: MainDisplayImageProps) {
   if (!selectedImage) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg aspect-square">
+      <div className="w-full h-full flex items-center justify-center bg-gray-100  aspect-square">
         <p className="text-gray-500">Select an image</p>
       </div>
     );
   }
 
   return (
-    <div className="relative aspect-square w-full h-full hover:cursor-pointer">
+    <div
+      className="relative aspect-square w-full h-full hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open fullscreen view of ${
+        selectedImage.altText || productName || "product image"
+      }`}
+      aria-describedby="main-image-instruction"
+    >
       <Image
         src={selectedImage.url}
-        alt={productName || "Product"}
+        alt={selectedImage.altText || `${productName || "Product"} - Main view`}
         layout="fill"
         objectFit="contain"
-        className="rounded-lg object-contain w-full h-full" // Added object-contain w-full h-full
+        className="object-contain w-full h-full" // Added object-contain w-full h-full
         priority
-        onClick={onClick}
       />
+      {/* Screen reader instruction */}
+      <span id="main-image-instruction" className="sr-only">
+        Click or press Enter to open this image in fullscreen view
+      </span>
     </div>
   );
 }
@@ -144,10 +180,52 @@ export default function ProductImageGallery({
   // State für das Modal
   const [showModal, setShowModal] = useState(false);
 
+  // Keyboard navigation for modal
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!showModal) return;
+
+      switch (event.key) {
+        case "Escape":
+          setShowModal(false);
+          break;
+        case "ArrowLeft":
+          event.preventDefault();
+          const currentIdx = images.findIndex(
+            (img) => img.id === selectedImage?.id
+          );
+          if (currentIdx > 0) {
+            setSelectedImage(images[currentIdx - 1]);
+          }
+          break;
+        case "ArrowRight":
+          event.preventDefault();
+          const currentIndex = images.findIndex(
+            (img) => img.id === selectedImage?.id
+          );
+          if (currentIndex < images.length - 1) {
+            setSelectedImage(images[currentIndex + 1]);
+          }
+          break;
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener("keydown", handleKeyDown);
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "unset";
+    };
+  }, [showModal, images, selectedImage, setSelectedImage]);
+
   // Fallback, wenn keine Bilder vorhanden sind
   if (!images || images.length === 0) {
     return (
-      <div className="aspect-square w-full flex items-center justify-center bg-gray-100 rounded-lg">
+      <div className="aspect-square w-full flex items-center justify-center bg-gray-100 ">
         <p className="text-gray-500">No image available</p>
       </div>
     );
@@ -186,7 +264,7 @@ export default function ProductImageGallery({
                 disabled={
                   images.findIndex((img) => img.id === selectedImage?.id) === 0
                 }
-                className="bg-black bg-opacity-40 text-white p-2 rounded-full disabled:opacity-30 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="bg-black bg-opacity-40 text-white p-2  disabled:opacity-30 focus:outline-none focus:ring-2 focus:ring-primary"
                 aria-label="Vorheriges Bild"
               >
                 <ArrowLeft size={20} />
@@ -197,7 +275,7 @@ export default function ProductImageGallery({
                   images.findIndex((img) => img.id === selectedImage?.id) ===
                   images.length - 1
                 }
-                className="bg-black bg-opacity-40 text-white p-2 rounded-full disabled:opacity-30 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="bg-black bg-opacity-40 text-white p-2  disabled:opacity-30 focus:outline-none focus:ring-2 focus:ring-primary"
                 aria-label="Nächstes Bild"
               >
                 <ArrowRight size={20} />
@@ -205,103 +283,159 @@ export default function ProductImageGallery({
             </div>
           )}
           {images && images.length > 0 && selectedImage && (
-            <div className="md:hidden absolute bottom-2 left-1/2 -translate-x-1/2 bg-black bg-opacity-60 text-white px-2 py-1 rounded-full text-xs z-10">
+            <div className="md:hidden absolute bottom-2 left-1/2 -translate-x-1/2 bg-black bg-opacity-60 text-white px-2 py-1  text-xs z-10">
               {images.findIndex((img) => img.id === selectedImage.id) + 1} /{" "}
               {images.length}
             </div>
           )}
         </div>
       </div>
-      {/* Modal für große Bildansicht */}
+      {/* Improved Modal for Fullscreen Image View */}
       {showModal && selectedImage && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm transition-opacity duration-300"
           onClick={() => setShowModal(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
         >
-          <div
-            className="relative flex items-center"
-            onClick={(e) => e.stopPropagation()}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === "Enter" && setShowModal(false)}
-            aria-label="Close modal"
+          {/* Close Button - Top Right */}
+          <button
+            className="absolute top-4 right-4 z-20 flex h-12 w-12 items-center justify-center  bg-black/50 text-white transition-all duration-200 hover:bg-black/70 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 sm:top-6 sm:right-6"
+            onClick={() => setShowModal(false)}
+            aria-label="Close fullscreen view"
           >
-            {/* Left Arrow */}
-            <button
-              className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 text-4xl px-3 py-1 rounded-full bg-black bg-opacity-40 text-white transition  hover:cursor-pointer hover:bg-opacity-70 ${
-                images.findIndex((img) => img.id === selectedImage.id) === 0
-                  ? "opacity-40 cursor-not-allowed"
-                  : "hover:text-primary"
-              }`}
-              onClick={() => {
-                const currentIdx = images.findIndex(
-                  (img) => img.id === selectedImage.id
-                );
-                if (currentIdx > 0) setSelectedImage(images[currentIdx - 1]);
-              }}
-              aria-label="Vorheriges Bild"
-              disabled={
-                images.findIndex((img) => img.id === selectedImage.id) === 0
-              }
-              tabIndex={
-                images.findIndex((img) => img.id === selectedImage.id) === 0
-                  ? -1
-                  : 0
-              }
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <ArrowLeft />
-            </button>
-            {/* Modal Content */}
-            <div className="relative">
-              <button
-                className="absolute top-2 right-2 text-white text-3xl font-bold z-10 hover:text-red-400 hover:cursor-pointer"
-                onClick={() => setShowModal(false)}
-                aria-label="Schließen"
-              >
-                ×
-              </button>
-              <Image
-                src={selectedImage.url}
-                alt={selectedImage.altText || productName || "Product"}
-                className="max-h-[90vh] max-w-[90vw] rounded-none shadow-lg"
-                width={500}
-                height={500}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
               />
-              {/* Counter unten zentriert */}
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black bg-opacity-60 text-white px-3 py-1 rounded-full text-sm shadow-lg">
-                {images.findIndex((img) => img.id === selectedImage.id) + 1}/
-                {images.length}
+            </svg>
+          </button>
+
+          {/* Image Counter - Top Center */}
+          <div className="absolute top-4 left-1/2 z-20 -translate-x-1/2 bg-black/50 px-4 py-2 text-sm text-white backdrop-blur-sm sm:top-6">
+            <span id="modal-title" aria-live="polite">
+              Image {images.findIndex((img) => img.id === selectedImage.id) + 1}{" "}
+              of {images.length}
+              {selectedImage.altText && `: ${selectedImage.altText}`}
+            </span>
+          </div>
+
+          {/* Main Content Container */}
+          <div
+            className="flex h-full items-center justify-center p-4 sm:p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Navigation Arrows */}
+            {images.length > 1 && (
+              <>
+                {/* Previous Button */}
+                <button
+                  className={`absolute left-2 top-1/2 z-20 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/50 text-white transition-all duration-200 hover:bg-black/70 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 sm:left-6 sm:h-14 sm:w-14 ${
+                    images.findIndex((img) => img.id === selectedImage.id) === 0
+                      ? "opacity-30 cursor-not-allowed"
+                      : "hover:text-primary-400"
+                  }`}
+                  onClick={() => {
+                    const currentIdx = images.findIndex(
+                      (img) => img.id === selectedImage.id
+                    );
+                    if (currentIdx > 0)
+                      setSelectedImage(images[currentIdx - 1]);
+                  }}
+                  disabled={
+                    images.findIndex((img) => img.id === selectedImage.id) === 0
+                  }
+                  aria-label="Previous image"
+                >
+                  <ArrowLeft className="h-6 w-6 sm:h-7 sm:w-7" />
+                </button>
+
+                {/* Next Button */}
+                <button
+                  className={`absolute right-2 top-1/2 z-20 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/50 text-white transition-all duration-200 hover:bg-black/70 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 sm:right-6 sm:h-14 sm:w-14 ${
+                    images.findIndex((img) => img.id === selectedImage.id) ===
+                    images.length - 1
+                      ? "opacity-30 cursor-not-allowed"
+                      : "hover:text-primary-400"
+                  }`}
+                  onClick={() => {
+                    const currentIdx = images.findIndex(
+                      (img) => img.id === selectedImage.id
+                    );
+                    if (currentIdx < images.length - 1)
+                      setSelectedImage(images[currentIdx + 1]);
+                  }}
+                  disabled={
+                    images.findIndex((img) => img.id === selectedImage.id) ===
+                    images.length - 1
+                  }
+                  aria-label="Next image"
+                >
+                  <ArrowRight className="h-6 w-6 sm:h-7 sm:w-7" />
+                </button>
+              </>
+            )}
+
+            {/* Image Container */}
+            <div className="relative flex h-full w-full items-center justify-center">
+              <div className="relative max-h-full max-w-full overflow-hidden shadow-2xl">
+                <Image
+                  src={selectedImage.url}
+                  alt={
+                    selectedImage.altText ||
+                    `${productName || "Product"} - Fullscreen view`
+                  }
+                  className="h-auto w-auto max-h-[85vh] max-w-[85vw] object-contain sm:max-h-[90vh] sm:max-w-[90vw]"
+                  width={1200}
+                  height={1200}
+                  priority
+                  quality={95}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                  role="img"
+                  aria-describedby="fullscreen-image-desc"
+                />
+                {/* Extended description for screen readers */}
+                <span id="fullscreen-image-desc" className="sr-only">
+                  Fullscreen view of {productName || "product"} image.
+                  {selectedImage.altText &&
+                    `Description: ${selectedImage.altText}. `}
+                  Use arrow keys to navigate between images or press Escape to
+                  close.
+                </span>
               </div>
             </div>
-            {/* Right Arrow */}
-            <button
-              className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 text-4xl px-3 py-1 rounded-full bg-black bg-opacity-40 text-white transition hover:cursor-pointer hover:bg-opacity-70 ${
-                images.findIndex((img) => img.id === selectedImage.id) ===
-                images.length - 1
-                  ? "opacity-40 cursor-not-allowed"
-                  : "hover:text-primary"
-              }`}
-              onClick={() => {
-                const currentIdx = images.findIndex(
-                  (img) => img.id === selectedImage.id
-                );
-                if (currentIdx < images.length - 1)
-                  setSelectedImage(images[currentIdx + 1]);
-              }}
-              aria-label="Nächstes Bild"
-              disabled={
-                images.findIndex((img) => img.id === selectedImage.id) ===
-                images.length - 1
-              }
-              tabIndex={
-                images.findIndex((img) => img.id === selectedImage.id) ===
-                images.length - 1
-                  ? -1
-                  : 0
-              }
+          </div>
+
+          {/* Keyboard hint - Bottom */}
+          <div className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 text-center">
+            <div
+              className="bg-black/50 px-4 py-2 text-xs text-white/70 backdrop-blur-sm sm:text-sm"
+              role="status"
+              aria-live="polite"
             >
-              <ArrowRight />
-            </button>
+              <span className="sr-only">Keyboard shortcuts: </span>
+              Press ESC to close{" "}
+              {images.length > 1 && "• Arrow keys to navigate"}
+            </div>
+          </div>
+
+          {/* Additional accessibility improvements */}
+          <div className="sr-only" aria-live="assertive" aria-atomic="true">
+            {/* Announce image changes to screen readers */}
+            Image {images.findIndex((img) => img.id === selectedImage.id) +
+              1}{" "}
+            of {images.length} is now displayed.
+            {selectedImage.altText && ` ${selectedImage.altText}`}
           </div>
         </div>
       )}

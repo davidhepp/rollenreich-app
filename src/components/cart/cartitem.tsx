@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Heart } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Button } from "../ui/button";
 
 interface CartItemProps {
@@ -61,21 +61,12 @@ const CartItem = ({
             <p className="text-gray-500 text-sm">{variation}</p>
           </div>
           {/* TODO: fix styling */}
-          <div className="flex items-center gap-3 text-sm text-gray-500 mt-2">
-            <button className="cursor-pointer hover:text-gray-700 transition-colors">
-              Edit
-            </button>
-            <span className="text-gray-300">|</span>
+          <div className="flex items-center gap-3 text-xs text-gray-500 mt-2">
             <button
               className="cursor-pointer hover:text-gray-700 transition-colors"
               onClick={onRemove}
             >
               Remove
-            </button>
-            <span className="text-gray-300">|</span>
-            <button className="cursor-pointer hover:text-gray-700 transition-colors flex items-center gap-1">
-              <Heart className="w-4 h-4" />
-              Saved Items
             </button>
           </div>
         </div>
@@ -106,7 +97,7 @@ const CartItem = ({
               </DropdownMenu>
             </div>
             <span className="font-bold text-xl">
-              ${(price * currentQuantity).toFixed(0)}
+              {(price * currentQuantity).toFixed(0)}€
             </span>
           </div>
         </div>

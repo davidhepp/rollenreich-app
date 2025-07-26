@@ -17,7 +17,9 @@ model User {
   accounts      Account[]
   isAdmin       Boolean         @default(false)
   cart          Cart?
- 
+  wishlist      Wishlist?
+  orders        Order[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -63,6 +65,7 @@ model Product {
   material String?
 
   sustainable Boolean @default(false)
+  sustainabilityInfo String?
 
   inStock Int @default(0)
   isFeatured Boolean @default(false)
@@ -70,6 +73,8 @@ model Product {
   images ProductImage[]
   collections ProductCollection[]
   cartItems CartItem[]
+  wishlistItems WishlistItem[]
+  orderItems OrderItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -165,5 +170,105 @@ model CartItem {
 
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
+}
+
+model Wishlist {
+  id String @id @default(cuid())
+  items WishlistItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+}
+
+model WishlistItem {
+  id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wishlist Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  wishlistId String
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+
+  @@unique([wishlistId, productId])
+}
+
+model Order {
+  id String @id @default(cuid())
+  
+  // Order status
+  status OrderStatus @default(PENDING)
+  
+  // Pricing
+  subtotal Decimal @db.Decimal(10, 2)
+  tax Decimal @db.Decimal(10, 2) @default(0)
+  shipping Decimal @db.Decimal(10, 2) @default(0)
+  total Decimal @db.Decimal(10, 2)
+  
+  // Shipping information
+  shippingAddress Json
+  billingAddress Json?
+  
+  // Payment information
+  paymentMethod String
+  paymentStatus PaymentStatus @default(PENDING)
+  paymentIntentId String?
+  
+  // Order items
+  items OrderItem[]
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id String @id @default(cuid())
+  
+  quantity Int
+  price Decimal @db.Decimal(10, 2) // Price at time of order
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String
+  
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  
+  @@index([orderId])
+  @@index([productId])
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
 }
 

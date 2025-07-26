@@ -111,21 +111,26 @@ const CartPage = () => {
               <div className="w-full border-t border-gray-200 my-4" />
               <div className="flex justify-between text-sm mb-2">
                 <span>Subtotal</span>
-                <span>${total}</span>
+                <span>{total}€</span>
               </div>
               <div className="flex justify-between text-sm mb-2">
                 <span>Shipping</span>
-                <span>$0</span>
+                <span className="text-gray-500 text-xs">
+                  Calculated at checkout
+                </span>
               </div>
               <div className="flex justify-between font-semibold text-base mb-4">
                 <span>Total</span>
-                <span>${total}</span>
+                <span>{total}€</span>
               </div>
               <Button
-                className="w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none"
+                className={`w-full bg-btn-primary hover:bg-btn-primary-hover text-white mb-2 rounded-none ${
+                  !session || isMutating ? "opacity-50 cursor-default" : ""
+                }`}
                 disabled={!session || isMutating}
+                asChild
               >
-                Checkout
+                <Link href="/cart/checkout">Checkout</Link>
               </Button>
               <div className="flex items-center my-2">
                 <span className="flex-1 border-t" />

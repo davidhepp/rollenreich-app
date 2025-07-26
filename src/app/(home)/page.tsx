@@ -4,7 +4,6 @@ import AnimatedStagger, {
   AnimatedStaggerItem,
 } from "@/components/home/AnimatedStagger";
 import {
-  scrollFadeInLeft,
   scrollFadeInRight,
   scrollFadeInUp,
   scrollStaggerContainer,
@@ -14,7 +13,6 @@ import ProductCard from "@/components/cards/ProductCard";
 import Link from "next/link";
 import CollectionCard from "@/components/cards/CollectionCard";
 import { Button } from "@/components/ui/button";
-import CooperationCard from "@/components/cards/CooperationCard";
 import Image from "next/image";
 import { Product, ProductImage } from "@prisma/client";
 import { fetchFeaturedProducts, fetchCollections } from "./_actions";
@@ -65,6 +63,7 @@ export default async function Home() {
                         name={product.name}
                         price={product.price.toString()}
                         imageSrc={product.images[0]?.url}
+                        productId={product.id}
                       />
                     </Link>
                   </AnimatedStaggerItem>
@@ -175,39 +174,37 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="cooperation" className="w-full py-16 px-4 md:px-8">
+      <section id="subscription" className="w-full py-16 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
           <AnimatedStagger
             containerVariants={scrollStaggerContainer}
             viewport={{ once: true, amount: 0.3 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[400px]"
+            className="flex justify-center items-center min-h-[400px]"
           >
-            <AnimatedStaggerItem
-              variants={scrollFadeInLeft}
-              className="flex items-center justify-center lg:justify-start"
-            >
-              <CooperationCard title="Kooperationen Mit Anderen Firmen" />
-            </AnimatedStaggerItem>
-
             <AnimatedStaggerItem
               variants={scrollFadeInRight}
               className="text-center space-y-6"
             >
               <h3 className="text-2xl md:text-3xl font-medium ">
-                Lorem Ipsum Dolor Sit Amet
+                Elevate Your Bathroom Experience
               </h3>
               <p className=" text-base leading-relaxed max-w-md mx-auto">
-                Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed
-                Diam Nonumy Eirmod Tempor Invidunt Ut Labore Et Dolore Magna
-                Aliquyam Erat, Sed Diam Voluptua.
+                Say goodbye to paper shortages and awkward moments. Our Basic
+                plan delivers two rolls of cloud-soft toilet paper every
+                month—perfect for life’s little emergencies. Upgrade to Premium
+                for extra-fluffy sheets, exclusive Drop designs, and VIP
+                “on-the-roll” perks that banish every crappy surprise.
               </p>
               <AnimatedStaggerItem
                 variants={scrollStaggerItem}
                 className="flex justify-center"
               >
                 <div className="flex justify-center pt-4">
-                  <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
-                    Call To Action
+                  <Button
+                    className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200"
+                    asChild
+                  >
+                    <Link href="/subscription">Subscribe</Link>
                   </Button>
                 </div>
               </AnimatedStaggerItem>

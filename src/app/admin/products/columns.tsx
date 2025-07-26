@@ -1,25 +1,19 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, MoreHorizontal, Check, X } from "lucide-react";
+import { ArrowUpDown, Check, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ProductImage } from "@prisma/client";
+import { ProductsDropdown } from "@/components/admin/ProductsDropdown";
 export type Product = {
   id: string;
   sku: string;
   name: string;
   price: number;
-  stock: number;
+  inStock: number;
   isActive: boolean;
+  isFeatured: boolean;
   images: ProductImage[];
   description: string;
   createdAt: string;
@@ -37,6 +31,7 @@ export const columns: ColumnDef<Product>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
+        className="rounded-none"
       />
     ),
     cell: ({ row }) => (
@@ -44,6 +39,7 @@ export const columns: ColumnDef<Product>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
+        className="rounded-none"
       />
     ),
   },
@@ -117,6 +113,31 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
+    accessorKey: "isFeatured",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Featured
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.isFeatured ? (
+            <Check className="h-4 w-4" />
+          ) : (
+            <X className="h-4 w-4" />
+          )}
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "description",
     header: "Description",
   },
@@ -159,27 +180,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const product = row.original;
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product.id)}
-            >
-              Copy product ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit product</DropdownMenuItem>
-            <DropdownMenuItem>Delete product</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <ProductsDropdown product={product} />;
     },
   },
 ];
