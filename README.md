@@ -32,6 +32,8 @@ Rollenreich is a React-based e-commerce web application specializing in luxury a
 
 ### Getting Started
 
+TO BE CHANGED
+
 1. **Clone the repository**
 
    ```bash
