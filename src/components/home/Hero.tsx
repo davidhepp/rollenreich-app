@@ -90,7 +90,10 @@ const Hero = () => {
       </div>
 
       <div className="relative z-10 text-center pb-20">
-        <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
+        <Button
+          className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200"
+          asChild
+        >
           <Link href="/shop/viewall">Shop Now</Link>
         </Button>
       </div>
