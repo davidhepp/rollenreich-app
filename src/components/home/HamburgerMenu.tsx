@@ -24,16 +24,14 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
 
   const menuItems = [
     { url: "/shop/viewall", label: "Shop All" },
-    { url: "/", label: "Lorem Ipsum Dolor" },
-    { url: "/", label: "Lorem Ipsum Dolor" },
-    { url: "/", label: "Lorem Ipsum Dolor" },
-    { url: "/", label: "Lorem Ipsum Dolor" },
-    { url: "/", label: "Lorem Ipsum Dolor" },
-    { url: "/", label: "Lorem Ipsum Dolor" },
+    { url: "/shop/collection/greek-seas", label: "Greek Seas" },
+    { url: "/shop/collection/basics", label: "Basics" },
+    { url: "/shop/collection/economic-wipes", label: "Economic Wipes" },
+    { url: "/shop/collection/luxurious-nights", label: "Luxurious Nights" },
   ];
 
   const footerLinks = [
-    { url: "/", label: "My Orders" },
+    { url: "/orders", label: "My Orders" },
     { url: "/", label: "Contact" },
   ];
 
