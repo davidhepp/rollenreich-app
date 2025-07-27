@@ -23,7 +23,7 @@ export default function ProductInfoSection({
           readonly={true}
         />
       </div>
-      <p className="text-sm mt-2">Artikel {product?.sku}</p>
+      <p className="text-sm mt-2">SKU: {product?.sku}</p>
       <div className="mt-30">
         <ProductActions productId={product?.id} productPrice={product?.price} />
       </div>

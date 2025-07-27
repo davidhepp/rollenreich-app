@@ -38,7 +38,7 @@ export default function ProductBreadcrumb({
                   : "/shop/viewall"
               }
             >
-              {collectionName || "Collection"}
+              {collectionName || "Shop All"}
             </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>

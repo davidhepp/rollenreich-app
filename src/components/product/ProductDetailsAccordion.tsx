@@ -26,7 +26,7 @@ export default function ProductDetailsAccordion({
       type="single"
       collapsible
       className={`w-full border bg-bg-primary ${className}`}
-      defaultValue="item-2"
+      defaultValue="item-1"
     >
       <AccordionItem value="item-1">
         <AccordionTrigger>Product Detail</AccordionTrigger>

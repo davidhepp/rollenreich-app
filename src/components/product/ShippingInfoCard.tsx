@@ -14,15 +14,19 @@ export default function ShippingInfoCard({
       <div className="font-bold text-lg mb-2">Shipping and Return</div>
       <Separator className="my-4" />
       <div className="text-base">
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-        amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-        rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-        ipsum dolor sit amet.
+        Once you hit &quot;buy,&quot; we roll your order out faster than you can
+        say &quot;number two.&quot; Standard shipping takes{" "}
+        <b>2–5 business days</b>, depending on how urgent your bathroom
+        situation is. Every order is carefully packed (no squished rolls, we
+        promise) and shipped in <b>eco-friendly, discreet packaging</b> —{" "}
+        because your bathroom business is nobody else&apos;s.
+        <br />
+        <br />
+        Not feeling the softness or color you picked? No problem! If your rolls
+        didn&apos;t meet your expectations, you can return them (unused, of
+        course — let&apos;s keep it hygienic) within <b>30 days</b> for a full
+        refund. Just reach out, and we&apos;ll handle it smoother than our
+        4-ply.
       </div>
     </div>
   );
