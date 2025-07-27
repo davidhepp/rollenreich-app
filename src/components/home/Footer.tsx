@@ -72,14 +72,6 @@ const Footer = () => {
                   href="#"
                   className="hover:text-btn-primary transition-colors"
                 >
-                  Support System
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-btn-primary transition-colors"
-                >
                   Terms & Conditions
                 </Link>
               </li>
@@ -105,14 +97,7 @@ const Footer = () => {
                   Returns & Refunds
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-btn-primary transition-colors"
-                >
-                  FAQs
-                </Link>
-              </li>
+
               <li>
                 <Link
                   href="#"
