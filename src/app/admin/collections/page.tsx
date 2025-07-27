@@ -1,10 +1,10 @@
 "use client";
 import { columns } from "./columns";
-import { DataTable } from "@/components/ui/data-table";
+import { DataTableCollectionsAdmin } from "@/components/ui/data-table-collections-admin";
 import { fetchCollections } from "./_actions";
 import { useQuery } from "@tanstack/react-query";
 
-export default function ProductsPage() {
+export default function CollectionsPage() {
   const {
     data: collectionsData,
     isLoading,
@@ -40,7 +40,7 @@ export default function ProductsPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={collections} />
+      <DataTableCollectionsAdmin columns={columns} data={collections} />
     </div>
   );
 }

@@ -1,5 +1,11 @@
 import { Product } from "@/app/admin/products/columns";
-import { ProductAddFormData, ProductEditFormData } from "@/lib/types";
+import { Collection } from "@/app/admin/collections/columns";
+import {
+  ProductAddFormData,
+  ProductEditFormData,
+  CollectionAddFormData,
+  CollectionEditFormData,
+} from "@/lib/types";
 
 export const updateProduct = async (
   data: ProductEditFormData
@@ -58,6 +64,59 @@ export const addProduct = async (data: ProductAddFormData) => {
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.message || "Failed to add product");
+  }
+
+  return response.json();
+};
+
+export const updateCollection = async (
+  data: CollectionEditFormData
+): Promise<Collection> => {
+  const response = await fetch("/api/admin/editcollection", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to update collection");
+  }
+
+  return response.json();
+};
+
+export const deleteCollection = async (id: string) => {
+  const response = await fetch("/api/admin/deletecollection", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to delete collection");
+  }
+
+  return response.json();
+};
+
+export const addCollection = async (data: CollectionAddFormData) => {
+  const response = await fetch("/api/admin/addcollection", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to add collection");
   }
 
   return response.json();

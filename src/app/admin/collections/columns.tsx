@@ -1,27 +1,39 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, MoreHorizontal, Check, X } from "lucide-react";
+import { ArrowUpDown, Check, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Product, ProductImage } from "@prisma/client";
+import { CollectionsDropdown } from "@/components/admin/CollectionsDropdown";
+
 export type Collection = {
   id: string;
   name: string;
   slug: string;
-  index: number;
+  description?: string | null;
+  index?: number | null;
   isActive: boolean;
   isFeatured: boolean;
-  image: ProductImage;
-  products: Product[];
+  image?: {
+    id: string;
+    url: string;
+    altText?: string | null;
+  } | null;
+  products: Array<{
+    id: string;
+    productId: string;
+    collectionId: string;
+    product?: {
+      id: string;
+      name: string;
+      sku?: string | null;
+      images: Array<{
+        id: string;
+        url: string;
+        altText?: string | null;
+      }>;
+    };
+  }>;
   createdAt: string;
   updatedAt: string;
 };
@@ -37,6 +49,7 @@ export const columns: ColumnDef<Collection>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
+        className="rounded-none"
       />
     ),
     cell: ({ row }) => (
@@ -44,6 +57,7 @@ export const columns: ColumnDef<Collection>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
+        className="rounded-none"
       />
     ),
   },
@@ -165,27 +179,7 @@ export const columns: ColumnDef<Collection>[] = [
     cell: ({ row }) => {
       const collection = row.original;
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(collection.id)}
-            >
-              Copy collection ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit collection</DropdownMenuItem>
-            <DropdownMenuItem>Delete collection</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <CollectionsDropdown collection={collection} />;
     },
   },
 ];
