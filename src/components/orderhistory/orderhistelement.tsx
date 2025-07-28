@@ -1,3 +1,5 @@
+import { OrderStatus } from "@prisma/client";
+
 // types/order.ts
 export interface OrderHistoryItem {
   id: string;
@@ -14,7 +16,7 @@ export interface Order {
   id: string;
   orderNumber: string;
   createdAt: string;
-  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+  status: OrderStatus;
   items: OrderHistoryItem[];
   total: number;
 }

@@ -1,50 +1,69 @@
 "use client";
 
 import React from "react";
-import { Order, OrderCardProps } from "../orderhistory/orderhistelement";
+import { OrderCardProps } from "../orderhistory/orderhistelement";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import Rating from "@/components/product/Rating";
 import Image from "next/image";
-
+import { OrderStatus } from "@prisma/client";
 const OrderCard = ({
   order,
   onAddAllToCart,
   isAddingToCart = false,
 }: OrderCardProps) => {
-  const getStatusColor = (status: Order["status"]) => {
-    switch (status) {
-      case "delivered":
+  const getStatusColor = (status: OrderStatus) => {
+    const normalizedStatus = status.toString().toUpperCase();
+    switch (normalizedStatus) {
+      case "DELIVERED":
         return "text-green-600 bg-green-50";
-      case "shipped":
+      case "SHIPPED":
         return "text-blue-600 bg-blue-50";
-      case "processing":
+      case "PROCESSING":
         return "text-yellow-600 bg-yellow-50";
-      case "pending":
+      case "CONFIRMED":
+        return "text-green-600 bg-green-50";
+      case "PENDING":
         return "text-gray-600 bg-gray-50";
-      case "cancelled":
+      case "CANCELLED":
+        return "text-red-600 bg-red-50";
+      case "REFUNDED":
         return "text-red-600 bg-red-50";
       default:
         return "text-gray-600 bg-gray-50";
     }
   };
 
-  const getStatusText = (status: Order["status"]) => {
-    switch (status) {
-      case "delivered":
+  const getStatusText = (status: OrderStatus) => {
+    /*
+      PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+    */
+    const normalizedStatus = status.toString().toUpperCase();
+    switch (normalizedStatus) {
+      case "DELIVERED":
         return "Delivered";
-      case "shipped":
+      case "SHIPPED":
         return "Shipped";
-      case "processing":
+      case "PROCESSING":
         return "Processing";
-      case "pending":
+      case "CONFIRMED":
+        return "Confirmed";
+      case "PENDING":
         return "Pending";
-      case "cancelled":
+      case "CANCELLED":
         return "Cancelled";
+      case "REFUNDED":
+        return "Refunded";
       default:
-        return status;
+        return status.toString();
     }
   };
 
