@@ -17,6 +17,9 @@ import Image from "next/image";
 import { Product, ProductImage } from "@prisma/client";
 import { fetchFeaturedProducts, fetchCollections } from "./_actions";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 10;
+
 export default async function Home() {
   const featuredProducts = await fetchFeaturedProducts();
   const collections = await fetchCollections();
