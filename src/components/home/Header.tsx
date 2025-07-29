@@ -10,7 +10,11 @@ interface HeaderProps {
 
 const Header = ({ onMenuToggle }: HeaderProps) => {
   const [showNavbar, setShowNavbar] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false);
+
+  // Combined dropdown state for easier logic
+  const isAnyDropdownOpen = isUserDropdownOpen || isSearchDropdownOpen;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +29,7 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
       if (event.clientY <= 100) {
         setShowNavbar(true);
       }
-      if (window.scrollY < 300 && event.clientY > 100 && !isDropdownOpen) {
+      if (window.scrollY < 300 && event.clientY > 100 && !isAnyDropdownOpen) {
         {
           setShowNavbar(false);
         }
@@ -38,10 +42,14 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [isDropdownOpen]);
+  }, [isAnyDropdownOpen]);
 
-  const handleDropdownOpenChange = (isOpen: boolean) => {
-    setIsDropdownOpen(isOpen);
+  const handleUserDropdownOpenChange = (isOpen: boolean) => {
+    setIsUserDropdownOpen(isOpen);
+  };
+
+  const handleSearchDropdownOpenChange = (isOpen: boolean) => {
+    setIsSearchDropdownOpen(isOpen);
   };
 
   return (
@@ -74,7 +82,8 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
           <div className="flex-1 flex justify-end">
             <Navbundle
               onMenuToggle={onMenuToggle}
-              onDropdownOpenChange={handleDropdownOpenChange}
+              onUserDropdownOpenChange={handleUserDropdownOpenChange}
+              onSearchDropdownOpenChange={handleSearchDropdownOpenChange}
             />
           </div>
         </div>

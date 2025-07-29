@@ -6,10 +6,12 @@ import SearchResultItem from "./SearchResultItem";
 
 interface CollapsibleSearchBarProps {
   className?: string;
+  onDropdownOpenChange?: (isOpen: boolean) => void;
 }
 
 export default function CollapsibleSearchBar({
   className = "",
+  onDropdownOpenChange,
 }: CollapsibleSearchBarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -55,6 +57,11 @@ export default function CollapsibleSearchBar({
       setIsDropdownOpen(false);
     }
   }, [isExpanded, showResults, hasResults, isLoading]);
+
+  // Notify parent component when dropdown state changes
+  useEffect(() => {
+    onDropdownOpenChange?.(isDropdownOpen);
+  }, [isDropdownOpen, onDropdownOpenChange]);
 
   // Focus input when expanded
   useEffect(() => {
