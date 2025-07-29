@@ -116,16 +116,6 @@ export default function ViewAllProducts() {
 
           <div className="flex flex-wrap items-center justify-end gap-4 mb-8">
             <div className="flex items-center space-x-8">
-              <button className="flex items-center space-x-1 hover:opacity-70 transition-opacity">
-                <span className="underline text-sm">Category</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-
-              <button className="flex items-center space-x-1 hover:opacity-70 transition-opacity">
-                <span className="underline text-sm">Filter</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-
               <div className="flex items-center space-x-2">
                 <span className="text-sm">Sort By:</span>
                 <DropdownMenu>
