@@ -11,8 +11,8 @@ const Footer = () => {
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (mailPopupRef.current && email.trim()) {
-      mailPopupRef.current.triggerPopup(email);
+    if (mailPopupRef.current) {
+      mailPopupRef.current.triggerPopup();
     }
   };
 
