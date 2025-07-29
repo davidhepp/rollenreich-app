@@ -2,8 +2,8 @@
 import React, { useRef, useState } from "react";
 import { FaTwitter, FaInstagram, FaFacebook } from "react-icons/fa";
 import { Input } from "../ui/input";
-import Link from "next/link";
 import { MailPopup, MailPopupRef } from "./MailPopup";
+import Link from "next/link";
 
 const Footer = () => {
   const mailPopupRef = useRef<MailPopupRef>(null);
@@ -52,28 +52,19 @@ const Footer = () => {
             <h4 className="font-medium mb-4">About Rollenreich</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-btn-primary transition-colors"
-                >
+                <span className="text-gray-400 cursor-not-allowed">
                   Collections
-                </Link>
+                </span>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-btn-primary transition-colors"
-                >
+                <span className="text-gray-400 cursor-not-allowed">
                   Pricing & Delivery
-                </Link>
+                </span>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-btn-primary transition-colors"
-                >
+                <span className="text-gray-400 cursor-not-allowed">
                   Terms & Conditions
-                </Link>
+                </span>
               </li>
             </ul>
           </div>
@@ -82,42 +73,33 @@ const Footer = () => {
             <h4 className="font-medium mb-4">Help & Support</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-btn-primary transition-colors"
-                >
+                <span className="text-gray-400 cursor-not-allowed">
                   Orders & Shipping
-                </Link>
+                </span>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-btn-primary transition-colors"
-                >
+                <span className="text-gray-400 cursor-not-allowed">
                   Returns & Refunds
-                </Link>
+                </span>
               </li>
 
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-btn-primary transition-colors"
-                >
+                <span className="text-gray-400 cursor-not-allowed">
                   Contact Us
-                </Link>
+                </span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="flex space-x-4 mb-8">
-          <Link href="#" className=" hover:text-btn-primary transition-colors">
+          <Link href="/" className="hover:text-btn-primary transition-colors">
             <FaInstagram size={24} />
           </Link>
-          <Link href="#" className=" hover:text-btn-primary transition-colors">
+          <Link href="/" className="hover:text-btn-primary transition-colors">
             <FaFacebook size={24} />
           </Link>
-          <Link href="#" className=" hover:text-btn-primary transition-colors">
+          <Link href="/" className="hover:text-btn-primary transition-colors">
             <FaTwitter size={24} />
           </Link>
         </div>

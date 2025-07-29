@@ -169,7 +169,10 @@ export default async function Home() {
               variants={scrollStaggerItem}
               className="flex justify-center"
             >
-              <Button className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200">
+              <Button
+                className="bg-btn-primary hover:bg-btn-primary-hover text-white px-8 py-3 rounded-none transition-colors duration-200"
+                disabled
+              >
                 Discover Now
               </Button>
             </AnimatedStaggerItem>

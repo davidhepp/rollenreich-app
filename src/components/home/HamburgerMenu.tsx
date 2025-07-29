@@ -30,10 +30,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onClose }) => {
     { url: "/shop/collection/luxurious-nights", label: "Luxurious Nights" },
   ];
 
-  const footerLinks = [
-    { url: "/orders", label: "My Orders" },
-    { url: "/", label: "Contact" },
-  ];
+  const footerLinks = [{ url: "/orders", label: "My Orders" }];
 
   return (
     <AnimatePresence>
