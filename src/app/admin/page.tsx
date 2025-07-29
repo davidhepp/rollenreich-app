@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default async function AdminPage() {
   const session = await auth();
@@ -9,6 +10,16 @@ export default async function AdminPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="max-w-md w-full rounded-lg p-8 text-center">
+        <Button
+          variant="ghost"
+          size="sm"
+          asChild
+          className="mb-4 hover:bg-gray-100"
+        >
+          <Link href="/">
+            <ArrowLeft /> Back to Home
+          </Link>
+        </Button>
         <div className="mb-8">
           <Image
             src="/herotext.svg"
