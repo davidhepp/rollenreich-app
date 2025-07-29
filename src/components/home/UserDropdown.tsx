@@ -4,6 +4,7 @@ import { User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Separator } from "../ui/separator";
 
 interface UserDropdownProps {
   className?: string;
@@ -127,6 +128,19 @@ export default function UserDropdown({
                   >
                     FAVORITES
                   </Link>
+                  {/* is admin */}
+                  {session?.user?.isAdmin && (
+                    <>
+                      <Separator />
+                      <Link
+                        href="/admin"
+                        className="block font-semibold text-sm text-gray-900 hover:text-btn-primary transition-colors"
+                        onClick={handleLinkClick}
+                      >
+                        ADMIN
+                      </Link>
+                    </>
+                  )}
                 </div>
               )}
             </div>
