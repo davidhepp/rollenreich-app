@@ -48,7 +48,7 @@ export default function OrderHistoryPage() {
         collection:
           item.product.collections?.[0]?.collection?.name || undefined,
         variation:
-          `${item.product.color ? `Farbe ${item.product.color}` : ""} ${
+          `${item.product.color ? `Color ${item.product.color}` : ""} ${
             item.product.material ? `Material ${item.product.material}` : ""
           }`.trim() || undefined,
         imageSrc: item.product.images?.[0]?.url || "/products/standard.png",

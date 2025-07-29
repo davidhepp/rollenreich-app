@@ -14,18 +14,16 @@ import {
 import { ArrowRight } from "lucide-react";
 
 export interface MailPopupRef {
-  triggerPopup: (email: string) => void;
+  triggerPopup: () => void;
 }
 
 export const MailPopup = forwardRef<MailPopupRef>((props, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isResponseOpen, setIsResponseOpen] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
-  const [userEmail, setUserEmail] = useState("");
 
   useImperativeHandle(ref, () => ({
-    triggerPopup: (email: string) => {
-      setUserEmail(email);
+    triggerPopup: () => {
       setIsOpen(true);
     },
   }));
@@ -72,7 +70,7 @@ export const MailPopup = forwardRef<MailPopupRef>((props, ref) => {
           <AlertDialogHeader>
             <AlertDialogTitle>Subscription Status</AlertDialogTitle>
             <AlertDialogDescription className="whitespace-pre-line">
-              Sorry, there&apos;s no mail for {userEmail}.{"\n\n"}
+              Sorry, there&apos;s no mail for you.{"\n\n"}
               {responseMessage}
             </AlertDialogDescription>
           </AlertDialogHeader>
