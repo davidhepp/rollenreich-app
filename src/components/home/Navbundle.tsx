@@ -1,6 +1,7 @@
-import { ShoppingCart, Search, Menu } from "lucide-react";
+import { ShoppingCart, Menu } from "lucide-react";
 import Link from "next/link";
 import UserDropdown from "@/components/home/UserDropdown";
+import CollapsibleSearchBar from "@/components/search/CollapsibleSearchBar";
 
 interface NavbundleProps {
   onMenuToggle: () => void;
@@ -23,11 +24,7 @@ export default function Navbundle({
             <ShoppingCart strokeWidth={1.5} />
           </Link>
         </div>
-        <div className="cursor-pointer w-1 h-1 sm:w-6 sm:h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
-          <Link href="/">
-            <Search strokeWidth={1.5} />
-          </Link>
-        </div>
+        <CollapsibleSearchBar className="min-w-0" />
         <div className="w-1 h-1 sm:w-6 sm:h-6 flex items-center justify-center hover:text-btn-primary transition-colors duration-200">
           <button
             onClick={onMenuToggle}
