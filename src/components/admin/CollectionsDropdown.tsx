@@ -31,7 +31,6 @@ export const CollectionsDropdown = ({
   const [isDeletionModalOpen, setIsDeletionModalOpen] = useState(false);
 
   const handleFormError = (error: Error) => {
-    // TODO: Add error handling here
     console.error("Form error:", error.message);
   };
 

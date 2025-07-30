@@ -27,7 +27,6 @@ export const ProductsDropdown = ({ product }: { product: Product }) => {
   const [isDeletionModalOpen, setIsDeletionModalOpen] = useState(false);
 
   const handleFormError = (error: Error) => {
-    // TODO: Add error handling here
     console.error("Form error:", error.message);
   };
 

@@ -60,7 +60,6 @@ const CartItem = ({
             <p className="text-gray-500 text-sm mb-1">{collection}</p>
             <p className="text-gray-500 text-sm">{variation}</p>
           </div>
-          {/* TODO: fix styling */}
           <div className="flex items-center gap-3 text-xs text-gray-500 mt-2">
             <button
               className="cursor-pointer hover:text-gray-700 transition-colors"

@@ -10,75 +10,42 @@ Rollenreich is a React-based e-commerce web application specializing in luxury a
 ![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
-## Features
-
-- **tbd**
-
-## Tech Stack
-
-| Category     | Technology                   |
-| ------------ | ---------------------------- |
-| **Frontend** | Next.js, React, Tailwind CSS |
-| **Backend**  | Next.js API Routes           |
-| **Database** | PostgreSQL with Prisma ORM   |
-
 ## Installation & Setup
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- PostgreSQL database
-- npm, pnpm or yarn package manager
+- Docker, Docker-Compose
 
 ### Getting Started
-
-TO BE CHANGED
 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/rollenreich-app.git
+   git clone https://github.com/davidhepp/rollenreich-app.git
    cd rollenreich-app
    ```
 
-2. **Install dependencies**
+2. **Unzip .env**
 
    ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
+   unzip -P ****** locked.zip
    ```
 
-3. **Set up environment variables**
+   Password is in email + video
+
+3. **Build the docker image using docker-compose**
 
    ```bash
-   cp .env.example .env
+   docker-compose up --build
    ```
 
-   Update the `.env` file with your database URL and other required environment variables.
-
-4. **Set up the database**
-
-   ```bash
-   npx prisma generate
-   npx prisma db push
-   ```
-
-5. **Run the development server**
-
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm run dev
-   ```
-
-6. **Open your browser**
+4. **Open your browser**
 
    Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
+
+## Public availability
+
+If the Docker image fails for any reason, a publicly available build is always accessible at [https://rollenreich-app.vercel.app/](https://rollenreich-app.vercel.app/).
 
 ## License
 
