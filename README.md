@@ -45,7 +45,7 @@ Rollenreich is a React-based e-commerce web application specializing in luxury a
 
 ## Public availability
 
-If the Docker image fails for any reason, a publicly available build is always accessible at [https://rollenreich-app.vercel.app/](https://rollenreich-app.vercel.app/).
+If the Docker image fails for any reason, a publicly available build is always accessible at [https://rollenreich-app.vercel.app/](https://rollenreich-app.vercel.app/) (without database).
 
 ## License
 
